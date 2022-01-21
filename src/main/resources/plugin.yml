@@ -1,0 +1,8 @@
+name: HoloItems Revamp
+version: '${project.version}'
+main: xyz.holocons.holoitemsrevamp.HoloItemsRevamp
+api-version: 1.18
+prefix: [ HoloItems ]
+authors: [ TraceL ]
+description: A custom plugin for HoloCons SMP. It adds a ton of custom items and blocks with unique abilities.
+website: holocons.xyz
