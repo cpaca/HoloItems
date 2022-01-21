@@ -1,8 +1,9 @@
-package xyz.holocons.holoitemsrevamp.Commands.Subcommands;
+package xyz.holocons.mc.holoitemsrevamp.Commands.Subcommands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import xyz.holocons.holoitemsrevamp.Interfaces.SubCommand;
+
+import xyz.holocons.mc.holoitemsrevamp.Interfaces.SubCommand;
 
 public class CollectionsCommand implements SubCommand {
 

@@ -1,4 +1,4 @@
-package xyz.holocons.holoitemsrevamp;
+package xyz.holocons.mc.holoitemsrevamp;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;

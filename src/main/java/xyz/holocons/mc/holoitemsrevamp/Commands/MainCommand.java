@@ -1,11 +1,12 @@
-package xyz.holocons.holoitemsrevamp.Commands;
+package xyz.holocons.mc.holoitemsrevamp.Commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import xyz.holocons.holoitemsrevamp.Commands.Subcommands.CollectionsCommand;
-import xyz.holocons.holoitemsrevamp.Interfaces.SubCommand;
+
+import xyz.holocons.mc.holoitemsrevamp.Commands.Subcommands.CollectionsCommand;
+import xyz.holocons.mc.holoitemsrevamp.Interfaces.SubCommand;
 
 import java.util.ArrayList;
 import java.util.Arrays;

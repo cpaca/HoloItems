@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>xyz.holocons</groupId>
+    <groupId>xyz.holocons.mc</groupId>
     <artifactId>HoloItems-Revamp</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
@@ -14,7 +14,7 @@
     <description>A custom plugin for HoloCons SMP. It adds a ton of custom items and blocks with unique abilities.
     </description>
     <properties>
-        <java.version>1.8</java.version>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <url>holocons.xyz</url>
@@ -24,11 +24,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
+                <version>3.9.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
