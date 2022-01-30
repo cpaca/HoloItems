@@ -1,17 +1,22 @@
 package xyz.holocons.mc.holoitemsrevamp;
 
+import com.strangeone101.holoitemsapi.HoloItemsAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.logging.Logger;
+import xyz.holocons.mc.holoitemsrevamp.Collections.CollectionManager;
+import xyz.holocons.mc.holoitemsrevamp.Commands.MainCommand;
 
 public final class HoloItemsRevamp extends JavaPlugin {
 
-    private Logger logger;
+    CollectionManager collectionManager;
 
     @Override
     public void onEnable() {
-        logger = this.getLogger();
+        HoloItemsAPI.setup(this);
+        collectionManager = new CollectionManager();
+        getCommand("holoitems").setExecutor(new MainCommand(this));
+        getCommand("holoitems").setTabCompleter(new MainCommand(this));
+        Bukkit.getLogger().info("HoloItems-Revamped [ON]");
     }
 
     @Override
@@ -19,10 +24,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    @NotNull
-    @Override
-    public Logger getLogger() {
-        return logger;
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
     }
-
 }
