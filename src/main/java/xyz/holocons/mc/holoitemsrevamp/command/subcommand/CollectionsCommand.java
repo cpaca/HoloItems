@@ -1,4 +1,4 @@
-package xyz.holocons.mc.holoitemsrevamp.Commands.Subcommands;
+package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import org.bukkit.ChatColor;
@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
-import xyz.holocons.mc.holoitemsrevamp.Interfaces.SubCommand;
+import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package xyz.holocons.mc.holoitemsrevamp.AbstractClass;
+package xyz.holocons.mc.holoitemsrevamp.collection;
 
 import com.strangeone101.holoitemsapi.CustomItem;
 import net.kyori.adventure.text.Component;

@@ -1,4 +1,4 @@
-package xyz.holocons.mc.holoitemsrevamp.Interfaces;
+package xyz.holocons.mc.holoitemsrevamp.command;
 
 import org.bukkit.command.CommandSender;
 

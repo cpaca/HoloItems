@@ -1,4 +1,4 @@
-package xyz.holocons.mc.holoitemsrevamp.AbstractClass;
+package xyz.holocons.mc.holoitemsrevamp.collection;
 
 import com.strangeone101.holoitemsapi.CustomItem;
 import net.kyori.adventure.text.Component;
@@ -16,6 +16,7 @@ import java.util.Set;
  * This is mostly used for reiteration on GUI
  */
 public abstract class Idol {
+
     private final String name; //Currently not used, but might be needed to identify an Idol from a set.
     private final ItemStack head;
     private final Set<CustomItem> itemSet = new HashSet<>();

@@ -1,4 +1,4 @@
-package xyz.holocons.mc.holoitemsrevamp.Collections.EN1.GuraCollection.Items;
+package xyz.holocons.mc.holoitemsrevamp.item;
 
 import com.strangeone101.holoitemsapi.CustomItem;
 import com.strangeone101.holoitemsapi.Properties;
@@ -15,6 +15,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import java.util.List;
 
 public class TideRider extends CustomItem implements Interactable {
+
     private final static String name = "tideRider";
     private final static Material material = Material.TRIDENT;
     private final static String displayName = ChatColor.BLUE + "Tide Rider";
@@ -22,7 +23,6 @@ public class TideRider extends CustomItem implements Interactable {
             "Allows you to riptide anywhere you want!"
     );
     private final static long cooldown = 5000;
-
 
     public TideRider() {
         super(name, material, displayName, lore);

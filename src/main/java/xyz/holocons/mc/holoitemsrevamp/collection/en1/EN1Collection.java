@@ -1,15 +1,15 @@
-package xyz.holocons.mc.holoitemsrevamp.Collections.EN1;
+package xyz.holocons.mc.holoitemsrevamp.collection.en1;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
-import xyz.holocons.mc.holoitemsrevamp.AbstractClass.IdolCollection;
-import xyz.holocons.mc.holoitemsrevamp.Collections.EN1.GuraCollection.GawrGura;
+import xyz.holocons.mc.holoitemsrevamp.collection.IdolCollection;
 
 import java.util.List;
 
 public class EN1Collection extends IdolCollection {
+
     private static final String name = "en1";
 
     public EN1Collection() {

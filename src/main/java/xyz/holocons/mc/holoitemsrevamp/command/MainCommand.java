@@ -1,4 +1,4 @@
-package xyz.holocons.mc.holoitemsrevamp.Commands;
+package xyz.holocons.mc.holoitemsrevamp.command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -6,12 +6,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
-
 import org.jetbrains.annotations.Nullable;
-import xyz.holocons.mc.holoitemsrevamp.Commands.Subcommands.AcquireCommand;
-import xyz.holocons.mc.holoitemsrevamp.Commands.Subcommands.CollectionsCommand;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
-import xyz.holocons.mc.holoitemsrevamp.Interfaces.SubCommand;
+import xyz.holocons.mc.holoitemsrevamp.command.subcommand.AcquireCommand;
+import xyz.holocons.mc.holoitemsrevamp.command.subcommand.CollectionsCommand;
 
 import java.util.*;
 import java.util.stream.Collectors;

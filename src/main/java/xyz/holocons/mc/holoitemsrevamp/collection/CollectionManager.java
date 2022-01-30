@@ -1,9 +1,7 @@
-package xyz.holocons.mc.holoitemsrevamp.Collections;
-
+package xyz.holocons.mc.holoitemsrevamp.collection;
 
 import com.strangeone101.holoitemsapi.CustomItem;
-import xyz.holocons.mc.holoitemsrevamp.AbstractClass.IdolCollection;
-import xyz.holocons.mc.holoitemsrevamp.Collections.EN1.EN1Collection;
+import xyz.holocons.mc.holoitemsrevamp.collection.en1.EN1Collection;
 
 import java.util.List;
 import java.util.Map;

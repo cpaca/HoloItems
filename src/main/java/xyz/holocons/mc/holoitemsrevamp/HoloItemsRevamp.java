@@ -3,8 +3,8 @@ package xyz.holocons.mc.holoitemsrevamp;
 import com.strangeone101.holoitemsapi.HoloItemsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.holocons.mc.holoitemsrevamp.Collections.CollectionManager;
-import xyz.holocons.mc.holoitemsrevamp.Commands.MainCommand;
+import xyz.holocons.mc.holoitemsrevamp.collection.CollectionManager;
+import xyz.holocons.mc.holoitemsrevamp.command.MainCommand;
 
 public final class HoloItemsRevamp extends JavaPlugin {
 

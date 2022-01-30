@@ -1,13 +1,12 @@
-package xyz.holocons.mc.holoitemsrevamp.Commands.Subcommands;
+package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
-import xyz.holocons.mc.holoitemsrevamp.Interfaces.SubCommand;
+import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
 
 import java.util.List;
-
 
 public class AcquireCommand implements SubCommand {
 
