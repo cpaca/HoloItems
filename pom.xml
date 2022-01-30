@@ -9,7 +9,7 @@
     <version>0.0.1</version>
     <packaging>jar</packaging>
 
-    <name>HoloItems Revamp</name>
+    <name>HoloItems</name>
 
     <description>A custom plugin for HoloCons SMP. It adds a ton of custom items and blocks with unique abilities.
     </description>

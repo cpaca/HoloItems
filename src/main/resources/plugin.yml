@@ -1,4 +1,4 @@
-name: HoloItems-Revamp
+name: HoloItems
 version: '${project.version}'
 main: xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp
 api-version: 1.18
