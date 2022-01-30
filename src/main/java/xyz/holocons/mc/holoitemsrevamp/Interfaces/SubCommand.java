@@ -2,8 +2,12 @@ package xyz.holocons.mc.holoitemsrevamp.Interfaces;
 
 import org.bukkit.command.CommandSender;
 
+import java.util.List;
+
 public interface SubCommand {
-    public String getName();
-    public String getDesc();
-    public boolean execute(CommandSender sender, String[] args);
+    String getName();
+    String getDesc();
+    String getFormat();
+    List<String> getAutoComplete();
+    boolean execute(CommandSender sender, String[] args);
 }
