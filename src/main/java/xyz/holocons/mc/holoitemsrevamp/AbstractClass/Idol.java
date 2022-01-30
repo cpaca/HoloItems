@@ -26,7 +26,7 @@ public abstract class Idol {
     }
 
     private ItemStack initHead(String base64){
-        ItemStack head = Utils.itemFromBase64(base64);
+        ItemStack head = Utils.playerHeadFromBase64(base64);
         ItemMeta meta = head.getItemMeta();
         meta.displayName(getDisplayName());
         if(getLore() != null){

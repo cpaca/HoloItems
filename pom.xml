@@ -64,10 +64,6 @@
             <id>github</id>
             <url>https://raw.githubusercontent.com/StrangeOne101/HoloItemsAPI/repository/</url>
         </repository>
-        <repository>
-            <id>minecraft-repo</id>
-            <url>https://libraries.minecraft.net/</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -87,11 +83,6 @@
             <groupId>com.github.stefvanschie.inventoryframework</groupId>
             <artifactId>IF</artifactId>
             <version>0.10.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>authlib</artifactId>
-            <version>1.5.21</version>
         </dependency>
     </dependencies>
 </project>
