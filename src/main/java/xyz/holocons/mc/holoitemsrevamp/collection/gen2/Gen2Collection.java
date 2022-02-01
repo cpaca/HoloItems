@@ -1,4 +1,4 @@
-package xyz.holocons.mc.holoitemsrevamp.collection.en1;
+package xyz.holocons.mc.holoitemsrevamp.collection.gen2;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -8,18 +8,17 @@ import xyz.holocons.mc.holoitemsrevamp.collection.IdolCollection;
 
 import java.util.List;
 
-public class EN1Collection extends IdolCollection {
+public class Gen2Collection extends IdolCollection {
 
-    private static final String name = "en1";
+    private static final String name = "gen2";
 
-    public EN1Collection() {
+    public Gen2Collection() {
         super(name);
-        getIdolSet().add(new GawrGura());
-        getIdolSet().add(new IRyS());
-        getIdolSet().add(new MoriCalliope());
-        getIdolSet().add(new NinomaeInanis());
-        getIdolSet().add(new TakanashiKiara());
-        getIdolSet().add(new WatsonAmelia());
+        getIdolSet().add(new MinatoAqua());
+        getIdolSet().add(new MurasakiShion());
+        getIdolSet().add(new NakiriAyame());
+        getIdolSet().add(new OozoraSubaru());
+        getIdolSet().add(new YuzukiChoco());
     }
 
     @Override
@@ -29,7 +28,8 @@ public class EN1Collection extends IdolCollection {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.text("EN Generation 1")
+        return Component.text("Hololive Generation 2")
+
                 .color(TextColor.color(0x1D83FF));
     }
 
@@ -38,4 +38,3 @@ public class EN1Collection extends IdolCollection {
         return null;
     }
 }
-
