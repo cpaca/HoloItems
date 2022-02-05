@@ -63,9 +63,9 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         if (args.length <= 1){
             return subCommands.stream().map(SubCommand::getName).collect(Collectors.toList());
         } else {
-            for(SubCommand subCommand : subCommands){
-                if(args[0].equalsIgnoreCase(subCommand.getName())){
-                    return subCommand.getAutoComplete();
+            for (SubCommand subCommand : subCommands) {
+                if (args[0].equalsIgnoreCase(subCommand.getName())){
+                    return subCommand.getAutoComplete(args.length-1);
                 }
             }
         }

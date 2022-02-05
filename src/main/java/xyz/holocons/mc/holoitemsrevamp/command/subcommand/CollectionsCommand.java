@@ -34,7 +34,7 @@ public class CollectionsCommand implements SubCommand {
     }
 
     @Override
-    public List<String> getAutoComplete() {
+    public List<String> getAutoComplete(int argLength) {
         return null; //Returning null cuz paper handles null autocomplete with player list, which is what we need.
     }
 

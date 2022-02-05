@@ -1,5 +1,11 @@
 package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 
+import com.strangeone101.holoitemsapi.CustomItem;
+import com.strangeone101.holoitemsapi.itemevent.EventCache;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -7,6 +13,7 @@ import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
 
 import java.util.List;
+import java.util.Map;
 
 public class AcquireCommand implements SubCommand {
 
@@ -32,8 +39,14 @@ public class AcquireCommand implements SubCommand {
     }
 
     @Override
-    public List<String> getAutoComplete() {
-        return plugin.getCollectionManager().getAllItems().keySet().stream().toList();
+    public List<String> getAutoComplete(int argLength) {
+        if (argLength <= 1) {
+            return plugin.getCollectionManager().getAllItems().keySet().stream().toList();
+        } else if (argLength <= 2) {
+            return List.of();
+        } else {
+            return null;
+        }
     }
 
     @Override
