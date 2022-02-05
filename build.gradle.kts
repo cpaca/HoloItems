@@ -16,12 +16,12 @@ java {
 
 repositories {
     maven("https://papermc.io/repo/repository/maven-public/")
-    maven("https://raw.githubusercontent.com/StrangeOne101/HoloItemsAPI/repository/")
+    maven("https://raw.githubusercontent.com/TraceLosu/HoloItemsAPI/mvn-repo/")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
-    implementation("com.strangeone101:HoloItemsAPI:0.7.4")
+    implementation("com.strangeone101:HoloItemsAPI:0.8.6-hlc")
     implementation("com.github.stefvanschie.inventoryframework:IF:0.10.4")
 }
 
