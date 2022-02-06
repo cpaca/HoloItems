@@ -55,10 +55,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage(helpComponent);
-            return true;
-        } else {
+        if (args.length != 0) {
             for (var subCommand : subCommands) {
                 if (args[0].equalsIgnoreCase(subCommand.getName())) {
                     if (!subCommand.execute(sender, Arrays.copyOfRange(args, 1, args.length))) {
@@ -70,7 +67,10 @@ public class MainCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
             }
+            // If no subCommands matched...
+            sender.sendMessage(Component.text("Command not found!", NamedTextColor.RED).decoration(TextDecoration.BOLD, true));
         }
+        sender.sendMessage(helpComponent);
         return true;
     }
 
