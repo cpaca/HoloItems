@@ -1,6 +1,5 @@
 package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 
-import com.strangeone101.holoitemsapi.CustomItem;
 import com.strangeone101.holoitemsapi.itemevent.EventCache;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -12,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -51,77 +51,60 @@ public class AcquireCommand implements SubCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        String itemName;
-        short amount;
-        Player player;
-
-        if (args.length >= 1) { // There is at least 1 argument (<item>).
-            itemName = args[0];
-            if (!plugin.getCollectionManager().getAllItems().containsKey(itemName)) {
-                sender.sendMessage(Component.text(args[0] + " is not a valid item!", NamedTextColor.YELLOW)
-                    .decoration(TextDecoration.ITALIC, true));
-                return false;
-            }
-        } else { // There is no argument.
+        if (args.length == 0) {
             return false;
         }
 
-        if (args.length >= 2) { // There is at least 2 argument (<item> [amount]).
+        var customItem = plugin.getCollectionManager().getAllItems().get(args[0]);
+        if (customItem == null) {
+            sender.sendMessage(Component.text(args[0] + " is not a valid item!", NamedTextColor.YELLOW)
+                .decoration(TextDecoration.ITALIC, true));
+            return false;
+        }
+
+        int amount;
+        if (args.length == 1) { // `amount` argument was not given.
+            amount = 1;
+        } else {
             try {
-                amount = Short.parseShort(args[1]);
-                // 128 is the limit for `amount`, because I'm afraid of how many loops there are that depends on
-                // `amount` in this code.
-                if (amount <= 0 || amount > 128)
+                amount = Integer.parseInt(args[1]);
+                // Limit max `amount` to 128.
+                if (amount <= 0 || amount > 128) {
                     throw new NumberFormatException();
+                }
             } catch (NumberFormatException e) {
-                sender.sendMessage(Component.text(args[1] + " is not a valid number! It might be too high/low!",
+                sender.sendMessage(Component.text(args[1] + " is an invalid amount! It might be too high/low!",
                         NamedTextColor.YELLOW)
                     .decoration(TextDecoration.ITALIC, true));
                 return false;
             }
-        } else { // There is less than 2 arguments. Set amount to default value (1).
-            amount = 1;
         }
 
-        if (args.length >= 3) { // There is at least 3 argument (<item> [amount] [player]).
+        Player player;
+        if (args.length >= 3) { // `player` argument was given.
             player = Bukkit.getPlayer(args[2]);
-            if (player == null) {
-                sender.sendMessage(Component.text(args[2] + " is not a valid player!", NamedTextColor.YELLOW)
-                    .decoration(TextDecoration.ITALIC, true));
-                return false;
-            }
-        } else { // There is less than 3 arguments. Check if the player to give the item to is the command sender.
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(Component.text("Player not found! Did you forget to pick a player?",
-                        NamedTextColor.YELLOW).decoration(TextDecoration.ITALIC, true));
-                return false;
-            } else {
-                player = (Player) sender;
-            }
+        } else { // Less than 3 arguments were given. Check if the player to give the item to is the command sender.
+            player = sender instanceof Player ? (Player)sender : null;
+        }
+        if (player == null) {
+            sender.sendMessage(Component.text("Player not found! Did you forget to pick a player?",
+                    NamedTextColor.YELLOW).decoration(TextDecoration.ITALIC, true));
+            return false;
         }
 
-        CustomItem customItem = plugin.getCollectionManager().getAllItems().get(args[0]);
-        ItemStack item = customItem.buildStack(player);
-
+        var itemStack = customItem.buildStack(player);
+        Map<Integer, ItemStack> leftoverItems;
         if (customItem.isStackable()) {
-            item.setAmount(amount);
-            Map<Integer, ItemStack> leftoverItems = player.getInventory().addItem(item);
-            // If there are items that could not be added to the player's inventory, drop it by their feet.
-            if (!leftoverItems.isEmpty()) {
-                for (ItemStack droppedItem : leftoverItems.values()) {
-                    player.getWorld().dropItemNaturally(player.getLocation(), droppedItem);
-                }
-            }
+            itemStack.setAmount(amount);
+            leftoverItems = player.getInventory().addItem(itemStack);
         } else {
-            while (amount > 0) {
-                if (player.getInventory().firstEmpty() != -1) { // There is still an empty slot.
-                    player.getInventory().addItem(item.clone());
-                } else { // There is no slots left in the inventory, drop it by their feet.
-                    player.getWorld().dropItemNaturally(player.getLocation(), item.clone());
-                }
-                amount--;
-            }
+            var itemStacks = new ItemStack[amount];
+            Arrays.fill(itemStacks, itemStack);
+            leftoverItems = player.getInventory().addItem(itemStacks);
         }
+        // If there are items that could not be added to the player's inventory, drop it by their feet.
+        leftoverItems.values().forEach(item -> player.getWorld().dropItemNaturally(player.getLocation(), item));
+
         EventCache.fullCache(player);
         return true;
     }

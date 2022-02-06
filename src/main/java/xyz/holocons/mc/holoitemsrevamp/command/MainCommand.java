@@ -3,7 +3,6 @@ package xyz.holocons.mc.holoitemsrevamp.command;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,27 +23,34 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     private final Set<SubCommand> subCommands;
     private final HoloItemsRevamp plugin;
 
-    public MainCommand(HoloItemsRevamp plugin){
+    public MainCommand(HoloItemsRevamp plugin) {
         this.plugin = plugin;
         this.subCommands = Set.of(
-                new AcquireCommand(plugin),
-                new CollectionsCommand(plugin)
+            new AcquireCommand(plugin),
+            new CollectionsCommand(plugin)
         );
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length == 0){
-            sender.sendMessage(ChatColor.DARK_AQUA + "=====" + ChatColor.GREEN + "HoloItems" + ChatColor.DARK_AQUA + "=====");
-            for (SubCommand subCommand : subCommands) {
-                sender.sendMessage("/holoitems " + ChatColor.AQUA + subCommand.getName() + " " + subCommand.getFormat() + ChatColor.GREEN +
-                        " " + subCommand.getDesc());
+        if (args.length == 0) {
+            var message = Component.text("=====", NamedTextColor.DARK_AQUA)
+                .append(Component.text("HoloItems", NamedTextColor.GREEN))
+                .append(Component.text("=====", NamedTextColor.DARK_AQUA))
+                .append(Component.newline());
+            for (var subCommand : subCommands) {
+                message = message.append(Component.text("/holoitems ", NamedTextColor.WHITE))
+                    .append(Component.text(subCommand.getName() + " " + subCommand.getFormat(), NamedTextColor.AQUA))
+                    .append(Component.space())
+                    .append(Component.text(subCommand.getDesc(), NamedTextColor.GREEN))
+                    .append(Component.newline());
             }
-            sender.sendMessage(ChatColor.DARK_AQUA + "===================");
+            message = message.append(Component.text("===================", NamedTextColor.DARK_AQUA));
+            sender.sendMessage(message);
             return true;
         } else {
-            for (SubCommand subCommand : subCommands){
-                if (args[0].equalsIgnoreCase(subCommand.getName())){
+            for (var subCommand : subCommands) {
+                if (args[0].equalsIgnoreCase(subCommand.getName())) {
                     if (!subCommand.execute(sender, Arrays.copyOfRange(args, 1, args.length))) {
                         sender.sendMessage(Component.text("/holoitems " + subCommand.getName() + " " + subCommand.getFormat())
                             .decoration(TextDecoration.BOLD, true)
@@ -60,12 +66,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if (args.length <= 1){
+        if (args.length <= 1) {
             return subCommands.stream().map(SubCommand::getName).collect(Collectors.toList());
         } else {
-            for (SubCommand subCommand : subCommands) {
-                if (args[0].equalsIgnoreCase(subCommand.getName())){
-                    return subCommand.getAutoComplete(args.length-1);
+            for (var subCommand : subCommands) {
+                if (args[0].equalsIgnoreCase(subCommand.getName())) {
+                    return subCommand.getAutoComplete(args.length - 1);
                 }
             }
         }

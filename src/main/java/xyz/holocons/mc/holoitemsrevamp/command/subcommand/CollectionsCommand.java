@@ -1,10 +1,10 @@
 package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
 
@@ -14,7 +14,7 @@ public class CollectionsCommand implements SubCommand {
 
     private final HoloItemsRevamp plugin;
 
-    public CollectionsCommand(HoloItemsRevamp plugin){
+    public CollectionsCommand(HoloItemsRevamp plugin) {
         this.plugin = plugin;
     }
 
@@ -40,12 +40,12 @@ public class CollectionsCommand implements SubCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)){
-            sender.sendMessage(ChatColor.RED + "Do not use console with this command.");
+        if(!(sender instanceof Player player)) {
+            sender.sendMessage(Component.text("Do not use console with this command.", NamedTextColor.RED));
             return true; //Can't show gui to non-players
         }
-        ChestGui gui = new ChestGui(6, "HoloItem"); //Placeholder
-        gui.show((HumanEntity) sender);
+        var gui = new ChestGui(6, "HoloItem"); //Placeholder
+        gui.show(player);
         return true;
     }
 }
