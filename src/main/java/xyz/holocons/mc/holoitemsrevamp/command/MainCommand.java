@@ -1,6 +1,9 @@
 package xyz.holocons.mc.holoitemsrevamp.command;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.command.Command;
@@ -22,6 +25,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
     private final Set<SubCommand> subCommands;
     private final HoloItemsRevamp plugin;
+    private TextComponent helpComponent;
 
     public MainCommand(HoloItemsRevamp plugin) {
         this.plugin = plugin;
@@ -29,24 +33,27 @@ public class MainCommand implements CommandExecutor, TabCompleter {
             new AcquireCommand(plugin),
             new CollectionsCommand(plugin)
         );
+        // Create text component message for help page
+        this.helpComponent = Component.text("=====", NamedTextColor.DARK_AQUA)
+            .append(Component.text("HoloItems", NamedTextColor.GREEN))
+            .append(Component.text("=====", NamedTextColor.DARK_AQUA))
+            .append(Component.newline());
+        for (var subCommand : subCommands) {
+            helpComponent = helpComponent.append(
+                Component.text("/holoitems ", NamedTextColor.WHITE)
+                    .append(Component.text(subCommand.getName(), NamedTextColor.AQUA))
+                    .append(Component.newline())
+                    .clickEvent(ClickEvent.suggestCommand("/holoitems " + subCommand.getName() + " "))
+                    .hoverEvent(HoverEvent.showText(Component.text(subCommand.getDesc())))
+            );
+        }
+        helpComponent = helpComponent.append(Component.text("===================", NamedTextColor.DARK_AQUA));
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
-            var message = Component.text("=====", NamedTextColor.DARK_AQUA)
-                .append(Component.text("HoloItems", NamedTextColor.GREEN))
-                .append(Component.text("=====", NamedTextColor.DARK_AQUA))
-                .append(Component.newline());
-            for (var subCommand : subCommands) {
-                message = message.append(Component.text("/holoitems ", NamedTextColor.WHITE))
-                    .append(Component.text(subCommand.getName() + " " + subCommand.getFormat(), NamedTextColor.AQUA))
-                    .append(Component.space())
-                    .append(Component.text(subCommand.getDesc(), NamedTextColor.GREEN))
-                    .append(Component.newline());
-            }
-            message = message.append(Component.text("===================", NamedTextColor.DARK_AQUA));
-            sender.sendMessage(message);
+            sender.sendMessage(helpComponent);
             return true;
         } else {
             for (var subCommand : subCommands) {
