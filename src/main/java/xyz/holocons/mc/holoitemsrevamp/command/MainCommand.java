@@ -25,7 +25,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
     private final Set<SubCommand> subCommands;
     private final HoloItemsRevamp plugin;
-    private TextComponent helpComponent;
+    private final TextComponent helpComponent;
 
     public MainCommand(HoloItemsRevamp plugin) {
         this.plugin = plugin;
@@ -34,20 +34,23 @@ public class MainCommand implements CommandExecutor, TabCompleter {
             new CollectionsCommand(plugin)
         );
         // Create text component message for help page
-        this.helpComponent = Component.text("=====", NamedTextColor.DARK_AQUA)
+        final var helpComponentBuilder = Component.text()
+            .append(Component.text("=====", NamedTextColor.DARK_AQUA))
             .append(Component.text("HoloItems", NamedTextColor.GREEN))
             .append(Component.text("=====", NamedTextColor.DARK_AQUA))
             .append(Component.newline());
         for (var subCommand : subCommands) {
-            helpComponent = helpComponent.append(
-                Component.text("/holoitems ", NamedTextColor.WHITE)
+            helpComponentBuilder.append(
+                Component.text()
+                    .append(Component.text("/holoitems ", NamedTextColor.WHITE))
                     .append(Component.text(subCommand.getName(), NamedTextColor.AQUA))
                     .append(Component.newline())
                     .clickEvent(ClickEvent.suggestCommand("/holoitems " + subCommand.getName() + " "))
                     .hoverEvent(HoverEvent.showText(Component.text(subCommand.getDesc())))
             );
         }
-        helpComponent = helpComponent.append(Component.text("===================", NamedTextColor.DARK_AQUA));
+        helpComponentBuilder.append(Component.text("===================", NamedTextColor.DARK_AQUA));
+        this.helpComponent = helpComponentBuilder.build();
     }
 
     @Override
