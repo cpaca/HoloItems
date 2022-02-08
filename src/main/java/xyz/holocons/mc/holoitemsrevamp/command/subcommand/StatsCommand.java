@@ -53,7 +53,7 @@ public class StatsCommand implements SubCommand {
 
             return Stream.concat(materialStrings, entityTypeStrings).collect(Collectors.toList());
         }
-        
+
         return null;
     }
 
@@ -94,19 +94,25 @@ public class StatsCommand implements SubCommand {
             }
         }
 
-        if (statistic.getType() != Statistic.Type.UNTYPED && args.length >= 4) {
-            if (statistic.getType() == Statistic.Type.ITEM || statistic.getType() == Statistic.Type.BLOCK) {
-                try {
-                    specifier = Material.valueOf(args[3]);
-                } catch (IllegalArgumentException e) {
-                    sender.sendMessage(Component.text("Material " + args[3] + " is not valid!", NamedTextColor.YELLOW));
+        if (statistic.getType() != Statistic.Type.UNTYPED) {
+            if (args.length >= 4) {
+                if (statistic.getType() == Statistic.Type.ITEM || statistic.getType() == Statistic.Type.BLOCK) {
+                    try {
+                        specifier = Material.valueOf(args[3]);
+                    } catch (IllegalArgumentException e) {
+                        sender.sendMessage(Component.text("Material " + args[3] + " is not valid!", NamedTextColor.YELLOW));
+                    }
+                } else { // If the statistic type is ENTITY
+                    try {
+                        specifier = EntityType.valueOf(args[3]);
+                    } catch (IllegalArgumentException e) {
+                        sender.sendMessage(Component.text("Entity " + args[3] + " is not valid!", NamedTextColor.YELLOW));
+                    }
                 }
-            } else { // If the statistic type is ENTITY
-                try {
-                    specifier = EntityType.valueOf(args[3]);
-                } catch (IllegalArgumentException e) {
-                    sender.sendMessage(Component.text("Entity " + args[3] + " is not valid!", NamedTextColor.YELLOW));
-                }
+            } else { // Statistic type requires a specifier, but it is not provided.
+                sender.sendMessage(Component.text("Statistic " + statistic + " needs a specifier!",
+                    NamedTextColor.YELLOW));
+                return false;
             }
         }
 
@@ -142,15 +148,38 @@ public class StatsCommand implements SubCommand {
                 Component.text("is valued at "),
                 Component.text(player.getStatistic(statistic), NamedTextColor.GREEN)
             );
+            sender.sendMessage(statComponent.build());
             return true;
+
         } else { // Goal is not null. We're setting a statistic.
+
+            final var statComponent = Component.text();
+            statComponent.append(
+                Component.text(player.getName() + "'s ", NamedTextColor.AQUA),
+                Component.text(statistic + " ", NamedTextColor.BLUE)
+            );
+
             if (specifier == null) {
                 player.setStatistic(statistic, goal);
             } else if (specifier instanceof EntityType) {
                 player.setStatistic(statistic, (EntityType) specifier, goal);
+                statComponent.append(
+                    Component.text("with specifier "),
+                    Component.text(specifier.toString(), NamedTextColor.YELLOW)
+                );
             } else {
                 player.setStatistic(statistic, (Material) specifier, goal);
+                statComponent.append(
+                    Component.text("with specifier "),
+                    Component.text(specifier.toString(), NamedTextColor.YELLOW)
+                );
             }
+
+            statComponent.append(
+                Component.text("has been set to "),
+                Component.text(goal, NamedTextColor.GREEN)
+            );
+            sender.sendMessage(statComponent.build());
             return true;
         }
     }
