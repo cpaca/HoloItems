@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class StatsCommand implements SubCommand {
+
     @Override
     public String getName() {
         return "stats";
@@ -29,6 +30,11 @@ public class StatsCommand implements SubCommand {
     @Override
     public String getFormat() {
         return "<player> <statistic> [goal] [specifier]";
+    }
+
+    @Override
+    public String getPermission() {
+        return "holoitems.stats";
     }
 
     @Override
@@ -47,14 +53,13 @@ public class StatsCommand implements SubCommand {
 
             return Stream.concat(materialStrings, entityTypeStrings).collect(Collectors.toList());
         }
-
-
+        
         return null;
     }
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if (args.length < 2) {
+        if (args.length < 2 || !sender.hasPermission(getPermission())) {
             return false;
         }
 

@@ -39,6 +39,11 @@ public class AcquireCommand implements SubCommand {
     }
 
     @Override
+    public String getPermission() {
+        return "holoitems.acquire";
+    }
+
+    @Override
     public List<String> getAutoComplete(int argLength) {
         if (argLength <= 1) {
             return plugin.getCollectionManager().getAllItems().keySet().stream().toList();
@@ -51,7 +56,7 @@ public class AcquireCommand implements SubCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if (args.length == 0) {
+        if (args.length == 0 || !sender.hasPermission(getPermission())) {
             return false;
         }
 

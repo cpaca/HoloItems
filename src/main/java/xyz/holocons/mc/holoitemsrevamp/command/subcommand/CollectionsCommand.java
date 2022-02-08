@@ -34,13 +34,18 @@ public class CollectionsCommand implements SubCommand {
     }
 
     @Override
+    public String getPermission() {
+        return "holoitems.collections";
+    }
+
+    @Override
     public List<String> getAutoComplete(int argLength) {
         return null; //Returning null cuz paper handles null autocomplete with player list, which is what we need.
     }
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player player)) {
+        if(!(sender instanceof Player player) || !player.hasPermission(getPermission())) {
             sender.sendMessage(Component.text("Do not use console with this command.", NamedTextColor.RED));
             return true; //Can't show gui to non-players
         }

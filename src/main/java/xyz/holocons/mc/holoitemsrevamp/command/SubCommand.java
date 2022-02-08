@@ -28,6 +28,14 @@ public interface SubCommand {
     String getFormat();
 
     /**
+     * The permission node that is required to run the execute method.
+     * Do note that you'll need to check for the permission at the execute method for the permission node to actually
+     * have an effect.
+     * @return The permission node
+     */
+    String getPermission();
+
+    /**
      * Gets a list of strings that autocompletes the current argument.
      * When you need to have no autocompletion, return an empty list.
      * Returning null will result in Paper returning the player list. (This is different per-server)
