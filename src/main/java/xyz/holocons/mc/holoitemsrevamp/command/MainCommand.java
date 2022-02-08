@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.command.subcommand.AcquireCommand;
 import xyz.holocons.mc.holoitemsrevamp.command.subcommand.CollectionsCommand;
+import xyz.holocons.mc.holoitemsrevamp.command.subcommand.StatsCommand;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +32,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         this.plugin = plugin;
         this.subCommands = Set.of(
             new AcquireCommand(plugin),
-            new CollectionsCommand(plugin)
+            new CollectionsCommand(plugin),
+            new StatsCommand()
         );
         // Create text component message for help page
         final var helpComponentBuilder = Component.text()
