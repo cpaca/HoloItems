@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,6 +43,14 @@ public abstract class IdolCollection {
         }
         item.setItemMeta(meta);
         return item;
+    }
+
+    /**
+     * Returns an ItemStack that represents the generation
+     * @return An itemStack.
+     */
+    public ItemStack getGenItem() {
+        return genItem;
     }
 
     /**
