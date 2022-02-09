@@ -39,10 +39,10 @@ public interface SubCommand {
      * Gets a list of strings that autocompletes the current argument.
      * When you need to have no autocompletion, return an empty list.
      * Returning null will result in Paper returning the player list. (This is different per-server)
-     * @param argLength The current argument being written by the sender.
+     * @param args The current argument being written by the sender.
      * @return a list containing all possible autocompletion
      */
-    List<String> getAutoComplete(int argLength);
+    List<String> getAutoComplete(String[] args);
 
     /**
      * The method that gets executed once the sender has executed the command.

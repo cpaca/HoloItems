@@ -44,10 +44,10 @@ public class AcquireCommand implements SubCommand {
     }
 
     @Override
-    public List<String> getAutoComplete(int argLength) {
-        if (argLength <= 1) {
+    public List<String> getAutoComplete(String[] args) {
+        if (args.length <= 1) {
             return plugin.getCollectionManager().getAllItems().keySet().stream().toList();
-        } else if (argLength <= 2) {
+        } else if (args.length <= 2) {
             return List.of();
         } else {
             return null;

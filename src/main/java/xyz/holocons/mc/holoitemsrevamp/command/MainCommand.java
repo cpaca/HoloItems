@@ -83,7 +83,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         } else {
             for (var subCommand : subCommands) {
                 if (args[0].equalsIgnoreCase(subCommand.getName())) {
-                    return subCommand.getAutoComplete(args.length - 1);
+                    return subCommand.getAutoComplete(Arrays.copyOfRange(args, 1, args.length));
                 }
             }
         }
