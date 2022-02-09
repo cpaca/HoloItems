@@ -62,6 +62,7 @@ public class StatsCommand implements SubCommand {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean execute(CommandSender sender, String[] args) {
         if (args.length < 3 || !sender.hasPermission(getPermission()) ||
             (!args[0].equalsIgnoreCase("get") && !args[0].equalsIgnoreCase("set"))) {
