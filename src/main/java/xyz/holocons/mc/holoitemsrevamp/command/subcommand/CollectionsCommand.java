@@ -1,5 +1,6 @@
 package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 
+import com.github.stefvanschie.inventoryframework.adventuresupport.ComponentHolder;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
@@ -7,6 +8,7 @@ import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -57,34 +59,68 @@ public class CollectionsCommand implements SubCommand {
         }
 
         // Create panes and guis
-        var gui = new ChestGui(6, "HoloItem");
-        var pagePane = new PaginatedPane(1, 1, 7, 4);
-        var buttonPane = new StaticPane(1, 5, 7, 1);
+        var gui = new ChestGui(6, ComponentHolder.of(Component.text("HoloItems", NamedTextColor.AQUA, TextDecoration.BOLD)));
+        var mainPane = new PaginatedPane(0, 0, 9, 6); // Pane for handling gen page and idol page
+        var genPane = new PaginatedPane(1, 1, 7, 4); // Pane for handling gen page
+        var pageButtonPane = new StaticPane(1, 5, 7, 1); // Pane for handling prev/next button on gen pane
+        var backButtonPane = new StaticPane(4, 0, 1 ,1); // Pane for handling back button on idol page
+        var idolPane = new OutlinePane(4, 1, 1, 1); // Pane for handling idol head on idol page
+        var itemPane = new OutlinePane(0, 3, 9, 3); // Pane for handling custom items on idol page
 
         // Create buttons for gui
-        var nextButton = new GuiItem(new ItemStack(Material.ARROW), inventoryClickEvent -> {
-            inventoryClickEvent.setCancelled(true);
-            if (pagePane.getPage() < pagePane.getPages() - 1) {
-                pagePane.setPage(pagePane.getPage() + 1);
+        var nextButton = new GuiItem(new ItemStack(Material.ARROW));
+        var prevButton = new GuiItem(new ItemStack(Material.ARROW));
+        var backButton = new GuiItem(new ItemStack(Material.ARROW));
+
+        nextButton.setAction(event -> {
+            event.setCancelled(true);
+            if (genPane.getPage() < genPane.getPages() - 1) {
+                genPane.setPage(genPane.getPage() + 1);
+
+                if (genPane.getPage() == genPane.getPages() - 1)
+                    nextButton.setVisible(false);
+
+                if (genPane.getPage() != 0 && !prevButton.isVisible())
+                    prevButton.setVisible(true);
                 gui.update();
             }
         });
         var nextButtonMeta = nextButton.getItem().getItemMeta();
         nextButtonMeta.displayName(Component.text("Next page", NamedTextColor.DARK_PURPLE));
         nextButton.getItem().setItemMeta(nextButtonMeta);
-        buttonPane.addItem(nextButton, 6, 0);
+        pageButtonPane.addItem(nextButton, 6, 0);
 
-        var prevButton = new GuiItem(new ItemStack(Material.ARROW), inventoryClickEvent -> {
-            inventoryClickEvent.setCancelled(true);
-            if (pagePane.getPage() > 0) {
-                pagePane.setPage(pagePane.getPage() - 1);
+        prevButton.setAction(event -> {
+            event.setCancelled(true);
+            if (genPane.getPage() > 0) {
+                genPane.setPage(genPane.getPage() - 1);
+
+                if (genPane.getPage() == 0)
+                    prevButton.setVisible(false);
+
+                if (genPane.getPage() != genPane.getPages() - 1 && !nextButton.isVisible())
+                    nextButton.setVisible(true);
+
                 gui.update();
             }
         });
         var prevButtonMeta = prevButton.getItem().getItemMeta();
         prevButtonMeta.displayName(Component.text("Previous page", NamedTextColor.DARK_PURPLE));
         prevButton.getItem().setItemMeta(prevButtonMeta);
-        buttonPane.addItem(prevButton, 0, 0);
+        prevButton.setVisible(false); // Set it to invisible because the command always puts you on the first page at the start.
+        pageButtonPane.addItem(prevButton, 0, 0);
+
+        backButton.setAction(event -> {
+            event.setCancelled(true);
+            mainPane.setPage(0);
+            idolPane.clear();
+            itemPane.clear();
+            gui.update();
+        });
+        var backButtonMeta = backButton.getItem().getItemMeta();
+        backButtonMeta.displayName(Component.text("Back to menu", NamedTextColor.DARK_PURPLE));
+        backButton.getItem().setItemMeta(backButtonMeta);
+        backButtonPane.addItem(backButton, 0, 0);
 
         // Create ints for counting pages and slots for gen items.
         int ySlot = 0;
@@ -96,10 +132,18 @@ public class CollectionsCommand implements SubCommand {
             outlinePane.addItem(new GuiItem(idolCollection.getGenItem()));
             idolCollection.getIdolSet().forEach(idol -> {
                 var guiHeadItem = new GuiItem(idol.getHead());
-                // TODO open a new gui with all the items for said idol when an idol head is clicked
+                guiHeadItem.setAction(event -> {
+                    event.setCancelled(true);
+                    if (mainPane.getPage() == 0) {
+                        idolPane.addItem(new GuiItem(idol.getHead()));
+                        idol.getItemSet().forEach(item -> itemPane.addItem(new GuiItem(item.buildStack(null))));
+                        mainPane.setPage(1);
+                        gui.update();
+                    }
+                });
                 outlinePane.addItem(guiHeadItem);
             });
-            pagePane.addPane(page, outlinePane);
+            genPane.addPane(page, outlinePane);
 
             if (ySlot < 3) {
                 ySlot++;
@@ -109,8 +153,13 @@ public class CollectionsCommand implements SubCommand {
             }
         }
 
-        gui.addPane(pagePane);
-        gui.addPane(buttonPane);
+        mainPane.addPane(0, genPane);
+        mainPane.addPane(0, pageButtonPane);
+        mainPane.addPane(1, idolPane);
+        mainPane.addPane(1, itemPane);
+        mainPane.addPane(1, backButtonPane);
+        gui.addPane(mainPane);
+        gui.setOnTopClick(event -> event.setCancelled(true));
         gui.show(player);
 
         return true;
