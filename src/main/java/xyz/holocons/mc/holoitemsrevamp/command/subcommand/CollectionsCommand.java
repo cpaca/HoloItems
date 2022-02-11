@@ -9,7 +9,9 @@ import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -52,10 +54,30 @@ public class CollectionsCommand implements SubCommand {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player player) || !player.hasPermission(getPermission())) {
-            sender.sendMessage(Component.text("Do not use console with this command.", NamedTextColor.RED));
+        OfflinePlayer target;
+        if(!(sender instanceof Player player)) {
+            sender.sendMessage(Component.text("Do not use console with this command.", NamedTextColor.YELLOW));
             return true; //Can't show gui to non-players
+        }
+
+        if (!player.hasPermission(getPermission())) {
+            sender.sendMessage(Component.text("You do not have permission to use this command!", NamedTextColor.RED));
+            return true;
+        }
+
+        if (args.length < 1) {
+            target = (OfflinePlayer) sender;
+        } else if (player.hasPermission(getPermission() + ".others")) {
+            target = Bukkit.getOfflinePlayer(args[0]);
+            if (!target.hasPlayedBefore() || target.getName() == null) {
+                sender.sendMessage(Component.text("Player not found!", NamedTextColor.YELLOW));
+                return false;
+            }
+        } else {
+            sender.sendMessage(Component.text("You do not have permission to use this command!", NamedTextColor.RED));
+            return true;
         }
 
         // Create panes and guis
@@ -136,7 +158,7 @@ public class CollectionsCommand implements SubCommand {
                     event.setCancelled(true);
                     if (mainPane.getPage() == 0) {
                         idolPane.addItem(new GuiItem(idol.getHead()));
-                        idol.getItemSet().forEach(item -> itemPane.addItem(new GuiItem(item.buildStack(null))));
+                        idol.getItemSet().forEach(item -> itemPane.addItem(new GuiItem(item.buildGuiStack(target))));
                         mainPane.setPage(1);
                         gui.update();
                     }
@@ -161,7 +183,7 @@ public class CollectionsCommand implements SubCommand {
         gui.addPane(mainPane);
         gui.setOnTopClick(event -> event.setCancelled(true));
         gui.show(player);
-
+        
         return true;
     }
 }
