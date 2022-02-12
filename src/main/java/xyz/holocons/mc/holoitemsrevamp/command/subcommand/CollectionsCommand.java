@@ -57,26 +57,23 @@ public class CollectionsCommand implements SubCommand {
     public boolean execute(CommandSender sender, String[] args) {
         OfflinePlayer targetPlayer;
         if(!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("Do not use console with this command.", NamedTextColor.YELLOW));
+            sender.sendMessage(Component.text("Do not use this command as console.", NamedTextColor.YELLOW));
             return true; //Can't show gui to non-players
         }
 
-        if (!player.hasPermission(getPermission())) {
+        if (!player.hasPermission(getPermission()) || (args.length < 1 && !player.hasPermission(getPermission() + ".others"))) {
             player.sendMessage(Component.text("You do not have permission to use this command!", NamedTextColor.RED));
             return true;
         }
 
         if (args.length < 1) {
             targetPlayer = (OfflinePlayer) player;
-        } else if (player.hasPermission(getPermission() + ".others")) {
+        } else {
             targetPlayer = Bukkit.getOfflinePlayerIfCached(args[0]);
             if (targetPlayer == null || !targetPlayer.hasPlayedBefore()) {
                 player.sendMessage(Component.text("Player not found!", NamedTextColor.YELLOW));
                 return false;
             }
-        } else {
-            player.sendMessage(Component.text("You do not have permission to use this command!", NamedTextColor.RED));
-            return true;
         }
 
         // Create panes and guis

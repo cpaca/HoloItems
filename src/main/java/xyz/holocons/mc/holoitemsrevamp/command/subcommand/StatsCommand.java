@@ -95,7 +95,7 @@ public class StatsCommand implements SubCommand {
             try {
                 goal = Integer.parseInt(args[3]);
             } catch (NumberFormatException e) {
-                sender.sendMessage(Component.text("Number " + args[3] + " is not valid number!"));
+                sender.sendMessage(Component.text("Number " + args[3] + " is not valid!"));
                 return false;
             }
         }
