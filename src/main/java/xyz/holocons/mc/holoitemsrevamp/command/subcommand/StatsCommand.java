@@ -68,15 +68,15 @@ public class StatsCommand implements SubCommand {
             return false;
         }
 
-        OfflinePlayer player;
+        OfflinePlayer targetPlayer;
         Statistic statistic;
         Integer goal = null;
         Enum<?> specifier = null;
 
         // Argument validations
         try {
-            player = Bukkit.getOfflinePlayerIfCached(args[1]);
-            if (player == null || !player.hasPlayedBefore()) {
+            targetPlayer = Bukkit.getOfflinePlayerIfCached(args[1]);
+            if (targetPlayer == null || !targetPlayer.hasPlayedBefore()) {
                 throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException e) {
@@ -127,7 +127,7 @@ public class StatsCommand implements SubCommand {
         if (args[0].equalsIgnoreCase("get")) { // First arg is get, means that we're getting the value instead of setting it.
             var statComponent = Component.text();
             statComponent.append(
-                Component.text(player.getName() + "'s ", NamedTextColor.AQUA),
+                Component.text(targetPlayer.getName() + "'s ", NamedTextColor.AQUA),
                 Component.text(statistic + " ", NamedTextColor.BLUE),
                 Component.text("statistic ")
             );
@@ -141,11 +141,11 @@ public class StatsCommand implements SubCommand {
 
                 if (specifier instanceof EntityType) {
                     statComponent.append(
-                        Component.text(player.getStatistic(statistic, (EntityType) specifier), NamedTextColor.GREEN)
+                        Component.text(targetPlayer.getStatistic(statistic, (EntityType) specifier), NamedTextColor.GREEN)
                     );
                 } else {
                     statComponent.append(
-                        Component.text(player.getStatistic(statistic, (Material) specifier), NamedTextColor.GREEN)
+                        Component.text(targetPlayer.getStatistic(statistic, (Material) specifier), NamedTextColor.GREEN)
                     );
                 }
                 sender.sendMessage(statComponent.build());
@@ -154,7 +154,7 @@ public class StatsCommand implements SubCommand {
 
             statComponent.append(
                 Component.text("is valued at "),
-                Component.text(player.getStatistic(statistic), NamedTextColor.GREEN)
+                Component.text(targetPlayer.getStatistic(statistic), NamedTextColor.GREEN)
             );
             sender.sendMessage(statComponent.build());
             return true;
@@ -163,20 +163,20 @@ public class StatsCommand implements SubCommand {
 
             final var statComponent = Component.text();
             statComponent.append(
-                Component.text(player.getName() + "'s ", NamedTextColor.AQUA),
+                Component.text(targetPlayer.getName() + "'s ", NamedTextColor.AQUA),
                 Component.text(statistic + " ", NamedTextColor.BLUE)
             );
 
             if (specifier == null) {
-                player.setStatistic(statistic, goal);
+                targetPlayer.setStatistic(statistic, goal);
             } else if (specifier instanceof EntityType) {
-                player.setStatistic(statistic, (EntityType) specifier, goal);
+                targetPlayer.setStatistic(statistic, (EntityType) specifier, goal);
                 statComponent.append(
                     Component.text("with specifier "),
                     Component.text(specifier.toString(), NamedTextColor.YELLOW)
                 );
             } else {
-                player.setStatistic(statistic, (Material) specifier, goal);
+                targetPlayer.setStatistic(statistic, (Material) specifier, goal);
                 statComponent.append(
                     Component.text("with specifier "),
                     Component.text(specifier.toString(), NamedTextColor.YELLOW)

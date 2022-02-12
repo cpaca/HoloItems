@@ -39,7 +39,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         final var helpComponentBuilder = Component.text()
             .append(Component.text("=====", NamedTextColor.DARK_AQUA))
             .append(Component.text("HoloItems", NamedTextColor.GREEN))
-            .append(Component.text("=====", NamedTextColor.DARK_AQUA))
+            .append(Component.text("======", NamedTextColor.DARK_AQUA))
             .append(Component.newline());
         for (var subCommand : subCommands) {
             helpComponentBuilder.append(
