@@ -35,7 +35,7 @@ public class CollectionsCommand implements SubCommand {
 
     @Override
     public String getDesc() {
-        return "Opens a GUI to explore all available items";
+        return "Open a GUI to explore all available items";
     }
 
     @Override
@@ -50,8 +50,10 @@ public class CollectionsCommand implements SubCommand {
 
     @Override
     public List<String> getAutoComplete(String[] args) {
-        // Returning null cuz paper handles null autocomplete with player list, which is what we need
-        return null;
+        return switch (args.length) {
+            case 1 -> null;
+            default -> List.of();
+        };
     }
 
     @Override

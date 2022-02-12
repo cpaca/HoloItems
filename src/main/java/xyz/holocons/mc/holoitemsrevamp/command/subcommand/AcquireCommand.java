@@ -30,7 +30,7 @@ public class AcquireCommand implements SubCommand {
 
     @Override
     public String getDesc() {
-        return "Gives a HoloItem";
+        return "Give a HoloItem";
     }
 
     @Override
@@ -47,8 +47,8 @@ public class AcquireCommand implements SubCommand {
     public List<String> getAutoComplete(String[] args) {
         return switch (args.length) {
             case 1 -> plugin.getCollectionManager().getAllItems().keySet().stream().toList();
-            case 2 -> List.of();
-            default -> null;
+            case 3 -> null;
+            default -> List.of();
         };
     }
 

@@ -13,7 +13,6 @@ import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class StatsCommand implements SubCommand {
 
@@ -29,7 +28,7 @@ public class StatsCommand implements SubCommand {
 
     @Override
     public String getFormat() {
-        return "<get/set> <player> <statistic> [goal] [specifier]";
+        return "<get/set> <player> <statistic> [specifier] [goal]";
     }
 
     @Override
@@ -39,24 +38,38 @@ public class StatsCommand implements SubCommand {
 
     @Override
     public List<String> getAutoComplete(String[] args) {
+        // get player untyped_statistic
+        // set player untyped_statistic goal
+        // get player typed_statistic qualifier
+        // set player typed_statistic qualifier goal
         return switch (args.length) {
             case 1 -> List.of("get","set");
+            case 2 -> null;
             case 3 -> Arrays.stream(Statistic.values()).map(Statistic::toString).collect(Collectors.toList());
-            case 4 -> List.of();
-            case 5 -> {
-                Stream<String> materialStrings = Arrays.stream(Material.values()).map(Material::toString);
-                Stream<String> entityTypeStrings = Arrays.stream(EntityType.values()).map(EntityType::toString);
+            case 4 -> {
+                Statistic statistic;
+                try {
+                    statistic = Statistic.valueOf(args[2]);
+                } catch (IllegalArgumentException e) {
+                    statistic = null;
+                }
+                if (statistic == null) {
+                    yield List.of();
+                }
 
-                yield Stream.concat(materialStrings, entityTypeStrings).collect(Collectors.toList());
+                yield switch (statistic.getType()) {
+                    case BLOCK, ITEM -> Arrays.stream(Material.values()).map(Material::toString).collect(Collectors.toList());
+                    case ENTITY -> Arrays.stream(EntityType.values()).map(EntityType::toString).collect(Collectors.toList());
+                    case UNTYPED -> List.of();
+                };
             }
-            default -> null;
+            default -> List.of();
         };
     }
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if (args.length < 3 || !sender.hasPermission(getPermission()) ||
-                (!args[0].equalsIgnoreCase("get") && !args[0].equalsIgnoreCase("set"))) {
+        if (args.length < 3 || !sender.hasPermission(getPermission())) {
             return false;
         }
 
@@ -65,7 +78,6 @@ public class StatsCommand implements SubCommand {
         Integer goal = null;
         Enum<?> specifier = null;
 
-        // Argument validations
         try {
             targetPlayer = Bukkit.getOfflinePlayerIfCached(args[1]);
             // Bukkit#getOfflinePlayerIfCached returns null if the player hasn't played on the server before
@@ -84,35 +96,27 @@ public class StatsCommand implements SubCommand {
             return false;
         }
 
-        if (args.length >= 4) {
-            // If a goal is specified and is needed, then set the goal variable
-            try {
-                goal = Integer.parseInt(args[3]);
-            } catch (NumberFormatException e) {
-                sender.sendMessage(Component.text("Number " + args[3] + " is not valid!"));
-                return false;
-            }
-        }
-
         final var statisticType = statistic.getType();
 
-        if (args.length >= 5) {
-            // A specifier was given
+        if (args.length > 3) {
+            // If the statistic is not untyped, assign the specifier
             switch (statisticType) {
                 case BLOCK, ITEM -> {
                     try {
-                        specifier = Material.valueOf(args[4]);
+                        specifier = Material.valueOf(args[3]);
                     } catch (IllegalArgumentException e) {
-                        sender.sendMessage(Component.text("Material " + args[4] + " is not valid!",
+                        sender.sendMessage(Component.text("Material " + args[3] + " is not valid!",
                             NamedTextColor.YELLOW));
+                        return false;
                     }
                 }
                 case ENTITY -> {
                     try {
-                        specifier = EntityType.valueOf(args[4]);
+                        specifier = EntityType.valueOf(args[3]);
                     } catch (IllegalArgumentException e) {
-                        sender.sendMessage(Component.text("Entity " + args[4] + " is not valid!",
+                        sender.sendMessage(Component.text("Entity " + args[3] + " is not valid!",
                             NamedTextColor.YELLOW));
+                        return false;
                     }
                 }
                 case UNTYPED -> {}
@@ -120,14 +124,14 @@ public class StatsCommand implements SubCommand {
         }
 
         if (specifier == null && statisticType != Statistic.Type.UNTYPED) {
-            // Statistic type requires a specifier, but it was not given
+            // Statistic type requires a specifier, but only 3 args were given
             sender.sendMessage(Component.text("Statistic " + statistic + " needs a specifier!",
                 NamedTextColor.YELLOW));
             return false;
         }
 
         if (args[0].equalsIgnoreCase("get")) {
-            // First arg is get, means that we're getting the value instead of setting it.
+            // First arg is get
             var statComponent = Component.text();
             statComponent.append(
                 Component.text(targetPlayer.getName() + "'s ", NamedTextColor.AQUA),
@@ -162,8 +166,25 @@ public class StatsCommand implements SubCommand {
 
             sender.sendMessage(statComponent.build());
             return true;
-        } else if (goal != null) {
-            // First arg is set. Check if goal is specified
+        } else if (args[0].equalsIgnoreCase("set")) {
+            // First arg is set
+            // Goal arg position shifts based on whether there is a specifier arg
+            final var goalArgIndex = statisticType == Statistic.Type.UNTYPED ? 3 : 4;
+            if (args[0].equalsIgnoreCase("set")) {
+                // Since first arg is set, assign the goal
+                if (args.length > goalArgIndex) {
+                    try {
+                        goal = Integer.parseInt(args[goalArgIndex]);
+                    } catch (NumberFormatException e) {
+                        sender.sendMessage(Component.text("Number " + args[goalArgIndex] + " is not valid!"));
+                        return false;
+                    }
+                } else {
+                    sender.sendMessage(Component.text("No goal is specified!", NamedTextColor.YELLOW));
+                    return false;
+                }
+            }
+
             final var statComponent = Component.text();
             statComponent.append(
                 Component.text(targetPlayer.getName() + "'s ", NamedTextColor.AQUA),
@@ -197,7 +218,7 @@ public class StatsCommand implements SubCommand {
             sender.sendMessage(statComponent.build());
             return true;
         } else {
-            sender.sendMessage(Component.text("No goal is specified!", NamedTextColor.YELLOW));
+            // First arg was neither get nor set
             return false;
         }
     }
