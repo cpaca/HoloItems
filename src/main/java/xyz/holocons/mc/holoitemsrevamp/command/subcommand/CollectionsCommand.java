@@ -70,7 +70,8 @@ public class CollectionsCommand implements SubCommand {
             targetPlayer = (OfflinePlayer) player;
         } else {
             targetPlayer = Bukkit.getOfflinePlayerIfCached(args[0]);
-            if (targetPlayer == null || !targetPlayer.hasPlayedBefore()) {
+            // Bukkit#getOfflinePlayerIfCached returns null if the player hasn't played on the server before
+            if (targetPlayer == null) {
                 player.sendMessage(Component.text("Player not found!", NamedTextColor.YELLOW));
                 return false;
             }

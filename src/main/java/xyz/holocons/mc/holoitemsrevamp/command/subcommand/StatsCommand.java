@@ -76,7 +76,8 @@ public class StatsCommand implements SubCommand {
         // Argument validations
         try {
             targetPlayer = Bukkit.getOfflinePlayerIfCached(args[1]);
-            if (targetPlayer == null || !targetPlayer.hasPlayedBefore()) {
+            // Bukkit#getOfflinePlayerIfCached returns null if the player hasn't played on the server before
+            if (targetPlayer == null) {
                 throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException e) {
