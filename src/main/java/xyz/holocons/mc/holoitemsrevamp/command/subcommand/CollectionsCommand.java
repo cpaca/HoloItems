@@ -54,7 +54,6 @@ public class CollectionsCommand implements SubCommand {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public boolean execute(CommandSender sender, String[] args) {
         OfflinePlayer target;
         if(!(sender instanceof Player player)) {
@@ -70,8 +69,8 @@ public class CollectionsCommand implements SubCommand {
         if (args.length < 1) {
             target = (OfflinePlayer) sender;
         } else if (player.hasPermission(getPermission() + ".others")) {
-            target = Bukkit.getOfflinePlayer(args[0]);
-            if (!target.hasPlayedBefore() || target.getName() == null) {
+            target = Bukkit.getOfflinePlayerIfCached(args[0]);
+            if (player == null || !player.hasPlayedBefore()) {
                 sender.sendMessage(Component.text("Player not found!", NamedTextColor.YELLOW));
                 return false;
             }

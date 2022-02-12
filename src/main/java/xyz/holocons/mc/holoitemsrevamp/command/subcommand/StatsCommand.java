@@ -62,7 +62,6 @@ public class StatsCommand implements SubCommand {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public boolean execute(CommandSender sender, String[] args) {
         if (args.length < 3 || !sender.hasPermission(getPermission()) ||
             (!args[0].equalsIgnoreCase("get") && !args[0].equalsIgnoreCase("set"))) {
@@ -76,8 +75,8 @@ public class StatsCommand implements SubCommand {
 
         // Argument validations
         try {
-            player = Bukkit.getOfflinePlayer(args[1]);
-            if (!player.hasPlayedBefore() || player.getName() == null) {
+            player = Bukkit.getOfflinePlayerIfCached(args[1]);
+            if (player == null || !player.hasPlayedBefore()) {
                 throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException e) {
