@@ -183,7 +183,7 @@ public class CollectionsCommand implements SubCommand {
         mainPane.addPane(1, itemPane);
         mainPane.addPane(1, backButtonPane);
         gui.addPane(mainPane);
-        gui.setOnTopClick(event -> event.setCancelled(true));
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
         gui.show(player);
 
         return true;
