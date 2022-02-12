@@ -39,26 +39,18 @@ public class StatsCommand implements SubCommand {
 
     @Override
     public List<String> getAutoComplete(String[] args) {
-        if (args.length == 1) {
-            return List.of("get","set");
-        }
+        return switch (args.length) {
+            case 1 -> List.of("get","set");
+            case 3 -> Arrays.stream(Statistic.values()).map(Statistic::toString).collect(Collectors.toList());
+            case 4 -> List.of();
+            case 5 -> {
+                Stream<String> materialStrings = Arrays.stream(Material.values()).map(Material::toString);
+                Stream<String> entityTypeStrings = Arrays.stream(EntityType.values()).map(EntityType::toString);
 
-        if (args.length == 3) {
-            return Arrays.stream(Statistic.values()).map(Statistic::toString).collect(Collectors.toList());
-        }
-
-        if (args.length == 4) {
-            return List.of();
-        }
-
-        if (args.length == 5) {
-            Stream<String> materialStrings = Arrays.stream(Material.values()).map(Material::toString);
-            Stream<String> entityTypeStrings = Arrays.stream(EntityType.values()).map(EntityType::toString);
-
-            return Stream.concat(materialStrings, entityTypeStrings).collect(Collectors.toList());
-        }
-
-        return null;
+                yield Stream.concat(materialStrings, entityTypeStrings).collect(Collectors.toList());
+            }
+            default -> null;
+        };
     }
 
     @Override
