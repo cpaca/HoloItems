@@ -64,7 +64,7 @@ public class StatsCommand implements SubCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (args.length < 3 || !sender.hasPermission(getPermission()) ||
-            (!args[0].equalsIgnoreCase("get") && !args[0].equalsIgnoreCase("set"))) {
+                (!args[0].equalsIgnoreCase("get") && !args[0].equalsIgnoreCase("set"))) {
             return false;
         }
 
@@ -102,17 +102,20 @@ public class StatsCommand implements SubCommand {
             }
         }
 
-        if (statistic.getType() != Statistic.Type.UNTYPED) {
-            if (args.length >= 5) {
-                if (statistic.getType() == Statistic.Type.ITEM || statistic.getType() == Statistic.Type.BLOCK) {
+        final var statisticType = statistic.getType();
+
+        if (args.length >= 5) {
+            // A specifier was given
+            switch (statisticType) {
+                case BLOCK, ITEM -> {
                     try {
                         specifier = Material.valueOf(args[4]);
                     } catch (IllegalArgumentException e) {
                         sender.sendMessage(Component.text("Material " + args[4] + " is not valid!",
                             NamedTextColor.YELLOW));
                     }
-                } else {
-                    // The statistic type is ENTITY since it didn't match ITEM
+                }
+                case ENTITY -> {
                     try {
                         specifier = EntityType.valueOf(args[4]);
                     } catch (IllegalArgumentException e) {
@@ -120,12 +123,15 @@ public class StatsCommand implements SubCommand {
                             NamedTextColor.YELLOW));
                     }
                 }
-            } else {
-                // Statistic type requires a specifier, but it was not provided
-                sender.sendMessage(Component.text("Statistic " + statistic + " needs a specifier!",
-                    NamedTextColor.YELLOW));
-                return false;
+                case UNTYPED -> {}
             }
+        }
+
+        if (specifier == null && statisticType != Statistic.Type.UNTYPED) {
+            // Statistic type requires a specifier, but it was not given
+            sender.sendMessage(Component.text("Statistic " + statistic + " needs a specifier!",
+                NamedTextColor.YELLOW));
+            return false;
         }
 
         if (args[0].equalsIgnoreCase("get")) {
@@ -137,34 +143,33 @@ public class StatsCommand implements SubCommand {
                 Component.text("statistic ")
             );
 
-            if (specifier != null) {
-                // Statistic is not UNTYPED
-                statComponent.append(
-                    Component.text("with specifier "),
-                    Component.text(specifier + " ", NamedTextColor.YELLOW),
-                    Component.text("is valued at ")
-                );
-
-                if (specifier instanceof EntityType) {
+            switch (statisticType) {
+                case BLOCK, ITEM -> {
                     statComponent.append(
-                        Component.text(targetPlayer.getStatistic(statistic, (EntityType) specifier), NamedTextColor.GREEN)
-                    );
-                } else {
-                    statComponent.append(
+                        Component.text("with specifier "),
+                        Component.text(specifier + " ", NamedTextColor.YELLOW),
+                        Component.text("is valued at "),
                         Component.text(targetPlayer.getStatistic(statistic, (Material) specifier), NamedTextColor.GREEN)
                     );
                 }
-                sender.sendMessage(statComponent.build());
-                return true;
+                case ENTITY -> {
+                    statComponent.append(
+                        Component.text("with specifier "),
+                        Component.text(specifier + " ", NamedTextColor.YELLOW),
+                        Component.text("is valued at "),
+                        Component.text(targetPlayer.getStatistic(statistic, (EntityType) specifier), NamedTextColor.GREEN)
+                    );
+                }
+                case UNTYPED -> {
+                    statComponent.append(
+                        Component.text("is valued at "),
+                        Component.text(targetPlayer.getStatistic(statistic), NamedTextColor.GREEN)
+                    );
+                }
             }
 
-            statComponent.append(
-                Component.text("is valued at "),
-                Component.text(targetPlayer.getStatistic(statistic), NamedTextColor.GREEN)
-            );
             sender.sendMessage(statComponent.build());
             return true;
-
         } else if (goal != null) {
             // First arg is set. Check if goal is specified
             final var statComponent = Component.text();
@@ -173,20 +178,24 @@ public class StatsCommand implements SubCommand {
                 Component.text(statistic + " ", NamedTextColor.BLUE)
             );
 
-            if (specifier == null) {
-                targetPlayer.setStatistic(statistic, goal);
-            } else if (specifier instanceof EntityType) {
-                targetPlayer.setStatistic(statistic, (EntityType) specifier, goal);
-                statComponent.append(
-                    Component.text("with specifier "),
-                    Component.text(specifier.toString(), NamedTextColor.YELLOW)
-                );
-            } else {
-                targetPlayer.setStatistic(statistic, (Material) specifier, goal);
-                statComponent.append(
-                    Component.text("with specifier "),
-                    Component.text(specifier.toString(), NamedTextColor.YELLOW)
-                );
+            switch (statisticType) {
+                case BLOCK, ITEM -> {
+                    targetPlayer.setStatistic(statistic, (Material) specifier, goal);
+                    statComponent.append(
+                        Component.text("with specifier "),
+                        Component.text(specifier.toString(), NamedTextColor.YELLOW)
+                    );
+                }
+                case ENTITY -> {
+                    targetPlayer.setStatistic(statistic, (EntityType) specifier, goal);
+                    statComponent.append(
+                        Component.text("with specifier "),
+                        Component.text(specifier.toString(), NamedTextColor.YELLOW)
+                    );
+                }
+                case UNTYPED -> {
+                    targetPlayer.setStatistic(statistic, goal);
+                }
             }
 
             statComponent.append(
