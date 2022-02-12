@@ -68,13 +68,14 @@ public class AcquireCommand implements SubCommand {
         }
 
         int amount;
-        if (args.length == 1) { // `amount` argument was not given.
+        if (args.length == 1) {
+            // Amount argument was not given
             amount = 1;
         } else {
             try {
                 amount = Integer.parseInt(args[1]);
-                // Limit max `amount` to 128.
                 if (amount <= 0 || amount > 128) {
+                    // Limit max amount to 128
                     throw new NumberFormatException();
                 }
             } catch (NumberFormatException e) {
@@ -86,14 +87,17 @@ public class AcquireCommand implements SubCommand {
         }
 
         Player player;
-        if (args.length >= 3) { // `player` argument was given.
+        if (args.length >= 3) {
+            // Player argument was given
             player = Bukkit.getPlayer(args[2]);
-        } else { // Less than 3 arguments were given. Check if the player to give the item to is the command sender.
-            player = sender instanceof Player ? (Player)sender : null;
+        } else {
+            // Less than 3 arguments were given. Check if the player to give the item to is the command sender
+            player = sender instanceof Player ? (Player) sender : null;
         }
         if (player == null) {
-            sender.sendMessage(Component.text("Player not found! Did you forget to pick a player?",
-                    NamedTextColor.YELLOW).decoration(TextDecoration.ITALIC, true));
+            // Player is offline or doesn't exist
+            sender.sendMessage(Component.text("Player not found!", NamedTextColor.YELLOW)
+                .decoration(TextDecoration.ITALIC, true));
             return false;
         }
 
@@ -107,7 +111,7 @@ public class AcquireCommand implements SubCommand {
             Arrays.fill(itemStacks, itemStack);
             leftoverItems = player.getInventory().addItem(itemStacks);
         }
-        // If there are items that could not be added to the player's inventory, drop it by their feet.
+        // If items could not fit in player's inventory, drop them in the world
         leftoverItems.values().forEach(item -> player.getWorld().dropItemNaturally(player.getLocation(), item));
 
         EventCache.fullCache(player);

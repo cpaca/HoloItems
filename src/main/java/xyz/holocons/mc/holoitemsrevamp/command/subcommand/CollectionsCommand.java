@@ -50,15 +50,17 @@ public class CollectionsCommand implements SubCommand {
 
     @Override
     public List<String> getAutoComplete(String[] args) {
-        return null; //Returning null cuz paper handles null autocomplete with player list, which is what we need.
+        // Returning null cuz paper handles null autocomplete with player list, which is what we need
+        return null;
     }
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         OfflinePlayer targetPlayer;
         if(!(sender instanceof Player player)) {
+            // Can't show gui to non-players
             sender.sendMessage(Component.text("Do not use this command as console.", NamedTextColor.YELLOW));
-            return true; //Can't show gui to non-players
+            return true;
         }
 
         if (!player.hasPermission(getPermission()) || (args.length < 1 && !player.hasPermission(getPermission() + ".others"))) {
@@ -126,7 +128,8 @@ public class CollectionsCommand implements SubCommand {
         var prevButtonMeta = prevButton.getItem().getItemMeta();
         prevButtonMeta.displayName(Component.text("Previous page", NamedTextColor.DARK_PURPLE));
         prevButton.getItem().setItemMeta(prevButtonMeta);
-        prevButton.setVisible(false); // Set it to invisible because the command always puts you on the first page at the start.
+        // Set it to invisible because the command always puts you on the first page at the start
+        prevButton.setVisible(false);
         pageButtonPane.addItem(prevButton, 0, 0);
 
         backButton.setAction(event -> {
@@ -141,11 +144,11 @@ public class CollectionsCommand implements SubCommand {
         backButton.getItem().setItemMeta(backButtonMeta);
         backButtonPane.addItem(backButton, 0, 0);
 
-        // Create ints for counting pages and slots for gen items.
+        // Create ints for counting pages and slots for gen items
         int ySlot = 0;
         int page = 0;
 
-        // Generate new GUI for every player.
+        // Generate new GUI for every player
         for (var idolCollection : plugin.getCollectionManager().getAllGens()) {
             var outlinePane = new OutlinePane(0, ySlot, 7, 1);
             outlinePane.addItem(new GuiItem(idolCollection.getGenItem()));

@@ -92,7 +92,8 @@ public class StatsCommand implements SubCommand {
             return false;
         }
 
-        if (args.length >= 4) { // If a goal is specified and is needed, then set the goal variable.
+        if (args.length >= 4) {
+            // If a goal is specified and is needed, then set the goal variable
             try {
                 goal = Integer.parseInt(args[3]);
             } catch (NumberFormatException e) {
@@ -110,7 +111,8 @@ public class StatsCommand implements SubCommand {
                         sender.sendMessage(Component.text("Material " + args[4] + " is not valid!",
                             NamedTextColor.YELLOW));
                     }
-                } else { // If the statistic type is ENTITY
+                } else {
+                    // The statistic type is ENTITY since it didn't match ITEM
                     try {
                         specifier = EntityType.valueOf(args[4]);
                     } catch (IllegalArgumentException e) {
@@ -118,14 +120,16 @@ public class StatsCommand implements SubCommand {
                             NamedTextColor.YELLOW));
                     }
                 }
-            } else { // Statistic type requires a specifier, but it is not provided.
+            } else {
+                // Statistic type requires a specifier, but it was not provided
                 sender.sendMessage(Component.text("Statistic " + statistic + " needs a specifier!",
                     NamedTextColor.YELLOW));
                 return false;
             }
         }
 
-        if (args[0].equalsIgnoreCase("get")) { // First arg is get, means that we're getting the value instead of setting it.
+        if (args[0].equalsIgnoreCase("get")) {
+            // First arg is get, means that we're getting the value instead of setting it.
             var statComponent = Component.text();
             statComponent.append(
                 Component.text(targetPlayer.getName() + "'s ", NamedTextColor.AQUA),
@@ -133,7 +137,8 @@ public class StatsCommand implements SubCommand {
                 Component.text("statistic ")
             );
 
-            if (specifier != null) { // Statistic is not UNTYPED
+            if (specifier != null) {
+                // Statistic is not UNTYPED
                 statComponent.append(
                     Component.text("with specifier "),
                     Component.text(specifier + " ", NamedTextColor.YELLOW),
@@ -160,8 +165,8 @@ public class StatsCommand implements SubCommand {
             sender.sendMessage(statComponent.build());
             return true;
 
-        } else if (goal != null) { // first arg is set. Check if goal is specified
-
+        } else if (goal != null) {
+            // First arg is set. Check if goal is specified
             final var statComponent = Component.text();
             statComponent.append(
                 Component.text(targetPlayer.getName() + "'s ", NamedTextColor.AQUA),
