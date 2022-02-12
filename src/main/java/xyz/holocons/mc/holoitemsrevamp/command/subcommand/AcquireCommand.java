@@ -77,7 +77,7 @@ public class AcquireCommand implements SubCommand {
                     throw new NumberFormatException();
                 }
             } catch (NumberFormatException e) {
-                sender.sendMessage(Component.text(args[1] + " is an invalid amount! It might be too high/low!",
+                sender.sendMessage(Component.text(args[1] + " is an invalid amount!",
                         NamedTextColor.YELLOW)
                     .decoration(TextDecoration.ITALIC, true));
                 return false;

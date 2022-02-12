@@ -176,7 +176,7 @@ public class StatsCommand implements SubCommand {
                     try {
                         goal = Integer.parseInt(args[goalArgIndex]);
                     } catch (NumberFormatException e) {
-                        sender.sendMessage(Component.text("Number " + args[goalArgIndex] + " is not valid!"));
+                        sender.sendMessage(Component.text("Goal " + args[goalArgIndex] + " is not valid!"));
                         return false;
                     }
                 } else {
