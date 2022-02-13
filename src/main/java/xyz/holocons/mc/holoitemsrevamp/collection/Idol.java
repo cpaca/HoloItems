@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
-import xyz.holocons.mc.holoitemsrevamp.Utils;
+import xyz.holocons.mc.holoitemsrevamp.Util;
 
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +27,7 @@ public abstract class Idol {
     }
 
     private ItemStack initHead(String base64){
-        ItemStack head = Utils.playerHeadFromBase64(base64);
+        ItemStack head = Util.playerHeadFromBase64(base64);
         ItemMeta meta = head.getItemMeta();
         meta.displayName(getDisplayName());
         if(getLore() != null){
