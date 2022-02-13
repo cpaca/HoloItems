@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import xyz.holocons.mc.holoitemsrevamp.Util;
 
 import java.util.List;
 
@@ -30,9 +31,9 @@ public class TideRider extends CustomItem implements Interactable {
     }
 
     /**
-     * Overrides the buildStack method to add riptide enchant
+     * Overrides the buildStack method to add riptide enchant.
      * @param player The player to add ownership of the item
-     * @return the itemstack
+     * @return The itemstack
      */
     @Override
     public ItemStack buildStack(Player player) {
@@ -48,7 +49,7 @@ public class TideRider extends CustomItem implements Interactable {
     public boolean onInteract(Player player, CustomItem customItem, ItemStack itemStack) {
         var meta = itemStack.getItemMeta();
         var dataContainer = meta.getPersistentDataContainer();
-        var currentTimeMillis = System.currentTimeMillis();
+        var currentTimeMillis = Util.currentTimeMillis();
         var previousTimeMillis = Properties.COOLDOWN.get(dataContainer);
         if (currentTimeMillis - previousTimeMillis < cooldown) {
             return false;
