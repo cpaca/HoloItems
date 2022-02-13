@@ -36,26 +36,26 @@ public class TideRider extends CustomItem implements Interactable {
      */
     @Override
     public ItemStack buildStack(Player player) {
-        var item = super.buildStack(player);
-        var meta = item.getItemMeta();
+        var itemStack = super.buildStack(player);
+        var meta = itemStack.getItemMeta();
         meta.addEnchant(Enchantment.RIPTIDE, 3, false);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        return item;
+        itemStack.setItemMeta(meta);
+        return itemStack;
     }
 
     @Override
     public boolean onInteract(Player player, CustomItem customItem, ItemStack itemStack) {
         var meta = itemStack.getItemMeta();
         var dataContainer = meta.getPersistentDataContainer();
-        if(Properties.COOLDOWN.has(dataContainer)){
-            if(Properties.COOLDOWN.get(dataContainer) + cooldown > System.currentTimeMillis()){
-                return false;
-            }
+        var currentTimeMillis = System.currentTimeMillis();
+        var previousTimeMillis = Properties.COOLDOWN.get(dataContainer);
+        if (currentTimeMillis - previousTimeMillis < cooldown) {
+            return false;
         }
         player.sendBlockChange(player.getLocation().add(0, 0, 0), Material.WATER.createBlockData()); //TODO It creates water, but does not remove it.
         // refresh the chunk, will need a task manager probably.
-        Properties.COOLDOWN.set(dataContainer, System.currentTimeMillis());
+        Properties.COOLDOWN.set(dataContainer, currentTimeMillis);
         itemStack.setItemMeta(meta);
         damageItem(itemStack, 1, player);
         return false;
