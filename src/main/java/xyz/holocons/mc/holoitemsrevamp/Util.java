@@ -12,8 +12,8 @@ public class Util {
 
     private static final UUID SKULL_OWNER = new UUID(0, 0);
 
-    private static long cachedCurrentTimeMillis = -1;
-    private static int previousCurrentTick = -1;
+    private static long epochTick = -1;
+    private static int previousCurrentTick = Integer.MAX_VALUE;
 
     /**
      * Returns a player head with the base64 texture. Mostly used for GUI
@@ -32,18 +32,18 @@ public class Util {
 
     /**
      * Calling {@link System#currentTimeMillis()} performs IO which might be expensive if done
-     * several times per game tick. Instead, we'll use a cached copy of the current time
-     * if we have already queried it previously in the current game tick and only update
-     * the cached value after the result of {@Code Bukkit#getCurrentTick()} has changed. Do not
-     * call this from asynchronous tasks.
-     * @return A cached value of the current system time
+     * several times per game tick. On the other hand, {@Code Bukkit#getCurrentTick()} is cheap
+     * but returns a relative current time since it begins counting from 0 when the
+     * server starts. Instead, we'll use the system time as an epoch and add
+     * the current tick to it to efficiently get an absolute current time.
+     * @return The current time represented in terms of game ticks, assuming 20 TPS
      */
-    public static long currentTimeMillis() {
+    public static long currentTimeTicks() {
         final var currentTick = Bukkit.getCurrentTick();
-        if (Util.previousCurrentTick != currentTick) {
-            Util.previousCurrentTick = currentTick;
-            Util.cachedCurrentTimeMillis = System.currentTimeMillis();
+        if (currentTick < Util.previousCurrentTick) {
+            Util.epochTick = System.currentTimeMillis() / 1000 * 20;
         }
-        return Util.cachedCurrentTimeMillis;
+        Util.previousCurrentTick = currentTick;
+        return Util.epochTick + currentTick;
     }
 }

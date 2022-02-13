@@ -21,7 +21,7 @@ public class TideRider extends CustomItem implements Interactable {
     private final static List<String> lore = List.of(
         "Allows you to riptide anywhere you want!"
     );
-    private final static long cooldown = 5000;
+    private final static long cooldown = 100;
 
     public TideRider() {
         super(name, material, displayName, lore);
@@ -49,14 +49,14 @@ public class TideRider extends CustomItem implements Interactable {
     public boolean onInteract(Player player, CustomItem customItem, ItemStack itemStack) {
         var meta = itemStack.getItemMeta();
         var dataContainer = meta.getPersistentDataContainer();
-        var currentTimeMillis = Util.currentTimeMillis();
-        var previousTimeMillis = Properties.COOLDOWN.get(dataContainer);
-        if (currentTimeMillis - previousTimeMillis < cooldown) {
+        var currentTick = Util.currentTimeTicks();
+        var previousTick = Properties.COOLDOWN.get(dataContainer);
+        if (currentTick - previousTick < cooldown) {
             return false;
         }
         player.sendBlockChange(player.getLocation().add(0, 0, 0), Material.WATER.createBlockData()); //TODO It creates water, but does not remove it.
         // refresh the chunk, will need a task manager probably.
-        Properties.COOLDOWN.set(dataContainer, currentTimeMillis);
+        Properties.COOLDOWN.set(dataContainer, currentTick);
         itemStack.setItemMeta(meta);
         damageItem(itemStack, 1, player);
         return false;
