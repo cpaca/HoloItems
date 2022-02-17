@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
-    implementation("com.strangeone101:HoloItemsAPI:0.8.7-hlc")
+    implementation("com.strangeone101:HoloItemsAPI:0.8.8-hlc")
     implementation("com.github.stefvanschie.inventoryframework:IF:0.10.4")
 }
 
