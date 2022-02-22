@@ -6,11 +6,11 @@ import org.bukkit.inventory.ItemStack;
 
 import xyz.holocons.mc.holoitemsrevamp.enchant.Ability;
 
-public abstract interface PlayerInteract extends Ability {
+public interface PlayerInteract extends Ability {
     @Override
-    default public <E extends Event> void run(E event, ItemStack itemStack) {
+    default <E extends Event> void run(E event, ItemStack itemStack) {
         run((PlayerInteractEvent) event, itemStack);
     }
 
-    public abstract void run(PlayerInteractEvent event, ItemStack itemStack);
+    public void run(PlayerInteractEvent event, ItemStack itemStack);
 }
