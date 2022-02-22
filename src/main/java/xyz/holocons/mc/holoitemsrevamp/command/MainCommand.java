@@ -7,9 +7,8 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
@@ -22,14 +21,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MainCommand implements CommandExecutor, TabCompleter {
+public class MainCommand implements TabExecutor {
 
     private final Set<SubCommand> subCommands;
-    private final HoloItemsRevamp plugin;
     private final TextComponent helpComponent;
 
     public MainCommand(HoloItemsRevamp plugin) {
-        this.plugin = plugin;
         this.subCommands = Set.of(
             new AcquireCommand(plugin),
             new CollectionsCommand(plugin),

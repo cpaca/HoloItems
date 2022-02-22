@@ -15,7 +15,6 @@ public final class HoloItemsRevamp extends JavaPlugin {
         HoloItemsAPI.setup(this);
         collectionManager = new CollectionManager();
         getCommand("holoitems").setExecutor(new MainCommand(this));
-        getCommand("holoitems").setTabCompleter(new MainCommand(this));
         Bukkit.getLogger().info("HoloItems-Revamped [ON]");
     }
 
