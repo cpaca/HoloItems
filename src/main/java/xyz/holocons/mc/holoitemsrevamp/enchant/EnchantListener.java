@@ -236,10 +236,9 @@ public class EnchantListener implements Listener {
             .noneMatch(filter::conflictsWith);
     }
 
-    private boolean hasNoCustomEnchants(@Nullable ItemStack itemStack) {
-        if (itemStack == null || !itemStack.hasItemMeta())
-            return true;
-        return itemStack.getEnchantments().keySet().stream()
-            .noneMatch(enchant -> enchant instanceof CustomEnchantment);
+    private static boolean hasNoCustomEnchants(@Nullable ItemStack itemStack) {
+        return itemStack == null || !itemStack.hasItemMeta()
+            || itemStack.getEnchantments().keySet().stream()
+                .noneMatch(CustomEnchantment.class::isInstance);
     }
 }
