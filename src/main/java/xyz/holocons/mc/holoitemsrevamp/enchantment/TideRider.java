@@ -2,11 +2,11 @@ package xyz.holocons.mc.holoitemsrevamp.enchantment;
 
 import com.strangeone101.holoitemsapi.Properties;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import net.kyori.adventure.text.Component;
@@ -68,12 +68,7 @@ public class TideRider extends CustomEnchantment implements PlayerInteract {
         var player = event.getPlayer();
         var location = player.getLocation();
         player.sendBlockChange(location, Material.WATER.createBlockData());
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.sendBlockChange(location, location.getBlock().getBlockData());
-            }
-        }.runTaskLater(plugin, cooldown);
-        return;
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,
+            () -> player.sendBlockChange(location, location.getBlock().getBlockData()), cooldown);
     }
 }
