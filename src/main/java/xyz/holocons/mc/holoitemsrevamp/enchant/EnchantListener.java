@@ -2,7 +2,9 @@ package xyz.holocons.mc.holoitemsrevamp.enchant;
 
 import com.strangeone101.holoitemsapi.CustomItemRegistry;
 import com.strangeone101.holoitemsapi.interfaces.Enchantable;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -16,6 +18,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.ability.BlockBreak;
 import xyz.holocons.mc.holoitemsrevamp.ability.PlayerInteract;
@@ -74,7 +77,7 @@ public class EnchantListener implements Listener {
 
         runAbilities(PlayerInteract.class, event, itemStack);
     }
-
+    
     @EventHandler(ignoreCancelled = true)
     public void onPrepareAnvil(PrepareAnvilEvent event) {
 
@@ -85,20 +88,53 @@ public class EnchantListener implements Listener {
             return;
 
         var base = event.getInventory().getFirstItem();
-        var addition = event.getInventory().getSecondItem();
 
-        if (base == null || addition == null)
+        if (base == null)
             return;
+
+        var baseMeta = base.hasItemMeta() ? base.getItemMeta() : Bukkit.getItemFactory().getItemMeta(base.getType());
+        var addition = event.getInventory().getSecondItem();
 
         // Only handle events that contain custom enchantments
         if (hasNoCustomEnchants(base) && hasNoCustomEnchants(addition))
             return;
+
+        if (addition == null) {
+            var renameText = event.getInventory().getRenameText();
+            var displayName = baseMeta.hasDisplayName() ?
+                PlainTextComponentSerializer.plainText().serialize(baseMeta.displayName()) : "";
+            if (renameText != null && !renameText.equals("")
+                && !displayName.equals(renameText)) { // If the player just wants to rename.
+                var result = base.clone();
+                var resultMeta = baseMeta.clone();
+
+                resultMeta.displayName(Component.text(renameText));
+                result.setItemMeta(resultMeta);
+
+                final int levelCost = event.getInventory().getRepairCost();
+                final var finalBase = base.clone();
+
+                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                    if (!finalBase.equals(event.getInventory().getFirstItem()))
+                        return;
+
+                    event.getInventory().setResult(result);
+                    event.getInventory().setRepairCost(levelCost);
+                    player.setWindowProperty(InventoryView.Property.REPAIR_COST, levelCost);
+                });
+            }
+            return;
+        }
 
         // Only handle recipes that would work in vanilla
         if ((event.getInventory().getResult() == null || event.getInventory().getResult().getType() == Material.AIR)) {
             if (CustomItemRegistry.isCustomItem(addition)) { // Unless that second item is a custom item
                 var customItem = CustomItemRegistry.getCustomItem(addition);
                 if (customItem instanceof Enchantable enchantable) { // And it must implement the enchantable interface.
+                    if (!enchantable.getEnchantment().canEnchantItem(base))
+                        return;
+                    if (!hasNoConflictEnchants(base.getEnchantments(), enchantable.getEnchantment()))
+                        return;
                     var resultItem = enchantable.applyEnchantment(base);
 
                     if (resultItem == null) // Applying enchantment failed
@@ -110,7 +146,7 @@ public class EnchantListener implements Listener {
                     var renameText = event.getInventory().getRenameText();
                     if (renameText != null && !renameText.equals("")) { // The player is trying to rename
                         ++levelCost;
-                        resultItemMeta.displayName(PlainTextComponentSerializer.plainText().deserialize(renameText));
+                        resultItemMeta.displayName(Component.text(renameText));
                         resultItem.setItemMeta(resultItemMeta);
                     }
 
@@ -135,11 +171,27 @@ public class EnchantListener implements Listener {
 
         var result = event.getInventory().getResult();
         var customEnchants = combineCustomEnchants(base, addition);
+        var levelCost = customEnchants.entrySet().stream().reduce(event.getInventory().getRepairCost(),
+            (num, entry) -> num + ((CustomEnchantment) entry.getKey()).getItemStackCost(result), Integer::sum);
         result.addEnchantments(customEnchants);
 
         event.setResult(result);
+
+        final var finalBase = base.clone();
+        final var finalAddition = addition.clone();
         plugin.getServer().getScheduler().runTask(plugin, () -> {
-            event.getInventory().setResult(result); // TODO add result cost from custom enchants
+            if (!finalBase.equals(event.getInventory().getFirstItem()) || !finalAddition.equals(event.getInventory().getSecondItem()))
+                return;
+
+            // TODO Currently, setMaximumRepairCost works only technically, not visually. The "Too Expansive!" alert
+            // still appears on the client. But, they are still able to grab the item. To fix that, we have to send
+            // a Window Property packet (https://wiki.vg/Protocol#Window_Property) using the same window ID the client
+            // sees.
+            event.getInventory().setResult(result);
+            event.getInventory().setRepairCost(levelCost);
+            event.getInventory().setMaximumRepairCost(levelCost + 1);
+            player.setWindowProperty(InventoryView.Property.REPAIR_COST, levelCost);
+
         });
     }
 
@@ -184,7 +236,9 @@ public class EnchantListener implements Listener {
             .noneMatch(filter::conflictsWith);
     }
 
-    private static boolean hasNoCustomEnchants(@NotNull ItemStack itemStack) {
+    private boolean hasNoCustomEnchants(@Nullable ItemStack itemStack) {
+        if (itemStack == null || !itemStack.hasItemMeta())
+            return true;
         return itemStack.getEnchantments().keySet().stream()
             .noneMatch(enchant -> enchant instanceof CustomEnchantment);
     }
