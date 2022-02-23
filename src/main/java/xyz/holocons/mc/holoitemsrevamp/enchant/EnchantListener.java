@@ -25,6 +25,7 @@ import xyz.holocons.mc.holoitemsrevamp.ability.PlayerInteract;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -221,14 +222,22 @@ public class EnchantListener implements Listener {
     }
 
     private static Map<Enchantment, Integer> combineCustomEnchants(Map<Enchantment, Integer> base, Map<Enchantment, Integer> addition) {
-        return Stream.of(base, addition)
+        var combined = Stream.of(base, addition)
             .map(Map::entrySet)
             .flatMap(Set::stream)
             .filter(entry -> entry.getKey() instanceof CustomEnchantment)
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
-                if (a.equals(b)) return a+1;
-                else return Integer.max(a, b);
-            }));
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) ->
+                a.equals(b) ? a + 1 : Integer.max(a, b)
+            ));
+        var maxLevels = combined.keySet()
+            .stream()
+            .collect(Collectors.toMap(Function.identity(), Enchantment::getMaxLevel));
+        return Stream.of(combined, maxLevels)
+            .map(Map::entrySet)
+            .flatMap(Set::stream)
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) ->
+                Integer.min(a, b)
+            ));
     }
 
     private static boolean hasNoConflictEnchants(Map<Enchantment, Integer> enchants, Enchantment filter) {
