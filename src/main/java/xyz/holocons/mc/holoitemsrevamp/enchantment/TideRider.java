@@ -1,24 +1,27 @@
 package xyz.holocons.mc.holoitemsrevamp.enchantment;
 
-import com.strangeone101.holoitemsapi.Properties;
-
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
-import xyz.holocons.mc.holoitemsrevamp.Util;
 import xyz.holocons.mc.holoitemsrevamp.ability.PlayerInteract;
+import xyz.holocons.mc.holoitemsrevamp.ability.ProjectileLaunch;
 import xyz.holocons.mc.holoitemsrevamp.enchant.CustomEnchantment;
 
-public class TideRider extends CustomEnchantment implements PlayerInteract {
-
-    private final static long cooldown = 100;
+public class TideRider extends CustomEnchantment implements PlayerInteract, ProjectileLaunch {
 
     private final HoloItemsRevamp plugin;
 
@@ -34,7 +37,7 @@ public class TideRider extends CustomEnchantment implements PlayerInteract {
 
     @Override
     public boolean conflictsWith(@NotNull Enchantment other) {
-        return false;
+        return !other.equals(Enchantment.MENDING) && !other.equals(Enchantment.VANISHING_CURSE);
     }
 
     @Override
@@ -50,24 +53,85 @@ public class TideRider extends CustomEnchantment implements PlayerInteract {
 
     @Override
     public int getItemStackCost(ItemStack itemStack) {
-        return 1000;
+        return Integer.MAX_VALUE;
     }
 
     @Override
     public void run(PlayerInteractEvent event, ItemStack itemStack) {
-        var itemMeta = itemStack.getItemMeta();
-        var persistentDataContainer = itemMeta.getPersistentDataContainer();
-        var currentTick = Util.currentTimeTicks();
-        var expirationTick = Properties.COOLDOWN.get(persistentDataContainer);
-        if (currentTick < expirationTick) {
-            return;
+        final var player = event.getPlayer();
+        final var world = player.getWorld();
+
+        if (itemStack.getItemMeta() instanceof Damageable damageable) {
+            final var damage = damageable.getDamage() + 1;
+            if (damage >= itemStack.getType().getMaxDurability()) {
+                return;
+            }
+            damageable.setDamage(damage);
+            itemStack.setItemMeta(damageable);
         }
-        Properties.COOLDOWN.set(persistentDataContainer, currentTick + cooldown);
-        itemStack.setItemMeta(itemMeta);
-        var player = event.getPlayer();
-        var location = player.getLocation();
-        player.sendBlockChange(location, Material.WATER.createBlockData());
-        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,
-            () -> player.sendBlockChange(location, location.getBlock().getBlockData()), cooldown);
+
+        player.playSound(player, Sound.ENTITY_PLAYER_SPLASH_HIGH_SPEED, 0.3F, 0.7F);
+
+        new BukkitRunnable() {
+            int elapsedTicks = 0;
+
+            @Override
+            public void run() {
+                if (!player.isValid() || !player.isHandRaised() || elapsedTicks >= 1200) {
+                    cancel();
+                    if (itemStack.getItemMeta() instanceof Damageable damageable) {
+                        damageable.setDamage(damageable.getDamage() + 1);
+                        itemStack.setItemMeta(damageable);
+                    }
+                }
+                elapsedTicks++;
+
+                final var location = player.getLocation();
+
+                if (elapsedTicks % 2 != 0) {
+                    world.spawnParticle(Particle.WATER_WAKE, location, 80, 0.2, 0.0, 0.2);
+                }
+
+                final var direction = location.getDirection().setY(0.0001).normalize();
+                final var belowBlock = location.getBlock().getRelative(BlockFace.DOWN, 1);
+                final var frontBlock = world.getBlockAt(location.add(direction));
+
+                double multiplier = 1.0;
+                if (player.hasPotionEffect(PotionEffectType.DOLPHINS_GRACE)) {
+                    multiplier += 0.33;
+                }
+                if (belowBlock.getType() == Material.SOUL_SAND) {
+                    multiplier -= 0.33;
+                }
+                final var boots = player.getInventory().getBoots();
+                if (boots != null && boots.getType() != Material.AIR) {
+                    multiplier += 0.11 * boots.getEnchantmentLevel(Enchantment.DEPTH_STRIDER);
+                    if (belowBlock.getType() == Material.SOUL_SAND) {
+                        multiplier += 0.33 * boots.getEnchantmentLevel(Enchantment.SOUL_SPEED);
+                    }
+                }
+
+                double yVelocity;
+                if (frontBlock.isPassable() && !frontBlock.isLiquid()) {
+                    if (belowBlock.isPassable() && !belowBlock.isLiquid()) {
+                        yVelocity = -0.5;
+                    } else {
+                        yVelocity = 0;
+                    }
+                } else if (!belowBlock.isPassable() || belowBlock.isLiquid()) {
+                    yVelocity = 0.5;
+                } else {
+                    yVelocity = 0;
+                }
+
+                player.setVelocity(player.getVelocity().add(direction).normalize().multiply(multiplier).setY(yVelocity));
+                player.setFallDistance(0);
+            }
+        }.runTaskTimer(plugin, 2, 1);
+    }
+
+    @Override
+    public void run(ProjectileLaunchEvent event, ItemStack itemStack) {
+        event.setCancelled(true);
     }
 }

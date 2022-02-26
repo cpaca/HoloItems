@@ -3,14 +3,15 @@ package xyz.holocons.mc.holoitemsrevamp.item;
 import com.strangeone101.holoitemsapi.CustomItem;
 import com.strangeone101.holoitemsapi.HoloItemsAPI;
 import com.strangeone101.holoitemsapi.interfaces.Enchantable;
+import com.strangeone101.holoitemsapi.recipe.RecipeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 import net.kyori.adventure.text.Component;
 
@@ -23,7 +24,7 @@ public class TideRider extends CustomItem implements Enchantable {
     private final static Material material = Material.TRIDENT;
     private final static String displayName = ChatColor.BLUE + "Tide Rider";
     private final static List<String> lore = List.of(
-        "Allows you to riptide anywhere you want!"
+        "Surf the waves"
     );
 
     private final NamespacedKey key;
@@ -31,9 +32,9 @@ public class TideRider extends CustomItem implements Enchantable {
     public TideRider() {
         super(name, material, displayName, lore);
         this.key = new NamespacedKey(HoloItemsAPI.getPlugin(), name);
-        this.setMaxDurability(32);
         this.setStackable(false);
         this.register();
+        this.registerRecipe();
     }
 
     /**
@@ -41,14 +42,25 @@ public class TideRider extends CustomItem implements Enchantable {
      * @param player The player to add ownership of the item
      * @return The itemstack
      */
+
     @Override
     public ItemStack buildStack(Player player) {
-        var itemStack = super.buildStack(player);
-        var meta = itemStack.getItemMeta();
-        meta.addEnchant(Enchantment.RIPTIDE, 3, false);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemStack.setItemMeta(meta);
-        return itemStack;
+        return applyEnchantment(super.buildStack(player));
+    }
+
+    private void registerRecipe() {
+        final var recipe = new ShapedRecipe(key, buildStack(null));
+        recipe.shape(
+            "ABC",
+            "DEF",
+            "GDI"
+        );
+        recipe.setIngredient('A', Material.PRISMARINE_BRICKS);
+        recipe.setIngredient('B', Material.TRIDENT);
+        recipe.setIngredient('C', Material.PRISMARINE_BRICKS);
+        recipe.setIngredient('E', Material.ENCHANTED_GOLDEN_APPLE);
+        recipe.setIngredient('D', Material.PRISMARINE_BRICKS);
+        RecipeManager.registerRecipe(recipe);
     }
 
     @Override
