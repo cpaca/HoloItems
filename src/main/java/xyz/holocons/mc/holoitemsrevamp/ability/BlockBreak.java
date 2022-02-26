@@ -1,16 +1,9 @@
 package xyz.holocons.mc.holoitemsrevamp.ability;
 
-import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import xyz.holocons.mc.holoitemsrevamp.enchant.Ability;
-
-public interface BlockBreak extends Ability {
-    @Override
-    default <E extends Event> void run(E event, ItemStack itemStack) {
-        run((BlockBreakEvent) event, itemStack);
-    }
+public interface BlockBreak {
 
     public void run(BlockBreakEvent event, ItemStack itemStack);
 }

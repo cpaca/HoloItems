@@ -39,20 +39,6 @@ public class EnchantListener implements Listener {
         this.enchantManager = enchantManager;
     }
 
-    private static <A extends Ability, E extends Event> void runAbilities(Class<A> abilityCls, E event, @NotNull ItemStack... items) {
-        for (final var itemStack : items) {
-            if (!itemStack.hasItemMeta()) {
-                continue;
-            }
-            final var enchants = itemStack.getItemMeta().getEnchants();
-            enchants.keySet().forEach(enchantment -> {
-                if (abilityCls.isInstance(enchantment)) {
-                    abilityCls.cast(enchantment).run(event, itemStack);
-                }
-            });
-        }
-    }
-
     /**
      * Handles BlockBreak enchantments.
      *
@@ -60,25 +46,46 @@ public class EnchantListener implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
-        var itemStack = event.getPlayer().getInventory().getItemInMainHand();
+        final var itemStack = event.getPlayer().getInventory().getItemInMainHand();
 
-        runAbilities(BlockBreak.class, event, itemStack);
+        if (!itemStack.hasItemMeta()) {
+            return;
+        }
+        final var enchants = itemStack.getItemMeta().getEnchants();
+        enchants.keySet().forEach(enchantment -> {
+            if (BlockBreak.class.isInstance(enchantment)) {
+                BlockBreak.class.cast(enchantment).run(event, itemStack);
+            }
+        });
     }
 
+    /**
+     * Handles PlayerInteract enchantments.
+     *
+     * @param event The PlayerInteractEvent
+     */
     @EventHandler(ignoreCancelled = false)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.isBlockInHand() || !event.getAction().isRightClick() || !event.hasItem()) {
             return;
         }
-        ItemStack itemStack = switch (event.getHand()) {
-            case HAND -> itemStack = event.getPlayer().getInventory().getItemInMainHand();
-            case OFF_HAND -> itemStack = event.getPlayer().getInventory().getItemInOffHand();
+        final var itemStack = switch (event.getHand()) {
+            case HAND -> event.getPlayer().getInventory().getItemInMainHand();
+            case OFF_HAND -> event.getPlayer().getInventory().getItemInOffHand();
             default -> new ItemStack(Material.AIR);
         };
 
-        runAbilities(PlayerInteract.class, event, itemStack);
+        if (!itemStack.hasItemMeta()) {
+            return;
+        }
+        final var enchants = itemStack.getItemMeta().getEnchants();
+        enchants.keySet().forEach(enchantment -> {
+            if (PlayerInteract.class.isInstance(enchantment)) {
+                PlayerInteract.class.cast(enchantment).run(event, itemStack);
+            }
+        });
     }
-    
+
     @EventHandler(ignoreCancelled = true)
     public void onPrepareAnvil(PrepareAnvilEvent event) {
 
