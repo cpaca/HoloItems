@@ -56,8 +56,8 @@ public class EnchantListener implements Listener {
         }
         final var enchants = itemStack.getItemMeta().getEnchants();
         enchants.keySet().forEach(enchantment -> {
-            if (BlockBreak.class.isInstance(enchantment)) {
-                BlockBreak.class.cast(enchantment).run(event, itemStack);
+            if (enchantment instanceof BlockBreak ability) {
+                ability.run(event, itemStack);
             }
         });
     }
@@ -83,8 +83,8 @@ public class EnchantListener implements Listener {
         }
         final var enchants = itemStack.getItemMeta().getEnchants();
         enchants.keySet().forEach(enchantment -> {
-            if (PlayerInteract.class.isInstance(enchantment)) {
-                PlayerInteract.class.cast(enchantment).run(event, itemStack);
+            if (enchantment instanceof PlayerInteract ability) {
+                ability.run(event, itemStack);
             }
         });
     }
@@ -106,8 +106,8 @@ public class EnchantListener implements Listener {
         }
         final var enchants = itemStack.getItemMeta().getEnchants();
         enchants.keySet().forEach(enchantment -> {
-            if (ProjectileLaunch.class.isInstance(enchantment)) {
-                ProjectileLaunch.class.cast(enchantment).run(event, itemStack);
+            if (enchantment instanceof ProjectileLaunch ability) {
+                ability.run(event, itemStack);
             }
         });
     }
