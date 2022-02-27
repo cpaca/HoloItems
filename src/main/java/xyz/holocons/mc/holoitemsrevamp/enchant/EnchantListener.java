@@ -289,6 +289,6 @@ public class EnchantListener implements Listener {
      * @return A level lower than 40
      */
     private static int capLevelCost(int level) {
-        return (level < 40) ? level : 39;
+        return Integer.min(level, 39);
     }
 }
