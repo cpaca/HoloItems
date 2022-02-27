@@ -13,7 +13,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class MagnetItem extends CustomItem implements Enchantable {
     }
 
     @Override
-    public @NotNull Enchantment getEnchantment() {
+    public Enchantment getEnchantment() {
         return Enchantment.getByKey(key);
     }
 
@@ -75,7 +74,7 @@ public class MagnetItem extends CustomItem implements Enchantable {
             } else {
                 lore = new ArrayList<>();
             }
-            lore.add(getEnchantment().displayName(1));
+            lore.add(0, getEnchantment().displayName(1));
             enchantedMeta.lore(lore);
             enchantedStack.setItemMeta(enchantedMeta);
             return enchantedStack;

@@ -80,7 +80,7 @@ public class TideRider extends CustomItem implements Enchantable {
             } else {
                 lore = new ArrayList<>();
             }
-            lore.add(getEnchantment().displayName(1));
+            lore.add(0, getEnchantment().displayName(1));
             enchantedMeta.lore(lore);
             enchantedStack.setItemMeta(enchantedMeta);
             return enchantedStack;
