@@ -9,7 +9,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ThrowableProjectile;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -112,6 +111,10 @@ public class EnchantListener implements Listener {
         });
     }
 
+    /**
+     * Handles anvil craftings regarding custom enchantments and custom items.
+     * @param event
+     */
     @EventHandler(ignoreCancelled = true)
     public void onPrepareAnvil(PrepareAnvilEvent event) {
 
@@ -186,7 +189,7 @@ public class EnchantListener implements Listener {
 
                     event.setResult(resultItem);
 
-                    final int finalLevelCost = levelCost;
+                    final int finalLevelCost = capLevelCost(levelCost);
                     final var finalBase = base.clone();
                     final var finalAddition = addition.clone();
 
@@ -213,18 +216,14 @@ public class EnchantListener implements Listener {
 
         final var finalBase = base.clone();
         final var finalAddition = addition.clone();
+        final var finalLevelCost = capLevelCost(levelCost);
         plugin.getServer().getScheduler().runTask(plugin, () -> {
             if (!finalBase.equals(event.getInventory().getFirstItem()) || !finalAddition.equals(event.getInventory().getSecondItem()))
                 return;
 
-            // TODO Currently, setMaximumRepairCost works only technically, not visually. The "Too Expansive!" alert
-            // still appears on the client. But, they are still able to grab the item. To fix that, we have to send
-            // a Window Property packet (https://wiki.vg/Protocol#Window_Property) using the same window ID the client
-            // sees.
             event.getInventory().setResult(result);
-            event.getInventory().setRepairCost(levelCost);
-            event.getInventory().setMaximumRepairCost(levelCost + 1);
-            player.setWindowProperty(InventoryView.Property.REPAIR_COST, levelCost);
+            event.getInventory().setRepairCost(finalLevelCost);
+            player.setWindowProperty(InventoryView.Property.REPAIR_COST, finalLevelCost);
 
         });
     }
@@ -282,5 +281,14 @@ public class EnchantListener implements Listener {
         return itemStack == null || !itemStack.hasItemMeta()
             || itemStack.getEnchantments().keySet().stream()
                 .noneMatch(CustomEnchantment.class::isInstance);
+    }
+
+    /**
+     * method to cap level cost. Any level cost above 39 in anvils results in "Too Expensive" to be shown.
+     * @param level The current level cost
+     * @return A level lower than 40
+     */
+    private static int capLevelCost(int level) {
+        return (level < 40) ? level : 39;
     }
 }
