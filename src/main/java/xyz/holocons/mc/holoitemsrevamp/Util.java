@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
+import net.kyori.adventure.text.Component;
+
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -17,8 +19,6 @@ public class Util {
 
     private static long epochTick = -1;
     private static int previousCurrentTick = Integer.MAX_VALUE;
-
-    private static final String[] NUMERALS = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X" };
 
     /**
      * Convenience method to call the deprecated {@code UnsafeValues#nextEntityId()}.
@@ -102,12 +102,13 @@ public class Util {
     }
 
     /**
-     * Returns the roman numeral equivalent of a number. This function only works for numbers 1 through 10.
+     * Returns the roman numeral equivalent of a number. This is only useful for numbers 1 through 10.
      * Mainly used for enchantments.
      * @param number A number from 1 through 10
-     * @return A string with the equivalent roman numerals, or null if it is outside the avaliable range.
+     * @return A TranslatableComponent, or empty Component if it is outside the available range.
      */
-    public static String toRoman(int number) {
-        return (number > 0 && number <= NUMERALS.length) ? NUMERALS[number] : null;
+    public static Component toRoman(int number) {
+        return (number > 0 && number <= 10)
+            ? Component.translatable("enchantment.level." + Integer.toString(number)) : Component.empty();
     }
 }

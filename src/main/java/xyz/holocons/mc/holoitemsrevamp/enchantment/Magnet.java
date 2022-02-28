@@ -48,8 +48,12 @@ public class Magnet extends CustomEnchantment implements BlockBreak {
 
     @Override
     public @NotNull Component displayName(int level) {
-        return Component.text("Magnet I", NamedTextColor.GRAY)
-            .decoration(TextDecoration.ITALIC, false);
+        return Component.text()
+            .decoration(TextDecoration.ITALIC, false)
+            .append(Component.text("Magnet", NamedTextColor.GRAY))
+            .append(Component.space())
+            .append(Util.toRoman(level))
+            .build();
     }
 
     @Override
