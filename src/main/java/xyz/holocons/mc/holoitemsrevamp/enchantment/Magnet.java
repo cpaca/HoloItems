@@ -49,8 +49,9 @@ public class Magnet extends CustomEnchantment implements BlockBreak {
     @Override
     public @NotNull Component displayName(int level) {
         return Component.text()
+            .color(NamedTextColor.GRAY)
             .decoration(TextDecoration.ITALIC, false)
-            .append(Component.text("Magnet", NamedTextColor.GRAY))
+            .append(Component.text("Magnet"))
             .append(Component.space())
             .append(Util.toRoman(level))
             .build();
@@ -58,33 +59,25 @@ public class Magnet extends CustomEnchantment implements BlockBreak {
 
     @Override
     public int getItemStackCost(ItemStack itemStack) {
-        int level = 0;
+        int levels = switch (Util.getOreLevel(itemStack.getType())) {
+            case NETHERITE_INGOT -> 9;
+            case DIAMOND -> 7;
+            case IRON_INGOT -> 5;
+            case GOLD_INGOT -> 3;
+            case OAK_PLANKS -> 1;
+            default -> 0;
+        };
 
-        var oreLevel = Util.getOreLevel(itemStack.getType());
-        var enchantments = itemStack.getEnchantments();
-
-        switch (oreLevel) {
-            case NETHERITE_INGOT -> level = level + 10;
-            case DIAMOND -> level = level + 8;
-            case GOLD_INGOT -> level = level + 3;
-            case IRON_INGOT -> level = level + 5;
-            case OAK_PLANKS -> level = level + 1;
-            default -> {}
+        for (var entry : itemStack.getEnchantments().entrySet()) {
+            levels += switch (entry.getKey().getRarity()) {
+                case VERY_RARE -> 4 * entry.getValue();
+                case RARE -> 3 * entry.getValue();
+                case UNCOMMON -> 2 * entry.getValue();
+                default -> 1 * entry.getValue();
+            };
         }
 
-        for (var entry : enchantments.entrySet()) {
-            if (Enchantment.DIG_SPEED.equals(entry.getKey())) {
-                level = level + (5 * entry.getValue());
-            } else if (Enchantment.DURABILITY.equals(entry.getKey())) {
-                level = level + (3 * entry.getValue());
-            } else if (Enchantment.SILK_TOUCH.equals(entry.getKey())) {
-                level = level + 5;
-            } else {
-                level = level + 2;
-            }
-        }
-
-        return level;
+        return levels;
     }
 
     @Override
