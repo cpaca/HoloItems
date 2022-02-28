@@ -52,8 +52,6 @@ public class Magnet extends CustomEnchantment implements BlockBreak {
             .color(NamedTextColor.GRAY)
             .decoration(TextDecoration.ITALIC, false)
             .append(Component.text("Magnet"))
-            .append(Component.space())
-            .append(Util.toRoman(level))
             .build();
     }
 
