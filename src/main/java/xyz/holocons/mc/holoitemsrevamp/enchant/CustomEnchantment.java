@@ -61,7 +61,7 @@ public abstract class CustomEnchantment extends Enchantment {
 
     @Override
     public int getStartLevel() {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -91,7 +91,7 @@ public abstract class CustomEnchantment extends Enchantment {
 
     @Override
     public @NotNull EnchantmentRarity getRarity() {
-        return null;
+        return EnchantmentRarity.VERY_RARE;
     }
 
     @Override
