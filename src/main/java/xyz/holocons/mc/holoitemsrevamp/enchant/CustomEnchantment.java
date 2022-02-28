@@ -25,8 +25,8 @@ import java.util.Set;
  */
 public abstract class CustomEnchantment extends Enchantment {
 
-    public CustomEnchantment(HoloItemsRevamp plugin, String namespace) {
-        super(new NamespacedKey(plugin, namespace));
+    public CustomEnchantment(HoloItemsRevamp plugin, String key) {
+        super(new NamespacedKey(plugin, key));
     }
 
     /**
