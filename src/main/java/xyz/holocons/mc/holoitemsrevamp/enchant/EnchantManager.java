@@ -1,6 +1,7 @@
 package xyz.holocons.mc.holoitemsrevamp.enchant;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -29,6 +30,10 @@ public class EnchantManager {
         plugin.getServer().getPluginManager().registerEvents(new EnchantListener(plugin, this), plugin);
         this.customEnchantments = buildCustomEnchantments();
         customEnchantments.forEach(Enchantment::registerEnchantment);
+    }
+
+    public List<String> getCustomEnchantmentNames() {
+        return customEnchantments.stream().map(CustomEnchantment::getName).toList();
     }
 
     /**

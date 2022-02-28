@@ -3,6 +3,9 @@ package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
 import xyz.holocons.mc.holoitemsrevamp.enchant.CustomEnchantment;
@@ -39,7 +42,10 @@ public class EnchantCommand implements SubCommand {
 
     @Override
     public List<String> getAutoComplete(String[] args) {
-        return List.of();
+        return switch (args.length) {
+            case 1 -> plugin.getEnchantManager().getCustomEnchantmentNames();
+            default -> List.of();
+        };
     }
 
     @Override
@@ -61,6 +67,11 @@ public class EnchantCommand implements SubCommand {
 
         var itemStack = player.getInventory().getItemInMainHand();
         var itemMeta = itemStack.getItemMeta();
+
+        if (itemMeta == null) {
+            player.sendMessage(Component.translatable("commands.enchant.failed.itemless", NamedTextColor.RED, Component.text(player.getName())));
+            return true;
+        }
 
         var key = NamespacedKey.fromString(args[0], plugin);
         var customEnchantment = CustomEnchantment.getByKey(key, CustomEnchantment.class);
