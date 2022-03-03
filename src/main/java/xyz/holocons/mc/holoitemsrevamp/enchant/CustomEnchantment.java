@@ -30,7 +30,7 @@ public abstract class CustomEnchantment extends Enchantment {
     }
 
     /**
-     * Gets the CustomEnchantment at the specified key
+     * Gets the CustomEnchantment at the specified key.
      * @param key The NamespacedKey of the enchantment to fetch
      * @return Resulting CustomEnchantment, or null if not found
      */
