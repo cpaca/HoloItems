@@ -11,18 +11,14 @@ To create a new custom item, create a class that extends the `CustomItem` class.
     private final static Material material = Material.TRIDENT;
     private final static String displayName = ChatColor.BLUE + "Tide Rider";
     private final static List<String> lore = List.of(
-        "Allows you to riptide anywhere you want!"
-        );
-
-    private final NamespacedKey key;
+        "Surf the waves"
+    );
 
     public TideRider() {
         super(name, material, displayName, lore);
-        this.key = new NamespacedKey(HoloItemsAPI.getPlugin(), name);
-        this.setMaxDurability(32);
         this.setStackable(false);
         this.register();
-        }
+    }
 ```
 
 When making custom items that are enchantable, make sure to create the custom enchantment as well, and apply said
