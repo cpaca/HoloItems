@@ -1,14 +1,12 @@
 package xyz.holocons.mc.holoitemsrevamp.item;
 
 import com.strangeone101.holoitemsapi.CustomItem;
-import com.strangeone101.holoitemsapi.HoloItemsAPI;
 import com.strangeone101.holoitemsapi.interfaces.Enchantable;
 import com.strangeone101.holoitemsapi.recipe.RecipeManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MagnetItem extends CustomItem implements Enchantable {
-    // TODO Currently not working as a standalone item because events from Custom items are automatically canceled.
     private final static String name = "magnet";
     private final static Material material = Material.IRON_PICKAXE;
     private final static String displayName = ChatColor.RED + "Magnet";
@@ -26,11 +23,8 @@ public class MagnetItem extends CustomItem implements Enchantable {
         ChatColor.DARK_PURPLE + "Automatically put mined items to your inventory!"
     );
 
-    private final NamespacedKey key;
-
     public MagnetItem() {
         super(name, material, displayName, lore);
-        this.key = new NamespacedKey(HoloItemsAPI.getPlugin(), name);
         this.register();
         this.registerRecipe();
     }
@@ -41,7 +35,7 @@ public class MagnetItem extends CustomItem implements Enchantable {
     }
 
     private void registerRecipe() {
-        ShapedRecipe recipe = new ShapedRecipe(key, buildStack(null));
+        ShapedRecipe recipe = new ShapedRecipe(getKey(), buildStack(null));
         recipe.shape(
             "AAB",
             "CDE",
@@ -59,7 +53,7 @@ public class MagnetItem extends CustomItem implements Enchantable {
 
     @Override
     public Enchantment getEnchantment() {
-        return Enchantment.getByKey(key);
+        return Enchantment.getByKey(getKey());
     }
 
     @Override

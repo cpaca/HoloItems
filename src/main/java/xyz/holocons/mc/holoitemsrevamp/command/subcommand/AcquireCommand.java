@@ -1,6 +1,5 @@
 package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 
-import com.strangeone101.holoitemsapi.itemevent.EventCache;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -112,7 +111,6 @@ public class AcquireCommand implements SubCommand {
         // If items could not fit in player's inventory, drop them in the world
         leftoverItems.values().forEach(item -> player.getWorld().dropItemNaturally(player.getLocation(), item));
 
-        EventCache.fullCache(player);
         return true;
     }
 }

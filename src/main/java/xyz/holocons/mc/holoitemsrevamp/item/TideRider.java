@@ -1,13 +1,11 @@
 package xyz.holocons.mc.holoitemsrevamp.item;
 
 import com.strangeone101.holoitemsapi.CustomItem;
-import com.strangeone101.holoitemsapi.HoloItemsAPI;
 import com.strangeone101.holoitemsapi.interfaces.Enchantable;
 import com.strangeone101.holoitemsapi.recipe.RecipeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -27,11 +25,8 @@ public class TideRider extends CustomItem implements Enchantable {
         "Surf the waves"
     );
 
-    private final NamespacedKey key;
-
     public TideRider() {
         super(name, material, displayName, lore);
-        this.key = new NamespacedKey(HoloItemsAPI.getPlugin(), name);
         this.setStackable(false);
         this.register();
         this.registerRecipe();
@@ -49,7 +44,7 @@ public class TideRider extends CustomItem implements Enchantable {
     }
 
     private void registerRecipe() {
-        final var recipe = new ShapedRecipe(key, buildStack(null));
+        final var recipe = new ShapedRecipe(getKey(), buildStack(null));
         recipe.shape(
             "ABC",
             "DEF",
@@ -65,7 +60,7 @@ public class TideRider extends CustomItem implements Enchantable {
 
     @Override
     public @NotNull Enchantment getEnchantment() {
-        return Enchantment.getByKey(key);
+        return Enchantment.getByKey(getKey());
     }
 
     @Override
