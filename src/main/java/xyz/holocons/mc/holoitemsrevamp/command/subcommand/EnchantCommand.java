@@ -74,7 +74,7 @@ public class EnchantCommand implements SubCommand {
         }
 
         var key = NamespacedKey.fromString(args[0], plugin);
-        var customEnchantment = CustomEnchantment.getByKey(key, CustomEnchantment.class);
+        var customEnchantment = CustomEnchantment.getByKey(key);
 
         if (customEnchantment == null) {
             player.sendMessage(args[0] + " is not a valid enchantment!");

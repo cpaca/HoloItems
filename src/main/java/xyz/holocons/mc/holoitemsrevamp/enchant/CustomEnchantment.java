@@ -30,15 +30,13 @@ public abstract class CustomEnchantment extends Enchantment {
     }
 
     /**
-     * Gets a custom enchantment from the server by key.
-     * @param key The NamespacedKey of the enchantment
-     * @param enchantmentCls The class to cast the enchantment to if found
-     * @return The CustomEnchantment corresponding to the key, or null if it could not find one
+     * Gets the CustomEnchantment at the specified key
+     * @param key The NamespacedKey of the enchantment to fetch
+     * @return Resulting CustomEnchantment, or null if not found
      */
     @Nullable
-    public static final <E extends Enchantment> E getByKey(@Nullable NamespacedKey key, @NotNull Class<E> enchantmentCls) {
-        final var enchantment = Enchantment.getByKey(key);
-        return enchantmentCls.isInstance(enchantment) ? enchantmentCls.cast(enchantment) : null;
+    public static final CustomEnchantment getByKey(@Nullable NamespacedKey key) {
+        return Enchantment.getByKey(key) instanceof CustomEnchantment customEnchantment ? customEnchantment : null;
     }
 
     /**
