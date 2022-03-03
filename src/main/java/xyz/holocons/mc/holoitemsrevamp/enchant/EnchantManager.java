@@ -26,9 +26,10 @@ public class EnchantManager {
             throw new ReflectiveOperationException(e);
         }
         this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(new EnchantListener(plugin, this), plugin);
         this.customEnchantments = buildCustomEnchantments();
         customEnchantments.forEach(Enchantment::registerEnchantment);
+        Enchantment.stopAcceptingRegistrations();
+        plugin.getServer().getPluginManager().registerEvents(new EnchantListener(plugin, this), plugin);
     }
 
     public List<String> getCustomEnchantmentNames() {
