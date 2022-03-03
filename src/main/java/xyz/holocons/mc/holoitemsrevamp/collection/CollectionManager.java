@@ -86,8 +86,8 @@ import xyz.holocons.mc.holoitemsrevamp.collection.stars2.YukokuRoberu;
 import xyz.holocons.mc.holoitemsrevamp.collection.stars3.AragamiOga;
 import xyz.holocons.mc.holoitemsrevamp.collection.stars3.KageyamaShien;
 import xyz.holocons.mc.holoitemsrevamp.collection.stars3.Stars3Collection;
-import xyz.holocons.mc.holoitemsrevamp.item.MagnetItem;
-import xyz.holocons.mc.holoitemsrevamp.item.TideRider;
+import xyz.holocons.mc.holoitemsrevamp.item.MagnetBook;
+import xyz.holocons.mc.holoitemsrevamp.item.TideRiderItem;
 
 public class CollectionManager {
 
@@ -121,7 +121,7 @@ public class CollectionManager {
 
     private List<IdolCollection> buildIdolCollections() {
         var gura = new GawrGura(
-            new TideRider()
+            new TideRiderItem()
         );
         var irys = new IRyS();
         var calliope = new MoriCalliope();
@@ -142,7 +142,7 @@ public class CollectionManager {
         var azki = new AZKi();
         var suisei = new HoshimachiSuisei();
         var roboco = new Roboco(
-            new MagnetItem()
+            new MagnetBook()
         );
         var miko = new SakuraMiko();
         var sora = new TokinoSora();

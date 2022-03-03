@@ -3,6 +3,7 @@ package xyz.holocons.mc.holoitemsrevamp.item;
 import com.strangeone101.holoitemsapi.CustomItem;
 import com.strangeone101.holoitemsapi.interfaces.Enchantable;
 import com.strangeone101.holoitemsapi.recipe.RecipeManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -10,33 +11,25 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.jetbrains.annotations.NotNull;
-import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TideRider extends CustomItem implements Enchantable {
+public class MagnetBook extends CustomItem implements Enchantable {
 
-    private final static String name = "tide_rider";
-    private final static Material material = Material.TRIDENT;
-    private final static String displayName = ChatColor.BLUE + "Tide Rider";
+    // TODO: The magnet enchantment should be given on an enchanted book
+    private final static String name = "magnet";
+    private final static Material material = Material.IRON_PICKAXE;
+    private final static String displayName = ChatColor.RED + "Magnet";
     private final static List<String> lore = List.of(
-        "Surf the waves"
+        ChatColor.DARK_PURPLE + "Automatically put mined items to your inventory!"
     );
 
-    public TideRider() {
+    public MagnetBook() {
         super(name, material, displayName, lore);
-        this.setStackable(false);
         this.register();
         this.registerRecipe();
     }
-
-    /**
-     * Overrides the buildStack method to add riptide enchant.
-     * @param player The player to add ownership of the item
-     * @return The itemstack
-     */
 
     @Override
     public ItemStack buildStack(Player player) {
@@ -44,22 +37,24 @@ public class TideRider extends CustomItem implements Enchantable {
     }
 
     private void registerRecipe() {
-        final var recipe = new ShapedRecipe(getKey(), buildStack(null));
+        ShapedRecipe recipe = new ShapedRecipe(getKey(), buildStack(null));
         recipe.shape(
-            "ABC",
-            "DEF",
-            "GDI"
+            "AAB",
+            "CDE",
+            "FGD"
         );
-        recipe.setIngredient('A', Material.PRISMARINE_BRICKS);
-        recipe.setIngredient('B', Material.TRIDENT);
-        recipe.setIngredient('C', Material.PRISMARINE_BRICKS);
-        recipe.setIngredient('E', Material.ENCHANTED_GOLDEN_APPLE);
-        recipe.setIngredient('D', Material.PRISMARINE_BRICKS);
+        recipe.setIngredient('A', Material.POWERED_RAIL);
+        recipe.setIngredient('B', Material.IRON_PICKAXE);
+        recipe.setIngredient('C', Material.HOPPER);
+        recipe.setIngredient('D', Material.IRON_BLOCK);
+        recipe.setIngredient('E', Material.REDSTONE);
+        recipe.setIngredient('F', Material.DROPPER);
+        recipe.setIngredient('G', Material.COMPARATOR);
         RecipeManager.registerRecipe(recipe);
     }
 
     @Override
-    public @NotNull Enchantment getEnchantment() {
+    public Enchantment getEnchantment() {
         return Enchantment.getByKey(getKey());
     }
 
