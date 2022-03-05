@@ -2,10 +2,12 @@ package xyz.holocons.mc.holoitemsrevamp.collection;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.strangeone101.holoitemsapi.CustomItem;
 
+import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.collection.en1.EN1Collection;
 import xyz.holocons.mc.holoitemsrevamp.collection.en1.GawrGura;
 import xyz.holocons.mc.holoitemsrevamp.collection.en1.IRyS;
@@ -94,12 +96,13 @@ public class CollectionManager {
     private final List<IdolCollection> idolCollections;
     private final Map<String, CustomItem> customItems;
 
-    public CollectionManager() {
-        this.idolCollections = buildIdolCollections();
-        //Creates a map from the list of idols, key is the internal name, value is the initialized class.
+    public CollectionManager(HoloItemsRevamp plugin) {
+        this.idolCollections = buildIdolCollections(plugin);
+
+        // Creates a map from the list of idols, key is the internal name, value is the initialized class.
         this.customItems = idolCollections.stream()
             .flatMap(i -> i.getAllItem().stream())
-            .collect(Collectors.toMap(CustomItem::getInternalName, string -> string));
+            .collect(Collectors.toMap(CustomItem::getInternalName, Function.identity()));
     }
 
     /**
@@ -119,9 +122,9 @@ public class CollectionManager {
         return customItems;
     }
 
-    private List<IdolCollection> buildIdolCollections() {
+    private static List<IdolCollection> buildIdolCollections(HoloItemsRevamp plugin) {
         var gura = new GawrGura(
-            new TideRiderItem()
+            new TideRiderItem(plugin)
         );
         var irys = new IRyS();
         var calliope = new MoriCalliope();
@@ -142,7 +145,7 @@ public class CollectionManager {
         var azki = new AZKi();
         var suisei = new HoshimachiSuisei();
         var roboco = new Roboco(
-            new MagnetBook()
+            new MagnetBook(plugin)
         );
         var miko = new SakuraMiko();
         var sora = new TokinoSora();

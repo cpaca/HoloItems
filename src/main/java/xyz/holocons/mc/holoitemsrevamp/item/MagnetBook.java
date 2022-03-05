@@ -3,7 +3,9 @@ package xyz.holocons.mc.holoitemsrevamp.item;
 import com.strangeone101.holoitemsapi.CustomItem;
 import com.strangeone101.holoitemsapi.interfaces.Enchantable;
 import com.strangeone101.holoitemsapi.recipe.RecipeManager;
-import net.kyori.adventure.text.Component;
+import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
+import xyz.holocons.mc.holoitemsrevamp.enchant.EnchantManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MagnetBook extends CustomItem implements Enchantable {
@@ -25,8 +26,11 @@ public class MagnetBook extends CustomItem implements Enchantable {
         ChatColor.DARK_PURPLE + "Automatically put mined items to your inventory!"
     );
 
-    public MagnetBook() {
+    private final EnchantManager enchantManager;
+
+    public MagnetBook(HoloItemsRevamp plugin) {
         super(name, material, displayName, lore);
+        this.enchantManager = plugin.getEnchantManager();
         this.register();
         this.registerRecipe();
     }
@@ -64,15 +68,9 @@ public class MagnetBook extends CustomItem implements Enchantable {
         var enchantedMeta = enchantedStack.hasItemMeta() ? enchantedStack.getItemMeta() : Bukkit.getItemFactory().getItemMeta(enchantedStack.getType());
 
         if (enchantedMeta.addEnchant(getEnchantment(), 1, false)) {
-            List<Component> lore;
-            if (enchantedMeta.hasLore()) {
-                lore = enchantedMeta.lore();
-            } else {
-                lore = new ArrayList<>();
-            }
-            lore.add(0, getEnchantment().displayName(1));
-            enchantedMeta.lore(lore);
             enchantedStack.setItemMeta(enchantedMeta);
+            enchantManager.removeCustomEnchantmentLore(enchantedStack);
+            enchantManager.applyCustomEnchantmentLore(enchantedStack);
             return enchantedStack;
         } else {
             return null;

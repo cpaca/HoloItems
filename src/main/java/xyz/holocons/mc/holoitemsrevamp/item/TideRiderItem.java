@@ -11,9 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
-import net.kyori.adventure.text.Component;
+import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
+import xyz.holocons.mc.holoitemsrevamp.enchant.EnchantManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TideRiderItem extends CustomItem implements Enchantable {
@@ -25,8 +25,11 @@ public class TideRiderItem extends CustomItem implements Enchantable {
         "Surf the waves"
     );
 
-    public TideRiderItem() {
+    private final EnchantManager enchantManager;
+
+    public TideRiderItem(HoloItemsRevamp plugin) {
         super(name, material, displayName, lore);
+        this.enchantManager = plugin.getEnchantManager();
         this.setStackable(false);
         this.register();
         this.registerRecipe();
@@ -69,15 +72,9 @@ public class TideRiderItem extends CustomItem implements Enchantable {
         var enchantedMeta = enchantedStack.hasItemMeta() ? enchantedStack.getItemMeta() : Bukkit.getItemFactory().getItemMeta(enchantedStack.getType());
 
         if (enchantedMeta.addEnchant(getEnchantment(), 1, false)) {
-            List<Component> lore;
-            if (enchantedMeta.hasLore()) {
-                lore = enchantedMeta.lore();
-            } else {
-                lore = new ArrayList<>();
-            }
-            lore.add(0, getEnchantment().displayName(1));
-            enchantedMeta.lore(lore);
             enchantedStack.setItemMeta(enchantedMeta);
+            enchantManager.removeCustomEnchantmentLore(enchantedStack);
+            enchantManager.applyCustomEnchantmentLore(enchantedStack);
             return enchantedStack;
         } else {
             return null;
