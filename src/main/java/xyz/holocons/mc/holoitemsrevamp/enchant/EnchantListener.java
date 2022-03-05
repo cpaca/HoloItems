@@ -50,11 +50,7 @@ public class EnchantListener implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         final var itemStack = event.getPlayer().getInventory().getItemInMainHand();
 
-        if (!itemStack.hasItemMeta()) {
-            return;
-        }
-        final var enchants = itemStack.getItemMeta().getEnchants();
-        enchants.keySet().forEach(enchantment -> {
+        itemStack.getEnchantments().keySet().forEach(enchantment -> {
             if (enchantment instanceof BlockBreak ability) {
                 ability.run(event, itemStack);
             }
@@ -77,11 +73,7 @@ public class EnchantListener implements Listener {
             default -> new ItemStack(Material.AIR);
         };
 
-        if (!itemStack.hasItemMeta()) {
-            return;
-        }
-        final var enchants = itemStack.getItemMeta().getEnchants();
-        enchants.keySet().forEach(enchantment -> {
+        itemStack.getEnchantments().keySet().forEach(enchantment -> {
             if (enchantment instanceof PlayerInteract ability) {
                 ability.run(event, itemStack);
             }
@@ -100,11 +92,7 @@ public class EnchantListener implements Listener {
         }
         final var itemStack = throwableProjectile.getItem();
 
-        if (!itemStack.hasItemMeta()) {
-            return;
-        }
-        final var enchants = itemStack.getItemMeta().getEnchants();
-        enchants.keySet().forEach(enchantment -> {
+        itemStack.getEnchantments().keySet().forEach(enchantment -> {
             if (enchantment instanceof ProjectileLaunch ability) {
                 ability.run(event, itemStack);
             }
