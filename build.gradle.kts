@@ -21,10 +21,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
-    compileOnly("com.comphenix.protocol:ProtocolLib:4.7.0")
+    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
+    compileOnly("com.comphenix.protocol:ProtocolLib:4.8.0")
     implementation("com.strangeone101:HoloItemsAPI:0.8.9-hlc")
-    implementation("com.github.stefvanschie.inventoryframework:IF:0.10.4")
+    implementation("com.github.stefvanschie.inventoryframework:IF:0.10.5")
 }
 
 tasks {
@@ -65,7 +65,7 @@ tasks {
     // Configure the Minecraft version for runServer task
     // https://github.com/jpenilla/run-paper
     runServer {
-        minecraftVersion("1.18.1")
+        minecraftVersion("1.18.2")
     }
 }
 
