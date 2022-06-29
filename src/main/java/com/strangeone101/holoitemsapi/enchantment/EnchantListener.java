@@ -1,7 +1,5 @@
-package xyz.holocons.mc.holoitemsrevamp.enchant;
+package com.strangeone101.holoitemsapi.enchantment;
 
-import com.strangeone101.holoitemsapi.CustomItemRegistry;
-import com.strangeone101.holoitemsapi.interfaces.Enchantable;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
@@ -20,6 +18,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.strangeone101.holoitemsapi.item.CustomItemManager;
+
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.ability.BlockBreak;
 import xyz.holocons.mc.holoitemsrevamp.ability.PlayerInteract;
@@ -153,8 +154,8 @@ public class EnchantListener implements Listener {
 
         // Only handle recipes that would work in vanilla
         if ((event.getInventory().getResult() == null || event.getInventory().getResult().getType() == Material.AIR)) {
-            if (CustomItemRegistry.isCustomItem(addition)) { // Unless that second item is a custom item
-                var customItem = CustomItemRegistry.getCustomItem(addition);
+            if (CustomItemManager.isCustomItem(addition)) { // Unless that second item is a custom item
+                var customItem = CustomItemManager.getCustomItem(addition);
                 if (customItem instanceof Enchantable enchantable) { // And it must implement the enchantable interface.
                     if (!enchantable.getEnchantment().canEnchantItem(base))
                         return;

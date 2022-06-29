@@ -1,4 +1,4 @@
-package xyz.holocons.mc.holoitemsrevamp.enchant;
+package com.strangeone101.holoitemsapi.enchantment;
 
 import io.papermc.paper.enchantments.EnchantmentRarity;
 import org.bukkit.NamespacedKey;
@@ -7,10 +7,9 @@ import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.EntityCategory;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 
 import java.util.Set;
 
@@ -25,7 +24,7 @@ import java.util.Set;
  */
 public abstract class CustomEnchantment extends Enchantment {
 
-    public CustomEnchantment(HoloItemsRevamp plugin, String key) {
+    public CustomEnchantment(Plugin plugin, String key) {
         super(new NamespacedKey(plugin, key));
     }
 
