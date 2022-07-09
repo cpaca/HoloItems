@@ -1,6 +1,5 @@
 package com.strangeone101.holoitemsapi;
 
-import net.kyori.adventure.key.Key;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataContainer;
