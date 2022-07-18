@@ -18,10 +18,10 @@ import java.util.List;
 
 public class TideRiderItem extends CustomItem implements Enchantable {
 
-    private final static String name = "tide_rider";
-    private final static Material material = Material.TRIDENT;
-    private final static Component displayName = Component.text("Tide Rider", NamedTextColor.BLUE);
-    private final static List<Component> lore = List.of(
+    private static final String name = "tide_rider";
+    private static final Material material = Material.TRIDENT;
+    private static final Component displayName = Component.text("Tide Rider", NamedTextColor.BLUE);
+    private static final List<Component> lore = List.of(
         Component.text("Surf the waves")
     );
 

@@ -40,7 +40,7 @@ import java.util.stream.Stream;
 
 public class EnchantListener implements Listener {
 
-    private final static int MAX_REPAIR_COST = Short.MAX_VALUE;
+    private static final int MAX_REPAIR_COST = Short.MAX_VALUE;
 
     private final HoloItemsRevamp plugin;
 
