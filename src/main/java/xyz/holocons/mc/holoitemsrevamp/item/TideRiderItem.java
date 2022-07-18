@@ -30,7 +30,6 @@ public class TideRiderItem extends CustomItem implements Enchantable {
     public TideRiderItem(HoloItemsRevamp plugin) {
         super(plugin, name, material, displayName, lore);
         this.enchantManager = plugin.getEnchantManager();
-        this.setStackable(false);
         this.register();
         this.registerRecipe();
     }
