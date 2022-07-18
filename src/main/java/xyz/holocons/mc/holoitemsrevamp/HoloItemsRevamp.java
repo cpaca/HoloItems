@@ -1,11 +1,13 @@
 package xyz.holocons.mc.holoitemsrevamp;
 
-import com.strangeone101.holoitemsapi.Keys;
-import com.strangeone101.holoitemsapi.enchantment.EnchantListener;
-import com.strangeone101.holoitemsapi.enchantment.EnchantManager;
-
-import com.strangeone101.holoitemsapi.recipe.CraftListener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.strangeone101.holoitemsapi.Keys;
+import com.strangeone101.holoitemsapi.enchantment.AnvilListener;
+import com.strangeone101.holoitemsapi.enchantment.EnchantManager;
+import com.strangeone101.holoitemsapi.recipe.CraftListener;
+
+import xyz.holocons.mc.holoitemsrevamp.ability.AbilityListener;
 import xyz.holocons.mc.holoitemsrevamp.collection.CollectionManager;
 import xyz.holocons.mc.holoitemsrevamp.command.MainCommand;
 import xyz.holocons.mc.holoitemsrevamp.integration.Integrations;
@@ -29,7 +31,8 @@ public final class HoloItemsRevamp extends JavaPlugin {
     public void onEnable() {
         Integrations.onEnable();
 
-        getServer().getPluginManager().registerEvents(new EnchantListener(this), this);
+        getServer().getPluginManager().registerEvents(new AbilityListener(), this);
+        getServer().getPluginManager().registerEvents(new AnvilListener(this), this);
         getServer().getPluginManager().registerEvents(new CraftListener(this), this);
 
         getCommand("holoitems").setExecutor(new MainCommand(this));
