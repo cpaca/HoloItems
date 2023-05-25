@@ -79,7 +79,16 @@ public class DemonAura extends CustomEnchantment implements EnchantmentAbility {
             return;
         }
 
-        int amountToHeal = 0;
-        // TODO: Need a new formula for "how much does the player heal"?
+        // Arbitrary formula.
+        int amountToHeal = (XpGained/7)+1;
+
+        if(amountToHeal + playerHealth > 20){
+            // honestly I don't trust this but whatever
+            amountToHeal = (int) Math.ceil(20 - playerHealth);
+        }
+
+        // apply amountToHeal:
+        player.setHealth(playerHealth + amountToHeal);
+        event.setAmount(XpGained - amountToHeal);
     }
 }
