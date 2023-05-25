@@ -88,11 +88,7 @@ import xyz.holocons.mc.holoitemsrevamp.collection.stars2.YukokuRoberu;
 import xyz.holocons.mc.holoitemsrevamp.collection.stars3.AragamiOga;
 import xyz.holocons.mc.holoitemsrevamp.collection.stars3.KageyamaShien;
 import xyz.holocons.mc.holoitemsrevamp.collection.stars3.Stars3Collection;
-import xyz.holocons.mc.holoitemsrevamp.item.DummyBlockBlock;
-import xyz.holocons.mc.holoitemsrevamp.item.BackdashBoots;
-import xyz.holocons.mc.holoitemsrevamp.item.MagnetBook;
-import xyz.holocons.mc.holoitemsrevamp.item.MementoItem;
-import xyz.holocons.mc.holoitemsrevamp.item.TideRiderItem;
+import xyz.holocons.mc.holoitemsrevamp.item.*;
 
 import java.util.List;
 import java.util.Map;
@@ -223,7 +219,9 @@ public class CollectionManager {
         var temma = new KishidoTemma();
         var roberu = new YukokuRoberu();
 
-        var oga = new AragamiOga();
+        var oga = new AragamiOga(
+            new DemonAuraBook(plugin)
+        );
         var shien = new KageyamaShien();
 
         return List.of(
