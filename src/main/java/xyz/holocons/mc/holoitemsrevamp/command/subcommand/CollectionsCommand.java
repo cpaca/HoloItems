@@ -151,15 +151,15 @@ public class CollectionsCommand implements SubCommand {
         int page = 0;
 
         // Generate new GUI for every player
-        for (var idolCollection : plugin.getCollectionManager().getAllGens()) {
+        for (var idolCollection : plugin.getCollectionManager().getAllCollections()) {
             var outlinePane = new OutlinePane(0, ySlot, 7, 1);
-            outlinePane.addItem(new GuiItem(idolCollection.getGenItem()));
+            outlinePane.addItem(new GuiItem(idolCollection.getGuiItem()));
             idolCollection.getIdolSet().forEach(idol -> {
-                var guiHeadItem = new GuiItem(idol.getHead());
+                var guiHeadItem = new GuiItem(idol.getGuiItem());
                 guiHeadItem.setAction(event -> {
                     event.setCancelled(true);
                     if (mainPane.getPage() == 0) {
-                        idolPane.addItem(new GuiItem(idol.getHead()));
+                        idolPane.addItem(new GuiItem(idol.getGuiItem()));
                         idol.getItemSet().forEach(item -> itemPane.addItem(new GuiItem(item.buildGuiStack(targetPlayer))));
                         mainPane.setPage(1);
                         gui.update();
