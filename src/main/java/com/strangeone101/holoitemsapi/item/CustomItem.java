@@ -3,6 +3,7 @@ package com.strangeone101.holoitemsapi.item;
 import com.strangeone101.holoitemsapi.Keys;
 import com.strangeone101.holoitemsapi.Property;
 import com.strangeone101.holoitemsapi.enchantment.Enchantable;
+import com.strangeone101.holoitemsapi.recipe.RecipeManager;
 import com.strangeone101.holoitemsapi.statistic.StatsWrapper;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -16,6 +17,7 @@ import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -72,6 +74,10 @@ public class CustomItem implements Keyed {
      */
     public final String getInternalName() {
         return getKey().getKey();
+    }
+
+    protected Recipe getRecipe() {
+        return null;
     }
 
     /**
@@ -396,6 +402,7 @@ public class CustomItem implements Keyed {
      */
     public CustomItem register() {
         CustomItemManager.register(this);
+        RecipeManager.registerRecipe(getRecipe());
         return this;
     }
 

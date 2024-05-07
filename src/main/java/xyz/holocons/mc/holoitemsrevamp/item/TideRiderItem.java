@@ -3,13 +3,13 @@ package xyz.holocons.mc.holoitemsrevamp.item;
 import com.strangeone101.holoitemsapi.enchantment.EnchantManager;
 import com.strangeone101.holoitemsapi.enchantment.Enchantable;
 import com.strangeone101.holoitemsapi.item.CustomItem;
-import com.strangeone101.holoitemsapi.recipe.RecipeManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
@@ -31,10 +31,10 @@ public class TideRiderItem extends CustomItem implements Enchantable {
         super(plugin, name, material, displayName, lore);
         this.enchantManager = plugin.getEnchantManager();
         this.register();
-        this.registerRecipe();
     }
 
-    private void registerRecipe() {
+    @Override
+    protected Recipe getRecipe() {
         final var recipe = new ShapedRecipe(getKey(), buildStack(null));
         recipe.shape(
             "ABC",
@@ -46,7 +46,7 @@ public class TideRiderItem extends CustomItem implements Enchantable {
         recipe.setIngredient('C', Material.PRISMARINE_BRICKS);
         recipe.setIngredient('E', Material.ENCHANTED_GOLDEN_APPLE);
         recipe.setIngredient('D', Material.PRISMARINE_BRICKS);
-        RecipeManager.registerRecipe(recipe);
+        return recipe;
     }
 
     @Override

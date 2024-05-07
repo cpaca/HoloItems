@@ -40,6 +40,9 @@ public class RecipeManager {
      * @param recipe The recipe
      */
     public static void registerRecipe(Recipe recipe) {
+        if (recipe == null) {
+            return;
+        }
         if (!(recipe instanceof Keyed)) {
             try {
                 throw new InvalidObjectException("Recipe of type " + recipe.getClass().getName() + " does not contain a NameSpace key! Use RecipeManager#registerRecipe(recipe, key) instead!");
