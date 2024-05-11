@@ -1,16 +1,19 @@
 package xyz.holocons.mc.holoitemsrevamp;
 
-import com.destroystokyo.paper.profile.ProfileProperty;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
-import net.kyori.adventure.text.Component;
+import com.destroystokyo.paper.profile.ProfileProperty;
 
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
+import net.kyori.adventure.text.Component;
 
 public final class Util {
 
@@ -51,10 +54,12 @@ public final class Util {
      * @param base64 A base 64 string that contains ONLY the texture
      * @return The ItemStack player head
      */
-    public static ItemStack playerHeadFromBase64(String base64) {
+    public static ItemStack getPlayerHeadFromSkinUrl(String url) {
         final var item = new ItemStack(Material.PLAYER_HEAD);
         final var meta = (SkullMeta) item.getItemMeta();
         final var profile = Bukkit.createProfile(SKULL_OWNER);
+        final var json = "{\"textures\":{\"SKIN\":{\"url\":\"" + url + "\"}}}";
+        final var base64 = Base64.getUrlEncoder().encodeToString(json.getBytes(StandardCharsets.UTF_8));
         profile.setProperty(new ProfileProperty("textures", base64));
         meta.setPlayerProfile(profile);
         item.setItemMeta(meta);

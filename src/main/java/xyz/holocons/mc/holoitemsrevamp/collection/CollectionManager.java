@@ -368,8 +368,8 @@ public class CollectionManager {
         return new Idol(new TideRiderItem(plugin)) {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzNhNWQ0MzQ5MDZiY2M1ZGRhMDJlODRlMmMwOWVjNzI4NDU5NDAwYjI2NDYzZWM3YmFhOTJiMzVkYmE1MDBkYiJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/33a5d434906bcc5dda02e84e2c09ec728459400b26463ec7baa92b35dba500db";
             }
 
             @Override
@@ -391,8 +391,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWQ2YjMxNTcxNGE2YmUzZTlmMzVhNWNhZWE0NDQ1MTE0Y2JkYTYxMTBjNWUwMzliNGIzODJkNDI5NTg3MGVkMiJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/ed6b315714a6be3e9f35a5caea4445114cbda6110c5e039b4b382d4295870ed2";
             }
 
             @Override
@@ -414,8 +414,8 @@ public class CollectionManager {
         return new Idol(new MementoItem(plugin)) {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRiNzU5NmViOTllMzhiOTE3ZDliNmI2YzhlMjAxMDA0MDhjZThhNjZmMDBkZDVjY2E0ODdlYjJhOTA5MDg4YyJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/c4b7596eb99e38b917d9b6b6c8e20100408ce8a66f00dd5cca487eb2a909088c";
             }
 
             @Override
@@ -437,8 +437,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2IzMDY4YmY3YzQ0MTI4MGRhNTVmMGQ5NjY4NmUzOTQwOGM0NjM1ZWMxMGJmYWY1OTRlOThlNzQzMzE5ZTk2In19fQ==";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/3b3068bf7c441280da55f0d96686e39408c4635ec10bfaf594e98e743319e96";
             }
 
             @Override
@@ -460,8 +460,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGRmNzdiZDFlODQ1ZDY5ZDZiZWRjMmZlMGNiZTJhMmJiNTFmYzY4MGQ1MWI5ZWM4ZDMwNjY1MTQyMGMzODMwMCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/4df77bd1e845d69d6bedc2fe0cbe2a2bb51fc680d51b9ec8d306651420c38300";
             }
 
             @Override
@@ -483,8 +483,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQ1NDYxOWZlNzE5ODU2YTM0NDA2ZDFmZWNjY2E0ODA4NWE1ZTA0YjM3MTEyN2UyMDViODk0ZGQxOTA5NjRjOSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/5454619fe719856a34406d1feccca48085a5e04b371127e205b894dd190964c9";
             }
 
             @Override
@@ -506,8 +506,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTBjZDNlMTAyNWM1NGNmNTg4Zjc5NmRjZDBmYTNjNWRkODRjZmZiMTE1OGQ0ZTMxZDljNDlhOWFhMDdmZDAzMCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/10cd3e1025c54cf588f796dcd0fa3c5dd84cffb1158d4e31d9c49a9aa07fd030";
             }
 
             @Override
@@ -529,8 +529,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjRhOTg1ZjE1NjBmNTdjMTgzODNkYjNjYzQ2MTUwMjg3OWY5YjYyOGM0ZDNlMTJhZGUzN2JlNjU2NzMyMzY5MCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/f4a985f1560f57c18383db3cc461502879f9b628c4d3e12ade37be6567323690";
             }
 
             @Override
@@ -552,8 +552,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWQ3NmFkMjM1YzAzOTFlYmJkZTcyNTllYjljZDBlYWQ3NzY4MzNkZTI3MjI3N2JlNDc3NTI4ZjBjOGJiMmY3In19fQ==";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/9d76ad235c0391ebbde7259eb9cd0ead776833de272277be477528f0c8bb2f7";
             }
 
             @Override
@@ -571,12 +571,12 @@ public class CollectionManager {
         };
     }
 
-    private static Idol buildKronii(HoloItemsRevamp plguin) {
+    private static Idol buildKronii(HoloItemsRevamp plugin) {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTI1ZWFiZjkxNjA4ZGU2ZDI1NGRkOGQwZGU2MjRmZGRiOTkyNDg1NTBkYzZiNDY3NzZlMDlhNmIwNWEyYmFjYiJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/525eabf91608de6d254dd8d0de624fddb99248550dc6b46776e09a6b05a2bacb";
             }
 
             @Override
@@ -598,8 +598,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2QxYWY4NTMxMzk4OTI2NGQ5NTFiZWJmMjM3YWQzNjcyM2U5MjYwZjE1MmQwMjVhOGFiNWE3NjQ4MDc4MDZjOCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/3d1af85313989264d951bebf237ad36723e9260f152d025a8ab5a764807806c8";
             }
 
             @Override
@@ -621,8 +621,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTJlN2NkZDkwYzEyZGFkOWFmYzAwYjkzYTZlYjA4ZmNhZTkzNmM0ZDlmOTE1ZTc0MGQ0NWQ3MzAyMjkyNTczNCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/e2e7cdd90c12dad9afc00b93a6eb08fcae936c4d9f915e740d45d73022925734";
             }
 
             @Override
@@ -644,8 +644,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDc5ZGQ2ZDYwZWIzOTM0NTY1ODcwOTJhYzQ5MDhmM2U1NmFlYmNiNzVkZTIxODY4MzY1MTJiNjhiOGY2NDUyZCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/479dd6d60eb393456587092ac4908f3e56aebcb75de2186836512b68b8f6452d";
             }
 
             @Override
@@ -667,8 +667,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkYTNhNWFhZjY1YmNhYTIwYzc0NjE4YTA4NjEzMGJmMTA5OTFiODAyZmE5MDMwNTU2MGI3YjAzMTNiNjVhNCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/3eda3a5aaf65bcaa20c74618a086130bf10991b802fa90305560b7b0313b65a4";
             }
 
             @Override
@@ -690,8 +690,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDVhNjU0ZjM4MzAyZDI0NWU1OWVjNWY5ZjZjYjQ2NzQ4YzgzNDJjYjU1MmQ3OTY1M2YxMTk4YTVmYWEwYTQ2OCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/45a654f38302d245e59ec5f9f6cb46748c8342cb552d79653f1198a5faa0a468";
             }
 
             @Override
@@ -713,8 +713,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTRlZWNiM2MwYjRmYzYyNWY1OTQ5OWIwZjJjNDlkNGRiMmQ0MWU0NWFkYmYwZjc5Y2VkM2RiZGViMDc3NjJiMyJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/a4eecb3c0b4fc625f59499b0f2c49d4db2d41e45adbf0f79ced3dbdeb07762b3";
             }
 
             @Override
@@ -736,8 +736,8 @@ public class CollectionManager {
         return new Idol(new MagnetBook(plugins)) {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWIyOWVlYmM5ZWJkZGFiMmZlNmQ4Nzc1YTdiOGE5NGExZDQxMDg5YmI4MTc2Y2E1ZTY2OWU2ZDYxYTgwNjdmNCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/eb29eebc9ebddab2fe6d8775a7b8a94a1d41089bb8176ca5e669e6d61a8067f4";
             }
 
             @Override
@@ -759,8 +759,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjk5ZGMwMWRjZjI4NDQ1NTc2ZjIyNjg4ODJhNzc3MDZmY2I5MzUzYWIwYzk1NGY5NjA0NTU2MWE3OTI0NGMxZSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/b99dc01dcf28445576f2268882a77706fcb9353ab0c954f96045561a79244c1e";
             }
 
             @Override
@@ -782,8 +782,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg2ZjZmZWIyODViNTNlN2E4NWY5MjRkYzAzMmQyZTU4MTZmNTA0MmE0NTMwZWVjYzVjMDM0YmVlMTdiMWJkMCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/786f6feb285b53e7a85f924dc032d2e5816f5042a4530eecc5c034bee17b1bd0";
             }
 
             @Override
@@ -805,8 +805,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTc2M2ZjYzY1NzQ5NDBjODNiMTIwY2M2ZGUxNmQ1YzhhZWU0YzRlMzRjMzA0M2E5M2FlZThhN2U3NGFjMWVkNCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/e763fcc6574940c83b120cc6de16d5c8aee4c4e34c3043a93aee8a7e74ac1ed4";
             }
 
             @Override
@@ -828,8 +828,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODBhMTQ0ZWMwMzFmMDNiM2YzZGQ0MDcwYzc4YjM0Y2M1YTRiMWI5YmExNWJkNWVhYmY1ZDAyODBkYzI1ZGJmMSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/80a144ec031f03b3f3dd4070c78b34cc5a4b1b9ba15bd5eabf5d0280dc25dbf1";
             }
 
             @Override
@@ -851,8 +851,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDhlN2UzYjA4YmExN2M4OWRiYzJiODVhYjVmYTViNDk5MTZlZmVmMTQ5YzgwMzViOTZjNjJmMjE1Y2U5YzJjMSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/48e7e3b08ba17c89dbc2b85ab5fa5b49916efef149c8035b96c62f215ce9c2c1";
             }
 
             @Override
@@ -874,8 +874,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzVjOTc1ZGViMjhkZTMzNjQ3ODc5MDhmYjBmNjkzYjIwMGViMTZjNTBmZmQ3ZmNmNjJjZGJlMjM2NjViOGYzOSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/35c975deb28de3364787908fb0f693b200eb16c50ffd7fcf62cdbe23665b8f39";
             }
 
             @Override
@@ -897,8 +897,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWRlNmMxMWU0ODk4NmFlNWM0MTE3N2UyZmIzMTdiMGU3NTdiNTUxM2RjOTVlOGJhMTg5MWQzMjY4YjVhOGZjMCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/9de6c11e48986ae5c41177e2fb317b0e757b5513dc95e8ba1891d3268b5a8fc0";
             }
 
             @Override
@@ -920,8 +920,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODU1M2Y1NGVlNGE4ODY0YjdkNTIyZDVjYTkyNTE2Y2U5ZTlmOWE0YWU4YmYzZmRkMmQzOWJmYjc0MzY0ZDgyOCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/8553f54ee4a8864b7d522d5ca92516ce9e9f9a4ae8bf3fdd2d39bfb74364d828";
             }
 
             @Override
@@ -943,8 +943,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkxZDE3NTJjMjVmNzVjYTIzZmE4MmFmYTUyNzEwMDEzYjBhMjNmNTdmNmI5ZjYyMjYyYmU2YzI1Yjc3MDI4YiJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/b91d1752c25f75ca23fa82afa52710013b0a23f57f6b9f62262be6c25b77028b";
             }
 
             @Override
@@ -966,8 +966,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE3Y2JiM2FhY2Q2ZTNkMDgyNjQ3OGJlM2I2ZjQyNTkwOWQ3ZTAyM2IzMGNmNzMzMmYzY2ExZjk5NWVmYTg2OCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/2a7cbb3aacd6e3d0826478be3b6f425909d7e023b30cf7332f3ca1f995efa868";
             }
 
             @Override
@@ -989,8 +989,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGE3MjllNDViN2I4N2U5YzIwYWMyYzI0NTNlYWRmNzQ4MDRlYTA0NzBmYzNjZjA3N2JlMTRmNWI1NTY5Zjk1MiJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/4a729e45b7b87e9c20ac2c2453eadf74804ea0470fc3cf077be14f5b5569f952";
             }
 
             @Override
@@ -1012,8 +1012,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjFkOGI0Njg4ZGUyNGFkZDFjYTkwNmVkOGEyYmVhOWYzYTVjZTI0MTZkMjk4ZTI1YmUwNzJjZTAzYjUwYTY1MSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/61d8b4688de24add1ca906ed8a2bea9f3a5ce2416d298e25be072ce03b50a651";
             }
 
             @Override
@@ -1035,8 +1035,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ1Mjc5OTMwMTU2OGFiZDVjNWU5YWJjZDU4MzE3NmJiNTkxMGQxNzA4NzE1MTA5YmY2Y2Y1MjM3OWY1N2U3In19fQ==";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/a452799301568abd5c5e9abcd583176bb5910d1708715109bf6cf52379f57e7";
             }
 
             @Override
@@ -1058,8 +1058,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RhN2JhM2YxZjEwNzZkYTQ3OTA0MWU0MDdjNTljNDNmNDcyOGIxZWY0YTMwYzc1NWMyMGJjZmU2YWRkNzczNCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/cda7ba3f1f1076da479041e407c59c43f4728b1ef4a30c755c20bcfe6add7734";
             }
 
             @Override
@@ -1081,8 +1081,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjYzMjQ2MTQ0NWU0YmZmOTIwMzlkZmNiODljNWIxN2ZkYzJkNzNhNWQxMTIwYjFjOTI3MWQ4NjQ0YTRlOGMwOCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/b632461445e4bff92039dfcb89c5b17fdc2d73a5d1120b1c9271d8644a4e8c08";
             }
 
             @Override
@@ -1104,8 +1104,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjJmNzZiODFmN2VhZmRiZDc4MjUyZWY1ZGFiMmI0YWExY2FmZDRhY2Y2ZTAxMzdhMmExNDc5NzVlN2E4YWU5YyJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/22f76b81f7eafdbd78252ef5dab2b4aa1cafd4acf6e0137a2a147975e7a8ae9c";
             }
 
             @Override
@@ -1127,8 +1127,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzhiYmRiMDAxOTViZjU2OWFhNWZkYjBmNjFlNTBiZDkxMjM1ZWJiMmYzNmJhYTRhZDY2YjYyZjc0ZTU2ZGZhNSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/c8bbdb00195bf569aa5fdb0f61e50bd91235ebb2f36baa4ad66b62f74e56dfa5";
             }
 
             @Override
@@ -1150,8 +1150,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTdhYmRhMGRiYzRhMWE1NDJjNTRhZTM4MDUxMDFhZWUxNWI4MDgyZDVkNjM5ZTI1NDNlODk4OGRjYWZmZTljIn19fQ==";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/e7abda0dbc4a1a542c54ae3805101aee15b8082d5d639e2543e8988dcaffe9c";
             }
 
             @Override
@@ -1173,8 +1173,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJkZTI2ODMxZjViNDQ2MTM1N2MyZWI4OWI2ODQ1ZDM0NzRiMjUyMjgyN2Y0MDY2ZGZlYThlZGMxYTgyNGY3MSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/c2de26831f5b4461357c2eb89b6845d3474b2522827f4066dfea8edc1a824f71";
             }
 
             @Override
@@ -1196,8 +1196,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWZlODczZDI3Y2M1YzM5ODgwYjk0ZGQyZGJmNDViOWM3NTc4OWExOGVhNDQyZmJlZTFmYTI4YWI4N2FjMTk4MSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/efe873d27cc5c39880b94dd2dbf45b9c75789a18ea442fbee1fa28ab87ac1981";
             }
 
             @Override
@@ -1219,8 +1219,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGY5NWZjMjMzOTJhZjdlNWM1YzIwYzc2YTIyMDhkZjQ5MjJiMTA4ZjJjODllMzM1MjI0MDI2MTJjNThkYjUwOCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/df95fc23392af7e5c5c20c76a2208df4922b108f2c89e33522402612c58db508";
             }
 
             @Override
@@ -1242,8 +1242,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTU4M2JhYWZhMjIwMGFhZGJhOWZlYTkxZTBkOGExNzRiYTEwZTNmYzY5NTU3M2M4YTUwZDAwMmYzMzhlNDg2YiJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/9583baafa2200aadba9fea91e0d8a174ba10e3fc695573c8a50d002f338e486b";
             }
 
             @Override
@@ -1265,8 +1265,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTM0NjRlODY5ZjZhNmEwNGVhN2M0OTQ4Yjk4YjYyMzM0NWQ2ODViYTMyMzM4YTY5ZGIyOTcxOTJjZTE2NzcyNCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/a3464e869f6a6a04ea7c4948b98b623345d685ba32338a69db297192ce167724";
             }
 
             @Override
@@ -1288,8 +1288,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQ3NmVjMWE0ZGQwNTllOWU5M2FkZWNmYTBkNGRkOThiYWM3MzFiMTFlMjNkMTMyYTdlODg5MTA4MzQ5Y2E1NyJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/8d76ec1a4dd059e9e93adecfa0d4dd98bac731b11e23d132a7e889108349ca57";
             }
 
             @Override
@@ -1311,8 +1311,8 @@ public class CollectionManager {
         return new Idol(new BackdashBoots(plugin)) {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYwMWM4MTJmMDM5N2M4MjEzOWFiNmJhZWE2MTRlNjlmZDhhYTNlNTYzYjU3NDM3YTlmZTA4Nzk1NzZmNmI1MSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/1601c812f0397c82139ab6baea614e69fd8aa3e563b57437a9fe0879576f6b51";
             }
 
             @Override
@@ -1334,8 +1334,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmExNTlmMzIxMmViZTI2OWUwZmQ3YzA4NjZhMjc5MTRjOTFiNWZkM2Y2NzY3MmFmZjE1MGZiMDAzNTQwYTEyOCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/6a159f3212ebe269e0fd7c0866a27914c91b5fd3f67672aff150fb003540a128";
             }
 
             @Override
@@ -1357,8 +1357,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTkxMDUzZWI1MTA2NjdhYmNhMDE4Mzg0NzFhNmYxZGIzMDBlYzBiNTU1MWUzYmFiNWI3MmFiMDMyNGRiYzI1ZiJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/191053eb510667abca01838471a6f1db300ec0b5551e3bab5b72ab0324dbc25f";
             }
 
             @Override
@@ -1380,8 +1380,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWI1ZTA2ZTBhODViNjU3ZjFkZmU1YTU3Y2I3YzliZDdmZDZhYzQzYzYxODJlNWFkYTE5NWU3YzIwYjM3MTY0ZCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/5b5e06e0a85b657f1dfe5a57cb7c9bd7fd6ac43c6182e5ada195e7c20b37164d";
             }
 
             @Override
@@ -1403,8 +1403,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGRiMTgwNTYxNDVlZDgwMDIwOWRjZGRhYTFmOTFjNTRkMTkwNDM0M2FjODkwOTg3NDgzYzFkMjRjYjlmZTY5NCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/4db18056145ed800209dcddaa1f91c54d1904343ac890987483c1d24cb9fe694";
             }
 
             @Override
@@ -1426,8 +1426,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQ3NmVjMWE0ZGQwNTllOWU5M2FkZWNmYTBkNGRkOThiYWM3MzFiMTFlMjNkMTMyYTdlODg5MTA4MzQ5Y2E1NyJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/8d76ec1a4dd059e9e93adecfa0d4dd98bac731b11e23d132a7e889108349ca57";
             }
 
             @Override
@@ -1449,8 +1449,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzFmYWMzNTg1YWMyOTA1OTIxNmEwM2UwMTIzNGQ1MTg5MDU2ZGQ4YWI3ODJiMWYyNGU0OTlhY2M3NWUwMDUyZSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/31fac3585ac29059216a03e01234d5189056dd8ab782b1f24e499acc75e0052e";
             }
 
             @Override
@@ -1472,8 +1472,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDNiOWQyNzJkNmFmYmUyOGYwNGI3ODljMjc1YzJlY2YwMzMyOTljYTY3MGM1MjI1MTU1YzIwODViMGNlMTUyZSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/43b9d272d6afbe28f04b789c275c2ecf033299ca670c5225155c2085b0ce152e";
             }
 
             @Override
@@ -1495,8 +1495,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzY5ZTdmZTgxMjY5MjM5MzU1NDI0NWIxZjkzYTk1NTBkZGI0Y2M1Nzc1MjExYmY4ZTE2NzIyNTdkOTA2ZWU4YyJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/769e7fe812692393554245b1f93a9550ddb4cc5775211bf8e1672257d906ee8c";
             }
 
             @Override
@@ -1518,8 +1518,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzdjYzc4YzNlMmI5ZDczYmJiMTM3NzFjNGY1YzVlYzJlYjFmMGEzMzI0ODdjYzgxY2IwMDI5NjhjMGE2MzUzOSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/c7cc78c3e2b9d73bbb13771c4f5c5ec2eb1f0a332487cc81cb002968c0a63539";
             }
 
             @Override
@@ -1541,8 +1541,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDU0N2YwZWI4ZjM2NDRlOTExMWE5NTdlMTExOTI0NWQ3YTQwMzJkZTIwMDk2ZTAzODg4OWUyZDk2M2FiNzRmNiJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/4547f0eb8f3644e9111a957e1119245d7a4032de20096e038889e2d963ab74f6";
             }
 
             @Override
@@ -1564,8 +1564,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTljMWQ2NDQ3MGVmZmNlOTU1ZWRlYjIyMzRlODU1Zjg2OWM2OGJkMzdiYTQ1NjJmYmRlNGI5ZjI1ZDE1YWM2ZiJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/99c1d64470effce955edeb2234e855f869c68bd37ba4562fbde4b9f25d15ac6f";
             }
 
             @Override
@@ -1587,8 +1587,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZGQyZjA2N2JiOTY1MjI5N2Q0ZWZlYmViMDlkODEyMThjYzM3NjllMjVlNTg0YTQ4ZDI2NWFhMmM5MzQ4MiJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/ddcdd2f067bb9652297d4efebeb09d81218cc3769e25e584a48d265aa2c93482";
             }
 
             @Override
@@ -1610,8 +1610,8 @@ public class CollectionManager {
         return new Idol(new DummyBlockBlock(plugin)) {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTA0OGQ2ZGFlZWI4MDgyNjlhZmY1MzMzNzI0YWY4Y2Y4NTY1NmI5MjM2MGI0NTM1M2FmZjcyZWNhMmIwYzZkNiJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/a048d6daeeb808269aff5333724af8cf85656b92360b45353aff72eca2b0c6d6";
             }
 
             @Override
@@ -1633,8 +1633,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmUxZDQ1YzgzOWQxOGI0OThiYmMyMWVhMWQwZmRjZGMxY2MwN2ZmYmQ4MzkzYjA0MjVmMTk2NmJiYjk2MThiMyJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/fe1d45c839d18b498bbc21ea1d0fdcdc1cc07ffbd8393b0425f1966bbb9618b3";
             }
 
             @Override
@@ -1656,8 +1656,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM2NDQ4NDcyZjRiOWE0OGY4MDM0NThhZWUxMDgwZDliODJmNmFjYzE1OWYzMTJkZWUxZjAwZjM5MGYyYWVhNyJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/936448472f4b9a48f803458aee1080d9b82f6acc159f312dee1f00f390f2aea7";
             }
 
             @Override
@@ -1679,8 +1679,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjJhY2EzODBhODNkYTljY2ZhMjYyMWYzZGVkZGIxOWM0YTFiNDA5NWY1MjM3NTZhZjEzNGMyMzE2N2QwNTViZSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/f2aca380a83da9ccfa2621f3deddb19c4a1b4095f523756af134c23167d055be";
             }
 
             @Override
@@ -1702,8 +1702,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFhYmE3ZTZlNjBiY2M4MDgyY2QyNTExZjZkOTZjODJkYTMxODRhMGJiMmI2MmYxN2QyMDBkNDhjOTZiM2U3MyJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/71aba7e6e60bcc8082cd2511f6d96c82da3184a0bb2b62f17d200d48c96b3e73";
             }
 
             @Override
@@ -1725,8 +1725,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2MyNzRiZDdmMjdlMDc4NzE0NjAxMzI3MTQ2MzZhNzE2ZGQ2MTk4MmEyNzUxOTc3MjE2YTljYmZjZGQ5YWJiNCJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/3c274bd7f27e07871460132714636a716dd61982a2751977216a9cbfcdd9abb4";
             }
 
             @Override
@@ -1748,8 +1748,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJhNTI1MjhjMTM4M2QwMzI5MzJjNzQxYTQ4ZWQyYTg3Y2JiMjJjOTllMWIzOTdkNTMyMjQ1NTE1NTU4M2MwYSJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/fba52528c1383d032932c741a48ed2a87cbb22c99e1b397d5322455155583c0a";
             }
 
             @Override
@@ -1771,8 +1771,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTIyMTlhOTliZmI2MDNlMjUzMjM5NTE5NWQzNzQ2ZGRlZTI1NWYyMTIyNjk5MzZiZDZjYTk3MjQ2MzRmZTg1In19fQ==";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/52219a99bfb603e2532395195d3746ddee255f212269936bd6ca9724634fe85";
             }
 
             @Override
@@ -1794,8 +1794,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmQzODA0YzE5NTA0MTAwY2IwZWI1MjMxZGZjOWVjY2ZiMWIwNTRlNjRhNWU1OWQ3MTQ5NmU0ZjJhYzBiNjIzIn19fQ==";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/fd3804c19504100cb0eb5231dfc9eccfb1b054e64a5e59d71496e4f2ac0b623";
             }
 
             @Override
@@ -1817,8 +1817,8 @@ public class CollectionManager {
         return new Idol() {
 
             @Override
-            public @NotNull String getSkinBase64() {
-                return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjI1YWRjYzU0M2FkYWIzYWY2OWNkOTFjOWY2NTg3ZTljOTY1MDEzNDljMmNkYjAxMjIzMTAzYzY2NDA1M2Y5NyJ9fX0=";
+            public @NotNull String getSkinUrl() {
+                return "http://textures.minecraft.net/texture/225adcc543adab3af69cd91c9f6587e9c96501349c2cdb01223103c664053f97";
             }
 
             @Override
