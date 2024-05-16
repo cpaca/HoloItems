@@ -56,6 +56,9 @@ public class EnchantmentListener implements Listener {
         final var playerInventory = event.getPlayer().getInventory();
 
         for (final var itemStack : playerInventory) {
+            if(itemStack == null){
+                continue;
+            }
             itemStack.getEnchantments().keySet().forEach(enchantment -> {
                 if (enchantment instanceof EnchantmentAbility ability) {
                     ability.onPlayerDeath(event, itemStack);
