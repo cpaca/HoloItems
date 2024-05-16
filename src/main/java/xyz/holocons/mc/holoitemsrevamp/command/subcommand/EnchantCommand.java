@@ -44,7 +44,7 @@ public class EnchantCommand implements SubCommand {
     @Override
     public List<String> getAutoComplete(String[] args) {
         return switch (args.length) {
-            case 1 -> plugin.getEnchantManager().getCustomEnchantmentNames();
+            case 1 -> plugin.getEnchantManager().enchantmentNames();
             default -> List.of();
         };
     }

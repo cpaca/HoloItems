@@ -1,5 +1,6 @@
 package xyz.holocons.mc.holoitemsrevamp.item;
 
+import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
 import com.strangeone101.holoitemsapi.enchantment.EnchantManager;
 import com.strangeone101.holoitemsapi.enchantment.Enchantable;
 import com.strangeone101.holoitemsapi.item.CustomItem;
@@ -52,7 +53,7 @@ public class MagnetBook extends CustomItem implements Enchantable {
 
     @Override
     public Enchantment getEnchantment() {
-        return Enchantment.getByKey(getKey());
+        return CustomEnchantment.getByKey(getKey());
     }
 
     @Override

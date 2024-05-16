@@ -24,7 +24,7 @@ public final class Integrations {
         final var otherPlugin = thisPlugin.getServer().getPluginManager().getPlugin(otherPluginName);
         if (otherPlugin != null) {
             thisPlugin.getLogger()
-                    .info("Found " + otherPlugin.getName() + " v" + otherPlugin.getDescription().getVersion());
+                    .info("Found " + otherPlugin.getPluginMeta().getDisplayName());
         }
         return otherPlugin;
     }

@@ -11,7 +11,6 @@ import xyz.holocons.mc.holoitemsrevamp.enchantment.Memento;
 import xyz.holocons.mc.holoitemsrevamp.enchantment.TideRider;
 import xyz.holocons.mc.holoitemsrevamp.integration.Integrations;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -22,26 +21,18 @@ import java.util.stream.Stream;
 
 public class EnchantManager {
 
-    private final Set<CustomEnchantment> customEnchantments;
-    private final Map<Map.Entry<Enchantment, Integer>, Component> customEnchantmentLores;
+    private final List<String> enchantmentNames;
+    private final Map<Map.Entry<Enchantment, Integer>, Component> enchantmentLores;
 
     public EnchantManager(HoloItemsRevamp plugin) {
-        try {
-            final Field field = Enchantment.class.getDeclaredField("acceptingNew");
-            field.setAccessible(true);
-            field.set(null, true);
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        final var enchantments = buildCustomEnchantments(plugin);
+    
+        enchantments.forEach(CustomEnchantment::registerEnchantment);
+        enchantments.forEach(Integrations.WORLDGUARD::registerEnchantment);
 
-        this.customEnchantments = buildCustomEnchantments(plugin);
-        customEnchantments.forEach(Enchantment::registerEnchantment);
-        Enchantment.stopAcceptingRegistrations();
-
-        customEnchantments.forEach(Integrations.WORLDGUARD::registerEnchantment);
-
+        this.enchantmentNames = enchantments.stream().map(CustomEnchantment::name).toList();
         // Key is a pair of Enchantment and level, value is the lore
-        this.customEnchantmentLores = customEnchantments
+        this.enchantmentLores = enchantments
                 .stream().<Map.Entry<Map.Entry<Enchantment, Integer>, Component>>mapMulti(
                         (customEnchantment, consumer) -> IntStream
                                 .rangeClosed(customEnchantment.getStartLevel(), customEnchantment.getMaxLevel())
@@ -52,6 +43,10 @@ public class EnchantManager {
                                     }
                                 }))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public List<String> enchantmentNames() {
+        return enchantmentNames;
     }
 
     /**
@@ -77,7 +72,7 @@ public class EnchantManager {
      */
     public void applyCustomEnchantmentLore(ItemStack itemStack) {
         final var enchantmentLore = getEnchantments(itemStack).entrySet().stream()
-                .map(customEnchantmentLores::get)
+                .map(enchantmentLores::get)
                 .filter(Objects::nonNull);
 
         final var oldLore = itemStack.lore();
@@ -96,14 +91,10 @@ public class EnchantManager {
         final var oldLore = itemStack.lore();
         if (oldLore != null) {
             final var newLore = oldLore.stream()
-                    .filter(loreComponent -> !customEnchantmentLores.containsValue(loreComponent))
+                    .filter(loreComponent -> !enchantmentLores.containsValue(loreComponent))
                     .toList();
             itemStack.lore(newLore.isEmpty() ? null : newLore);
         }
-    }
-
-    public List<String> getCustomEnchantmentNames() {
-        return customEnchantments.stream().map(CustomEnchantment::name).toList();
     }
 
     private static Set<CustomEnchantment> buildCustomEnchantments(HoloItemsRevamp plugin) {
