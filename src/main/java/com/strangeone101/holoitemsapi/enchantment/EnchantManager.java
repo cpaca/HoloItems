@@ -25,8 +25,16 @@ public class EnchantManager {
     private final Map<Map.Entry<Enchantment, Integer>, Component> enchantmentLores;
 
     public EnchantManager(HoloItemsRevamp plugin) {
+        try {
+            final var field = Enchantment.class.getDeclaredField("acceptingNew");
+            field.setAccessible(true);
+            field.set(null, true);
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
         final var enchantments = buildCustomEnchantments(plugin);
-    
+
         enchantments.forEach(CustomEnchantment::registerEnchantment);
         enchantments.forEach(Integrations.WORLDGUARD::registerEnchantment);
 
@@ -43,6 +51,8 @@ public class EnchantManager {
                                     }
                                 }))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        Enchantment.stopAcceptingRegistrations();
     }
 
     public List<String> enchantmentNames() {
