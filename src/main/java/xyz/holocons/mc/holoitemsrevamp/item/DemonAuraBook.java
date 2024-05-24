@@ -9,6 +9,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
@@ -30,16 +31,19 @@ public class DemonAuraBook extends CustomItem implements Enchantable {
         super(plugin, name, material, displayName, lore);
         this.enchantManager = plugin.getEnchantManager();
         this.register();
-        this.registerRecipe();
     }
 
-    private void registerRecipe() {
+    @Override
+    protected Recipe getRecipe() {
         ShapedRecipe recipe = new ShapedRecipe(getKey(), buildStack(null));
-        recipe.shape("aaa","aba", "aaa");
+        recipe.shape(
+            "aaa",
+            "aba",
+            "aaa"
+        );
         recipe.setIngredient('a', Material.CANDLE);
         recipe.setIngredient('b', Material.IRON_HORSE_ARMOR);
-        // No recipe.setGroup in magnet so I assume none here, either.
-        RecipeManager.registerRecipe(recipe);
+        return recipe;
     }
 
     @Override
