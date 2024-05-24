@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.2.0-SNAPSHOT")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
     implementation("com.github.stefvanschie.inventoryframework:IF:0.10.13")
@@ -64,7 +64,7 @@ tasks {
     // Configure the Minecraft version for runServer task
     // https://github.com/jpenilla/run-paper
     runServer {
-        minecraftVersion("1.20.4")
+        minecraftVersion("1.20.1")
     }
 }
 

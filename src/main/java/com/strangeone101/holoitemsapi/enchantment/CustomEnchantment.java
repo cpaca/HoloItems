@@ -29,13 +29,15 @@ public abstract class CustomEnchantment extends Enchantment {
 
     private static final HashMap<NamespacedKey, CustomEnchantment> enchantmentsByKey = new HashMap<>();
 
-    private final NamespacedKey key;
-
     public CustomEnchantment(Plugin plugin, String key) {
-        this.key = new NamespacedKey(plugin, key);
+        super(new NamespacedKey(plugin, key));
     }
 
     public static final void registerEnchantment(@NotNull CustomEnchantment enchantment) {
+        if (!Enchantment.isAcceptingRegistrations()) {
+            return;
+        }
+        Enchantment.registerEnchantment(enchantment);
         enchantmentsByKey.put(enchantment.getKey(), enchantment);
     }
 
@@ -69,11 +71,6 @@ public abstract class CustomEnchantment extends Enchantment {
     public abstract int getCostMultiplier();
 
     @NotNull
-    public final NamespacedKey getKey() {
-        return key;
-    }
-
-    @NotNull
     @Deprecated
     @Override
     public final String getName() {
@@ -88,21 +85,6 @@ public abstract class CustomEnchantment extends Enchantment {
     @Override
     public @NotNull String translationKey() {
         return "";
-    }
-
-    @Override
-    public @NotNull String getTranslationKey() {
-        return translationKey();
-    }
-
-    @Override
-    public int getMinModifiedCost(int level) {
-        return 1;
-    }
-
-    @Override
-    public int getMaxModifiedCost(int level) {
-        return 255;
     }
 
     @Override
