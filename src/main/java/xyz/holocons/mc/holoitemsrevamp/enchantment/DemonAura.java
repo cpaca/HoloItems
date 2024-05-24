@@ -20,11 +20,9 @@ import xyz.holocons.mc.holoitemsrevamp.integration.Integrations;
 
 public class DemonAura extends CustomEnchantment implements EnchantmentAbility {
 
-    private final HoloItemsRevamp plugin;
 
     public DemonAura(HoloItemsRevamp plugin) {
         super(plugin, "demon_aura");
-        this.plugin = plugin;
     }
 
     @Override
@@ -39,7 +37,7 @@ public class DemonAura extends CustomEnchantment implements EnchantmentAbility {
 
     @Override
     public boolean canEnchantItem(@NotNull ItemStack item) {
-        // TODO: Check old code/Ask if we give elytras demon aura
+        // TODO: Check old code/Ask if we give elytras demon aura.
         return MaterialTags.ARMOR.isTagged(item);
     }
 
@@ -60,6 +58,12 @@ public class DemonAura extends CustomEnchantment implements EnchantmentAbility {
 
     @Override
     public void onPlayerGetExp(PlayerExpChangeEvent event, ItemStack itemStack) {
+        // Copied from Memento
+        final var location = event.getPlayer().getLocation();
+        if(!Integrations.WORLDGUARD.canUseEnchantment(location, DemonAura.class)){
+            return;
+        }
+
         int XpGained = event.getAmount();
         if(XpGained <= 0){
             // Would be < 0 if you enchanted/used an anvil.
