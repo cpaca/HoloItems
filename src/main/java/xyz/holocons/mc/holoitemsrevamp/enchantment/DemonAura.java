@@ -37,7 +37,6 @@ public class DemonAura extends CustomEnchantment implements EnchantmentAbility {
 
     @Override
     public boolean canEnchantItem(@NotNull ItemStack item) {
-        // TODO: Check old code/Ask if we give elytras demon aura.
         return MaterialTags.ARMOR.isTagged(item);
     }
 
@@ -50,7 +49,6 @@ public class DemonAura extends CustomEnchantment implements EnchantmentAbility {
             .build();
     }
 
-    // TODO: I copied this 12 from Magnet, but I don't know if Demon Aura will also use 12.
     @Override
     public int getCostMultiplier() {
         return 12;
@@ -74,11 +72,6 @@ public class DemonAura extends CustomEnchantment implements EnchantmentAbility {
 
         final Player player = event.getPlayer();
         double playerHealth = player.getHealth();
-        // TODO: Should we use Attribute.GENERIC_MAX_HEALTH or assume it's always 20?
-        //  If we want to mirror OldHoloItems, we should assume always 20.
-        //  But if MC1.22 (or ARH, for that matter) adds something to boost max hp, it shouldn't be always 20.
-        //  I use the attributes (so I can do testing) but I'd like confirmation on that decision.
-        //  (Old functionality can be obtained by setting maxHealth = 20 always)
         var maxHealthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         // This should never happen; the docs say it'll only be null if the attribute doesn't apply.
         // But my IDE is complaining.
