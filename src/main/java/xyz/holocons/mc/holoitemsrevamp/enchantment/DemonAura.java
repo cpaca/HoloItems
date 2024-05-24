@@ -57,7 +57,7 @@ public class DemonAura extends CustomEnchantment implements EnchantmentAbility {
     }
 
     @Override
-    public void onPlayerGetExp(PlayerExpChangeEvent event, ItemStack itemStack) {
+    public void onPlayerExpChange(PlayerExpChangeEvent event, ItemStack itemStack) {
         // Copied from Memento
         final var location = event.getPlayer().getLocation();
         if(!Integrations.WORLDGUARD.canUseEnchantment(location, DemonAura.class)){

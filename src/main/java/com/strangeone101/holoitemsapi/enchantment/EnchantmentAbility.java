@@ -30,6 +30,6 @@ public interface EnchantmentAbility extends Keyed {
     default void onPlayerToggleSneak(PlayerToggleSneakEvent event, ItemStack itemStack) {
     }
 
-    default void onPlayerGetExp(PlayerExpChangeEvent event, ItemStack itemStack) {
+    default void onPlayerExpChange(PlayerExpChangeEvent event, ItemStack itemStack) {
     }
 }

@@ -158,7 +158,7 @@ public class EnchantmentListener implements Listener {
 
             item.getEnchantments().keySet().forEach(enchantment -> {
                 if(enchantment instanceof EnchantmentAbility ability){
-                    ability.onPlayerGetExp(event, item);
+                    ability.onPlayerExpChange(event, item);
                 }
             });
         }
