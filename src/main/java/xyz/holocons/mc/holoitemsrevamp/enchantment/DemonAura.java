@@ -74,11 +74,16 @@ public class DemonAura extends CustomEnchantment implements EnchantmentAbility {
 
         final Player player = event.getPlayer();
         double playerHealth = player.getHealth();
-        // TODO: Should we access the player's Attribute.GENERIC_MAX_HEALTH for this?
-        //  It's better future-proofing, since there's no way of knowing if Mojang will add a Health Boost item in
-        //  minecraft 1.22 or whatever.
-        //  I've left it as >= 20 so as to copy the logic 1:1 from OldHoloItems for now, though.
-        if(playerHealth >= 20){
+        // TODO: Should we use Attribute.GENERIC_MAX_HEALTH or assume it's always 20?
+        //  If we want to mirror OldHoloItems, we should assume always 20.
+        //  But if MC1.22 (or ARH, for that matter) adds something to boost max hp, it shouldn't be always 20.
+        //  I use the attributes (so I can do testing) but I'd like confirmation on that decision.
+        //  (Old functionality can be obtained by setting maxHealth = 20 always)
+        var maxHealthAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        // This should never happen; the docs say it'll only be null if the attribute doesn't apply.
+        // But my IDE is complaining.
+        double maxHealth = maxHealthAttribute == null ? 20 : maxHealthAttribute.getValue();
+        if(playerHealth >= maxHealth){
             // Logic copied from OldHoloItems
             return;
         }
@@ -86,9 +91,9 @@ public class DemonAura extends CustomEnchantment implements EnchantmentAbility {
         // Arbitrary formula.
         int amountToHeal = (XpGained/7)+1;
 
-        if(amountToHeal + playerHealth > 20){
+        if(amountToHeal + playerHealth > maxHealth){
             // honestly I don't trust this but whatever
-            amountToHeal = (int) Math.ceil(20 - playerHealth);
+            amountToHeal = (int) Math.ceil(maxHealth - playerHealth);
         }
 
         // apply amountToHeal:
