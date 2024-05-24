@@ -2,7 +2,7 @@ plugins {
     `java-library`
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Generates plugin.yml
     id("com.github.johnrengelman.shadow") version "8.1.1" // Shades and relocates dependencies into our plugin jar
-    id("xyz.jpenilla.run-paper") version "2.1.0" // Adds runServer and runMojangMappedServer tasks for testing
+    id("xyz.jpenilla.run-paper") version "2.3.0" // Adds runServer and runMojangMappedServer tasks for testing
 }
 
 group = "xyz.holocons.mc"
@@ -22,9 +22,9 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
-    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
-    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9-SNAPSHOT")
-    implementation("com.github.stefvanschie.inventoryframework:IF:0.10.11")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.2.0-SNAPSHOT")
+    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
+    implementation("com.github.stefvanschie.inventoryframework:IF:0.10.13")
 }
 
 tasks {

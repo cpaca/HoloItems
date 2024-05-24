@@ -35,7 +35,7 @@ public abstract class Idol {
      * @return a base64-encoded String
      */
     @NotNull
-    public abstract String getSkinBase64();
+    public abstract String getSkinUrl();
 
     /**
      * Returns the display name of the itemstack that represents the idol in the GUI
@@ -52,7 +52,7 @@ public abstract class Idol {
     public abstract List<Component> getLore();
 
     private ItemStack buildGuiItem() {
-        var item = Util.playerHeadFromBase64(getSkinBase64());
+        var item = Util.getPlayerHeadFromSkinUrl(getSkinUrl());
         var meta = item.getItemMeta();
         meta.displayName(getDisplayName());
         meta.lore(getLore());

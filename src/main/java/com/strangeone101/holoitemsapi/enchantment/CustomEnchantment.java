@@ -13,6 +13,7 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.Set;
 
 /**
@@ -26,8 +27,18 @@ import java.util.Set;
  */
 public abstract class CustomEnchantment extends Enchantment {
 
+    private static final HashMap<NamespacedKey, CustomEnchantment> enchantmentsByKey = new HashMap<>();
+
     public CustomEnchantment(Plugin plugin, String key) {
         super(new NamespacedKey(plugin, key));
+    }
+
+    public static final void registerEnchantment(@NotNull CustomEnchantment enchantment) {
+        if (!Enchantment.isAcceptingRegistrations()) {
+            return;
+        }
+        Enchantment.registerEnchantment(enchantment);
+        enchantmentsByKey.put(enchantment.getKey(), enchantment);
     }
 
     /**
@@ -37,7 +48,7 @@ public abstract class CustomEnchantment extends Enchantment {
      */
     @Nullable
     public static final CustomEnchantment getByKey(@Nullable NamespacedKey key) {
-        return Enchantment.getByKey(key) instanceof CustomEnchantment customEnchantment ? customEnchantment : null;
+        return enchantmentsByKey.get(key);
     }
 
     /**
