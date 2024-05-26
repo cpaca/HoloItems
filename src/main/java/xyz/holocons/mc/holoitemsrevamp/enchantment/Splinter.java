@@ -78,13 +78,13 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         }
 
         Queue<Block> blocksToCheck = new LinkedList<>();
-        // I don't think a set of checked blocks is necessary? If it's not all in 1 tick, anyway.
+        // I don't think a set of checked blocks is necessary? If there's a 1 tick delay, anyway.
 
         addAdjacentBlocks(blocksToCheck, event.getBlock());
 
         currentlySplintering.add(player);
         new BukkitRunnable(){
-            int remaining = 32; // TODO make a function for this
+            int remaining = getSplinterCharge(); // TODO make a function for this
             @Override
             public void run() {
                 // Check if this Splinter should continue
@@ -129,11 +129,18 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         return Integrations.WORLDGUARD.canUseEnchantment(location, Splinter.class);
     }
 
-    // Copied straight from OldHoloItems
     private static boolean isCompatibleMaterial(Material material) {
+        // Copied straight from OldHoloItems
         return Tag.LOGS.isTagged(material) || Tag.LEAVES.isTagged(material)
             || Tag.CRIMSON_STEMS.isTagged(material) || Tag.WARPED_STEMS.isTagged(material)
             || Tag.WART_BLOCKS.isTagged(material) || MaterialTags.MUSHROOM_BLOCKS.isTagged(material);
+    }
+
+    private static int getSplinterCharge(){
+        // In the future we could make Splinter go from level 1 through 5?
+        // So Splinter 1 would do 16, 2 would do 32, 3 would do 64, 4 would do 96, 5 would do 128?
+        // For now, to mirror old functionality, keeping at 32.
+        return 32;
     }
 
     private static void addAdjacentBlocks(Queue<Block> queue, Block block){
