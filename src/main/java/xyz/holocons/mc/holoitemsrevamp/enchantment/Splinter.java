@@ -79,12 +79,21 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
         Queue<Block> blocksToCheck = new LinkedList<>();
         // I don't think a set of checked blocks is necessary? If there's a 1 tick delay, anyway.
+        // (OldHoloItems has a set of checked blocks declared here.)
 
-        addAdjacentBlocks(blocksToCheck, event.getBlock());
+        Block firstBlock = event.getBlock();
+        if(!isValidSplinterBlock(firstBlock)){
+            return;
+        }
+
+        addAdjacentBlocks(blocksToCheck, firstBlock);
+
+        // Don't want it going from logs to leaves in the middle of a Splinter operation.
 
         currentlySplintering.add(player);
         new BukkitRunnable(){
             int remaining = getSplinterCharge(); // TODO make a function for this
+            final Material requiredMat = firstBlock.getType();
             @Override
             public void run() {
                 // Check if this Splinter should continue
@@ -98,6 +107,9 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
                 Block blockToBreak = null;
                 while(!blocksToCheck.isEmpty() && blockToBreak == null){
                     Block testBlock = blocksToCheck.remove();
+                    if(testBlock.getType() != requiredMat){
+                        continue;
+                    }
                     if(!isValidSplinterBlock(testBlock)){
                         continue;
                     }
@@ -143,7 +155,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         return 32;
     }
 
-    private static void addAdjacentBlocks(Queue<Block> queue, Block block){
+    private void addAdjacentBlocks(Queue<Block> queue, Block block){
         // Very similar to the method used in OldHoloItems.
         final var world = block.getWorld();
         final var baseLoc = block.getLocation();
@@ -154,7 +166,9 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
                         continue;
                     }
                     Block newBlock = world.getBlockAt(baseLoc.clone().add(i, j, k));
-                    queue.add(newBlock);
+                    if(isValidSplinterBlock(newBlock)){
+                        queue.add(newBlock);
+                    }
                 }
             }
         }
