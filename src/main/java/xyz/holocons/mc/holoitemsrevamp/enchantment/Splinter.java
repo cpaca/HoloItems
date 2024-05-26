@@ -7,9 +7,7 @@ import com.strangeone101.holoitemsapi.enchantment.EnchantmentAbility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Tag;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -144,6 +142,19 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
     }
 
     private static void addAdjacentBlocks(Queue<Block> queue, Block block){
-        // TODO
+        // Very similar to the method used in OldHoloItems.
+        final World world = block.getWorld();
+        final Location baseLoc = block.getLocation();
+        for(int i = -1; i <= 1; i++){
+            for(int j = -1; j <= 1; j++){
+                for(int k = -1; k <= 1; k++){
+                    if(i == 0 && j == 0 && k == 0){
+                        continue;
+                    }
+                    Block newBlock = world.getBlockAt(baseLoc.clone().add(i, j, k));
+                    queue.add(newBlock);
+                }
+            }
+        }
     }
 }
