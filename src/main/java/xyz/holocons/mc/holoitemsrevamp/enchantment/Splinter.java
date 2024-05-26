@@ -96,7 +96,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
                 // Search for a block for Splinter to break
                 Block blockToBreak = null;
-                while(!blocksToCheck.isEmpty()){
+                while(!blocksToCheck.isEmpty() && blockToBreak == null){
                     Block testBlock = blocksToCheck.remove();
                     if(!isValidSplinterBlock(testBlock)){
                         continue;
@@ -121,7 +121,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
     private boolean isValidSplinterBlock(Block block){
         var material = block.getType();
-        if(this.COMPATIBLE_MATERIALS.isTagged(material)){
+        if(!this.COMPATIBLE_MATERIALS.isTagged(material)){
             return false;
         }
 
