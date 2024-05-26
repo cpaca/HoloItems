@@ -12,17 +12,27 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.integration.Integrations;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 
 public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
     private final HoloItemsRevamp plugin;
 
     private final MaterialSetTag COMPATIBLE_MATERIALS;
+
+    // Set of players who currently have Splinter active.
+    private static final Set<Player> currentlySplintering = new HashSet<>();
 
     public Splinter(HoloItemsRevamp plugin){
         super(plugin, "splinter");
@@ -62,7 +72,51 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
     @Override
     public void onBlockBreak(BlockBreakEvent event, ItemStack itemStack) {
-        // TODO.
+        final Player player = event.getPlayer();
+        if(currentlySplintering.contains(player)){
+            return;
+        }
+
+        Queue<Block> blocksToCheck = new LinkedList<>();
+        // I don't think a set of checked blocks is necessary? If it's not all in 1 tick, anyway.
+
+        addAdjacentBlocks(blocksToCheck, event.getBlock());
+
+        currentlySplintering.add(player);
+        new BukkitRunnable(){
+            int remaining = 32; // TODO make a function for this
+            @Override
+            public void run() {
+                // Check if this Splinter should continue
+                if(remaining <= 0){
+                    currentlySplintering.remove(player);
+                    cancel();
+                    return;
+                }
+
+                // Search for a block for Splinter to break
+                Block blockToBreak = null;
+                while(!blocksToCheck.isEmpty()){
+                    Block testBlock = blocksToCheck.remove();
+                    if(!isValidSplinterBlock(testBlock)){
+                        continue;
+                    }
+                    blockToBreak = testBlock;
+                }
+
+                // Check if a block was found; stop if it wasn't
+                if(blockToBreak == null){
+                    currentlySplintering.remove(player);
+                    cancel();
+                    return;
+                }
+
+                // Break block and apply more Splinter effect
+                player.breakBlock(blockToBreak);
+                addAdjacentBlocks(blocksToCheck, blockToBreak);
+                remaining -= 1;
+            }
+        }.runTaskTimer(plugin, 0, 1);
     }
 
     private boolean isValidSplinterBlock(Block block){
@@ -80,5 +134,9 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         return Tag.LOGS.isTagged(material) || Tag.LEAVES.isTagged(material)
             || Tag.CRIMSON_STEMS.isTagged(material) || Tag.WARPED_STEMS.isTagged(material)
             || Tag.WART_BLOCKS.isTagged(material) || MaterialTags.MUSHROOM_BLOCKS.isTagged(material);
+    }
+
+    private static void addAdjacentBlocks(Queue<Block> queue, Block block){
+        // TODO
     }
 }
