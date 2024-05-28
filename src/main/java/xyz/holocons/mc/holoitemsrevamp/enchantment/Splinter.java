@@ -131,14 +131,9 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         }.runTaskTimer(plugin, 0, 1);
     }
 
-    private boolean isValidSplinterBlock(Block block){
-        var material = block.getType();
-        if(!this.COMPATIBLE_MATERIALS.isTagged(material)){
-            return false;
-        }
-
-        var location = block.getLocation();
-        return Integrations.WORLDGUARD.canUseEnchantment(location, Splinter.class);
+    private boolean isValidSplinterBlock(Block block) {
+        return Integrations.WORLDGUARD.canUseEnchantment(block.getLocation(), Splinter.class)
+                && this.COMPATIBLE_MATERIALS.isTagged(block.getType());
     }
 
     private static boolean isCompatibleMaterial(Material material) {
