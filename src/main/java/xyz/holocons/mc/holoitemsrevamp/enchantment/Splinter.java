@@ -91,7 +91,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
     }
 
     private boolean isInvalidSplinterLocation(Location loc){
-        return Integrations.WORLDGUARD.canUseEnchantment(loc, Splinter.class);
+        return !Integrations.WORLDGUARD.canUseEnchantment(loc, Splinter.class);
     }
 
     private static boolean isCompatibleMaterial(Material material) {
