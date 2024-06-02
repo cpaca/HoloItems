@@ -78,10 +78,6 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
             return;
         }
 
-        Queue<Block> blocksToCheck = new LinkedList<>();
-        // I don't think a set of checked blocks is necessary? If there's a 1 tick delay, anyway.
-        // (OldHoloItems has a set of checked blocks declared here.)
-
         Block firstBlock = event.getBlock();
         if(isInvalidSplinterType(firstBlock.getType()) || isInvalidSplinterLocation(firstBlock.getLocation())){
             return;
