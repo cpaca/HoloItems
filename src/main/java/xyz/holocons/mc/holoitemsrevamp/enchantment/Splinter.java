@@ -35,6 +35,9 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
     // Set of players who currently have Splinter active.
     private static final Set<Player> currentlySplintering = new HashSet<>();
 
+    // How many blocks-per-tick each SplinterRunnable will break.
+    private static final int SPLINTERS_PER_TICK = 4;
+
     public Splinter(HoloItemsRevamp plugin){
         super(plugin, "splinter");
         this.plugin = plugin;
@@ -119,10 +122,12 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
         @Override
         public void run() {
-            SplinterOneBlock();
-
-            if(this.isCancelled()){
-                currentlySplintering.remove(player);
+            for(int i = 0; i < SPLINTERS_PER_TICK; i++){
+                SplinterOneBlock();
+                if(this.isCancelled()){
+                    currentlySplintering.remove(player);
+                    break;
+                }
             }
         }
 
