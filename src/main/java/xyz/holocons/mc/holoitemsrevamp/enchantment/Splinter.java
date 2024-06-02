@@ -87,49 +87,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
             return;
         }
 
-        addAdjacentBlocks(blocksToCheck, firstBlock);
-
-        // Don't want it going from logs to leaves in the middle of a Splinter operation.
-
-        currentlySplintering.add(player);
-        new BukkitRunnable(){
-            int remaining = getSplinterCharge(); // TODO make a function for this
-            final Material requiredMat = firstBlock.getType();
-            @Override
-            public void run() {
-                // Check if this Splinter should continue
-                if(remaining <= 0){
-                    currentlySplintering.remove(player);
-                    cancel();
-                    return;
-                }
-
-                // Search for a block for Splinter to break
-                Block blockToBreak = null;
-                while(!blocksToCheck.isEmpty() && blockToBreak == null){
-                    Block testBlock = blocksToCheck.remove();
-                    if(testBlock.getType() != requiredMat){
-                        continue;
-                    }
-                    if(isInvalidSplinterLocation(testBlock.getLocation())){
-                        continue;
-                    }
-                    blockToBreak = testBlock;
-                }
-
-                // Check if a block was found; stop if it wasn't
-                if(blockToBreak == null){
-                    currentlySplintering.remove(player);
-                    cancel();
-                    return;
-                }
-
-                // Break block and apply more Splinter effect
-                player.breakBlock(blockToBreak);
-                addAdjacentBlocks(blocksToCheck, blockToBreak);
-                remaining -= 1;
-            }
-        }.runTaskTimer(plugin, 0, 1);
+        new SplinterRunnable(1, firstBlock, player).runTaskTimer(plugin, 0, 1);
     }
 
     private boolean isInvalidSplinterType(Material type) {
@@ -147,25 +105,70 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
             || Tag.WART_BLOCKS.isTagged(material) || MaterialTags.MUSHROOM_BLOCKS.isTagged(material);
     }
 
-    private static int getSplinterCharge(){
-        // In the future we could make Splinter go from level 1 through 5?
-        // So Splinter 1 would do 16, 2 would do 32, 3 would do 64, 4 would do 96, 5 would do 128?
-        // For now, to mirror old functionality, keeping at 32.
-        return 32;
-    }
+    private class SplinterRunnable extends BukkitRunnable{
+        private int remainingCharge;
+        private final Material targetType;
+        private final Queue<Block> blocksToCheck = new LinkedList<>();
+        private final Player player;
 
-    private void addAdjacentBlocks(Queue<Block> queue, Block block){
-        // Very similar to the method used in OldHoloItems.
-        final var world = block.getWorld();
-        final var baseLoc = block.getLocation();
-        for(int i = -1; i <= 1; i++){
-            for(int j = -1; j <= 1; j++){
-                for(int k = -1; k <= 1; k++){
-                    if(i == 0 && j == 0 && k == 0){
-                        continue;
+        public SplinterRunnable(int enchLevel, Block firstBlock, Player player){
+            // In the future, we could have this be based on enchLevel.
+            // For now, mirror old functionality.
+            remainingCharge = 32;
+            targetType = firstBlock.getType();
+            addAdjacentBlocks(firstBlock);
+            currentlySplintering.add(player);
+            this.player = player;
+        }
+
+        @Override
+        public void run() {
+            // Check if this Splinter should continue
+            if(remainingCharge <= 0){
+                currentlySplintering.remove(player);
+                cancel();
+                return;
+            }
+
+            // Search for a block for Splinter to break
+            Block blockToBreak = null;
+            while(!blocksToCheck.isEmpty() && blockToBreak == null){
+                Block testBlock = blocksToCheck.remove();
+                if(testBlock.getType() != targetType){
+                    continue;
+                }
+                if(isInvalidSplinterLocation(testBlock.getLocation())){
+                    continue;
+                }
+                blockToBreak = testBlock;
+            }
+
+            // Check if a block was found; stop if it wasn't
+            if(blockToBreak == null){
+                currentlySplintering.remove(player);
+                cancel();
+                return;
+            }
+
+            // Break block and apply more Splinter effect
+            player.breakBlock(blockToBreak);
+            addAdjacentBlocks(blockToBreak);
+            remainingCharge -= 1;
+        }
+
+        private void addAdjacentBlocks(Block block){
+            for(int i = -1; i <= 1; i++){
+                for(int j = -1; j <= 1; j++){
+                    for(int k = -1; k <= 1; k++){
+                        if(i == 0 && j == 0 && k == 0){
+                            continue;
+                        }
+                        Block newBlock = block.getRelative(i, j, k);
+                        if(isInvalidSplinterLocation(block.getLocation())){
+                            continue;
+                        }
+                        blocksToCheck.add(newBlock);
                     }
-                    Block newBlock = world.getBlockAt(baseLoc.clone().add(i, j, k));
-                    queue.add(newBlock);
                 }
             }
         }
