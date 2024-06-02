@@ -144,9 +144,6 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
                 if(testBlock.getType() != targetType){
                     continue;
                 }
-                if(isInvalidSplinterLocation(testBlock.getLocation())){
-                    continue;
-                }
                 blockToBreak = testBlock;
             }
 
