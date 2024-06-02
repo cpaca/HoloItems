@@ -123,9 +123,16 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
         @Override
         public void run() {
+            SplinterOneBlock();
+
+            if(this.isCancelled()){
+                currentlySplintering.remove(player);
+            }
+        }
+
+        private void SplinterOneBlock(){
             // Check if this Splinter should continue
             if(remainingCharge <= 0){
-                currentlySplintering.remove(player);
                 cancel();
                 return;
             }
@@ -145,7 +152,6 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
             // Check if a block was found; stop if it wasn't
             if(blockToBreak == null){
-                currentlySplintering.remove(player);
                 cancel();
                 return;
             }
