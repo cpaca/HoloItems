@@ -7,6 +7,7 @@ import com.strangeone101.holoitemsapi.enchantment.EnchantmentAbility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -82,7 +83,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         // (OldHoloItems has a set of checked blocks declared here.)
 
         Block firstBlock = event.getBlock();
-        if(!isValidSplinterBlock(firstBlock)){
+        if(isInvalidSplinterType(firstBlock.getType()) || isInvalidSplinterLocation(firstBlock.getLocation())){
             return;
         }
 
@@ -110,7 +111,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
                     if(testBlock.getType() != requiredMat){
                         continue;
                     }
-                    if(!isValidSplinterBlock(testBlock)){
+                    if(isInvalidSplinterLocation(testBlock.getLocation())){
                         continue;
                     }
                     blockToBreak = testBlock;
@@ -131,9 +132,12 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         }.runTaskTimer(plugin, 0, 1);
     }
 
-    private boolean isValidSplinterBlock(Block block) {
-        return Integrations.WORLDGUARD.canUseEnchantment(block.getLocation(), Splinter.class)
-                && this.COMPATIBLE_MATERIALS.isTagged(block.getType());
+    private boolean isInvalidSplinterType(Material type) {
+        return !this.COMPATIBLE_MATERIALS.isTagged(type);
+    }
+
+    private boolean isInvalidSplinterLocation(Location loc){
+        return Integrations.WORLDGUARD.canUseEnchantment(loc, Splinter.class)
     }
 
     private static boolean isCompatibleMaterial(Material material) {
@@ -161,9 +165,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
                         continue;
                     }
                     Block newBlock = world.getBlockAt(baseLoc.clone().add(i, j, k));
-                    if(isValidSplinterBlock(newBlock)){
-                        queue.add(newBlock);
-                    }
+                    queue.add(newBlock);
                 }
             }
         }
