@@ -143,7 +143,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
     }
 
     private static class ActiveSplinter {
-        Location origin;
+        Block origin;
         int remainingCharges;
         int scheduledSplinters;
     }
