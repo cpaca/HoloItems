@@ -134,7 +134,33 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
     }
 
     private void scheduleSplinterAbility(Player player, Block block) {
-        // TODO
+        var data = splinters.get(player);
+        if(data.remainingCharges <= 0){
+            // No power left to schedule anything.
+            return;
+        }
+        int splinterDelay = data.scheduledSplinters;
+        // Update and save data
+        data.remainingCharges -= 1;
+        data.scheduledSplinters += 1;
+        splinters.put(player, data);
+
+        // Schedule a splinter
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                // Break the block
+                // TODO: Check if the player is holding a Splinter axe first.
+                //  I got the itemStack to check for splinter, but idk how to check for splinter.
+                var activeItem = player.getActiveItem();
+                player.breakBlock(block);
+
+                // ... then update the data.
+                var updatedData = splinters.get(player);
+                updatedData.scheduledSplinters -= 1;
+                splinters.put(player, updatedData);
+            }
+        }.runTaskLater(plugin, splinterDelay);
     }
 
     /**
