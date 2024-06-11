@@ -73,13 +73,29 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
             return;
         }
         // Presuming the block is a log - ie, it has an orientation.
-        tryCleanupSplinterData(event.getPlayer(), blockBroken);
+        var player = event.getPlayer();
+        tryCleanupSplinterData(player, blockBroken);
 
-        // Check and handle if the block is a trunk
-        // TODO
-
-        // Check and handle if the block is a branch
-        // TODO
+        boolean isTree = isLogBlock(blockBroken.getType());
+        boolean isShroom = isShroomBlock(blockBroken.getType());
+        boolean isTrunk = isTrunkBlock(blockBroken);
+        if(isTree && isTrunk){
+            handleTreeTrunkBroken(player, blockBroken);
+        }
+        else if(isTree){
+            // && !isTrunk
+            // aka && isBranch
+            handleTreeBranchBroken(player, blockBroken);
+        }
+        else if(isShroom && isTrunk){
+            handleShroomStemBroken(player, blockBroken);
+        }
+        else if(isShroom){
+            // && !isTrunk
+            // aka && isBranch
+            handleShroomBlockBroken(player, blockBroken);
+        }
+        // else{} here shouldnt be reachable since anything else would be an invalid splinter type
     }
 
     /**
@@ -109,20 +125,20 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         splinters.put(player, newData);
     }
 
-    private void handleTreeTrunkBroken(ActiveSplinter data, Block trunkBlock){
+    private void handleTreeTrunkBroken(Player player, Block trunkBlock){
         // TODO
     }
 
-    private void handleTreeBranchBroken(ActiveSplinter data, Block branchBlock){
+    private void handleTreeBranchBroken(Player player, Block branchBlock){
         // TODO
     }
 
-    private void handleShroomStemBroken(ActiveSplinter data, Block stemBlock){
-        // aka the shroom trunk
+    private void handleShroomStemBroken(Player player, Block stemBlock){
+        // aka the shroom stem
         // TODO
     }
 
-    private void handleShroomBlockBroken(ActiveSplinter data, Block branchBlock){
+    private void handleShroomBlockBroken(Player player, Block branchBlock){
         // TODO
     }
 
