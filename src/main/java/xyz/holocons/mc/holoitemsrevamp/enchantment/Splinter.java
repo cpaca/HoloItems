@@ -155,7 +155,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
     }
 
     private boolean isShroomBlock(Material material){
-        return Tag.MUSHROOM_GROW_BLOCK.isTagged(material);
+        return MaterialTags.MUSHROOM_BLOCKS.isTagged(material);
     }
 
     private static class ActiveSplinter {
