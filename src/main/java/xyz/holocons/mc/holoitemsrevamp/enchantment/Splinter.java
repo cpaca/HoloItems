@@ -98,14 +98,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
         splinters.remove(player);
 
-        if(!(newTrunk.getBlockData() instanceof Orientable orientable)){
-            // all logs are orientable, so this isn't a log
-            // TODO: ... mushrooms?
-            return;
-        }
-
-        final var orientationAxis = orientable.getAxis();
-        if(orientationAxis != Axis.Y){
+        if(!isTrunkBlock(newTrunk)){
             return;
         }
 
