@@ -187,11 +187,17 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
         int[] relXs = getRelsToCheck(deltaX);
         int[] relZs = getRelsToCheck(deltaZ);
+        
+        boolean isShroom = isShroomBlock(branch.getType());
 
         for(int relX : relXs){
             for(int relZ : relZs){
                 if(relX == 0 && relZ == 0){
                     continue;
+                }
+                if(isShroom){
+                    // Remember shroom branches also go downwards
+                    ret.add(branch.getRelative(relX, -1, relZ));
                 }
                 ret.add(branch.getRelative(relX, 0, relZ));
                 ret.add(branch.getRelative(relX, 1, relZ));
