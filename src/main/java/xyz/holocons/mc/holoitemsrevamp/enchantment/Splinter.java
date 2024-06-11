@@ -137,6 +137,46 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         // TODO
     }
 
+    /**
+     * Gets the potential next-branch blocks from this starting branch block. The trunk block is used since branches
+     * don't "curl in" on theirself, they continue to go farther from the trunk. If the branch is actually part
+     * of the trunk, all 8 adjacent blocks plus the 8 additional branches are returned.
+     */
+    private List<Block> getPossibleBranches(Block trunk, Block branch){
+        // Since the main operations afaik will be append and iterator, this is slightly better than arraylist.
+        // Not by much.
+        List<Block> ret = new LinkedList<>();
+
+        int deltaX = branch.getX() - trunk.getX();
+        int deltaZ = branch.getZ() - trunk.getZ();
+
+        int[] relXs = getRelsToCheck(deltaX);
+        int[] relZs = getRelsToCheck(deltaZ);
+
+        for(int relX : relXs){
+            for(int relZ : relZs){
+                ret.add(branch.getRelative(relX, 0, relZ));
+                ret.add(branch.getRelative(relX, 1, relZ));
+            }
+        }
+
+        return ret;
+    }
+
+    private int[] getRelsToCheck(int delta){
+        // "Get relatives to check"
+        if(delta > 0){
+            return new int[]{1};
+        }
+        else if(delta < 0){
+            return new int[]{-1};
+        }
+        else{
+            // start == 0
+            return new int[]{-1, 0, 1};
+        }
+    }
+
     private boolean isInvalidSplinterType(Material type) {
         return !this.COMPATIBLE_MATERIALS.isTagged(type);
     }
