@@ -158,6 +158,23 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         return MaterialTags.MUSHROOM_BLOCKS.isTagged(material);
     }
 
+    private boolean isTrunkBlock(Block block){
+        var material = block.getType();
+        if(isLogBlock(material)){
+            if(block.getBlockData() instanceof Orientable orientable){
+                return orientable.getAxis() == Axis.Y;
+            }
+            // non-orientable log shouldn't be possible, but just in case:
+            return false;
+        }
+        else if(isShroomBlock(material)){
+            return Material.MUSHROOM_STEM == material;
+        }
+        else{
+            return false;
+        }
+    }
+
     private static class ActiveSplinter {
         Block origin;
         int remainingCharges;
