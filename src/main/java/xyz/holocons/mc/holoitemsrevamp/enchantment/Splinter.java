@@ -110,17 +110,26 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         }
 
         ActiveSplinter newData = new ActiveSplinter();
-        newData.origin = newTrunk.getLocation().clone();
+        newData.origin = newTrunk;
         newData.remainingCharges = 32; // In the future we can make this based on enchLevel
         newData.scheduledSplinters = 0;
         splinters.put(player, newData);
     }
 
-    private void handleTrunkBroken(ActiveSplinter data, Block trunkBlock){
+    private void handleTreeTrunkBroken(ActiveSplinter data, Block trunkBlock){
         // TODO
     }
 
-    private void handleBranchBroken(ActiveSplinter data, Block branchBlock){
+    private void handleTreeBranchBroken(ActiveSplinter data, Block branchBlock){
+        // TODO
+    }
+
+    private void handleShroomStemBroken(ActiveSplinter data, Block stemBlock){
+        // aka the shroom trunk
+        // TODO
+    }
+
+    private void handleShroomBlockBroken(ActiveSplinter data, Block branchBlock){
         // TODO
     }
 
