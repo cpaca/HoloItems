@@ -34,7 +34,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         super(plugin, "splinter");
         this.plugin = plugin;
         var materialSetTagKey = new NamespacedKey(plugin, "splinter_materials");
-        this.COMPATIBLE_MATERIALS = new MaterialSetTag(materialSetTagKey, Splinter::isCompatibleMaterial).lock();
+        this.COMPATIBLE_MATERIALS = new MaterialSetTag(materialSetTagKey, this::isCompatibleMaterial).lock();
     }
 
     @Override
@@ -145,10 +145,17 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         return !Integrations.WORLDGUARD.canUseEnchantment(loc, Splinter.class);
     }
 
-    private static boolean isCompatibleMaterial(Material material) {
-        return Tag.LOGS.isTagged(material) || Tag.CRIMSON_STEMS.isTagged(material)
-            || Tag.WARPED_STEMS.isTagged(material) || Tag.WART_BLOCKS.isTagged(material)
-            || MaterialTags.MUSHROOM_BLOCKS.isTagged(material);
+    private boolean isCompatibleMaterial(Material material) {
+        return isLogBlock(material) || isShroomBlock(material);
+    }
+
+    private boolean isLogBlock(Material material){
+        // Remember later: All log-blocks are orientable. (shrooms are compatible-material but not orientable.)
+        return Tag.LOGS.isTagged(material);
+    }
+
+    private boolean isShroomBlock(Material material){
+        return Tag.MUSHROOM_GROW_BLOCK.isTagged(material);
     }
 
     private static class ActiveSplinter {
