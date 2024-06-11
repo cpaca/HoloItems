@@ -180,6 +180,29 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         }
     }
 
+    /**
+     * In summary: Log-splinters should only continue with other log-splinters, but shroom-splinters should be able
+     * to move from stem to mushroom block. (That said, mushroom block shouldn't be able to move back to stem.)
+     * Note: This will also return an empty list (aka "no legal next material") if the baseMaterial is not a legal
+     * splinter material.
+     */
+    private List<Material> getLegalNextMaterials(Block block){
+        List<Material> ret = new LinkedList<>();
+        if(isLogBlock(block.getType())){
+            ret.add(block.getType());
+        }
+        else if(isShroomBlock(block.getType())){
+            ret.add(block.getType());
+            if(isTrunkBlock(block)){
+                // shroom trunks (aka stems) should also be able to go to shroom leaves (aka mushroom blocks)
+                ret.add(Material.RED_MUSHROOM_BLOCK);
+                ret.add(Material.BROWN_MUSHROOM_BLOCK);
+            }
+        }
+        // else: return empty list, aka unchanged
+        return ret;
+    }
+
     private boolean isInvalidSplinterType(Material type) {
         return !this.COMPATIBLE_MATERIALS.isTagged(type);
     }
