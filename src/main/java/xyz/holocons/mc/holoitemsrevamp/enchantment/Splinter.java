@@ -155,6 +155,9 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
         for(int relX : relXs){
             for(int relZ : relZs){
+                if(relX == 0 && relZ == 0){
+                    continue;
+                }
                 ret.add(branch.getRelative(relX, 0, relZ));
                 ret.add(branch.getRelative(relX, 1, relZ));
             }
