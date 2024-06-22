@@ -17,7 +17,6 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,7 +30,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
     private final HoloItemsRevamp plugin;
 
-    private static final Object2ObjectArrayMap<Player, SplinterContext> contextMap = new Object2ObjectArrayMap<>();
+    private static final Object2ObjectArrayMap<UUID, SplinterContext> contextMap = new Object2ObjectArrayMap<>();
 
     public Splinter(HoloItemsRevamp plugin){
         super(plugin, "splinter");
@@ -74,8 +73,8 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
             return;
         }
 
-        final var player = event.getPlayer();
-        if (contextMap.containsKey(player)) {
+        final var playerId = event.getPlayer().getUniqueId();
+        if (contextMap.containsKey(playerId)) {
             return;
         }
 
@@ -85,22 +84,22 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         }
 
         final SplinterContext context;
-        if (contextMap.containsKey(player)) {
-            context = contextMap.get(player);
+        if (contextMap.containsKey(playerId)) {
+            context = contextMap.get(playerId);
         } else {
             context = new SplinterContext(block, 32);
-            contextMap.put(player, context);
+            contextMap.put(playerId, context);
         }
 
         if (type.shouldSplinterAbove(block)) {
             final var aboveBlock = block.getRelative(BlockFace.UP);
-            scheduleSplinterAbility(context, player, itemStack, aboveBlock);
+            scheduleSplinterAbility(context, playerId, this, aboveBlock);
         }
     }
 
-    private void scheduleSplinterAbility(SplinterContext context, Player player, ItemStack itemStack, Block block) {
+    private void scheduleSplinterAbility(SplinterContext context, UUID playerId, Splinter splinter, Block block) {
         if (context.remainingCharges <= 0){
-            contextMap.remove(player);
+            contextMap.remove(playerId);
             return;
         }
 
@@ -110,13 +109,15 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
             @Override
             public void run() {
-                if (context != contextMap.get(player)) {
+                if (context != contextMap.get(playerId)) {
                     return;
                 }
+
+                final var player = Bukkit.getPlayer(playerId);
                 if (block.getType() != context.origin.getType()
                         || !context.type.shouldSplinter(block)
-                        || player.getInventory().getItemInMainHand() != itemStack) {
-                    contextMap.remove(player);
+                        || !player.getInventory().getItemInMainHand().containsEnchantment(splinter)) {
+                    contextMap.remove(playerId);
                     return;
                 }
 
