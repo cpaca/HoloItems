@@ -1,14 +1,19 @@
 package xyz.holocons.mc.holoitemsrevamp.enchantment;
 
-import com.destroystokyo.paper.MaterialSetTag;
 import com.destroystokyo.paper.MaterialTags;
 import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
 import com.strangeone101.holoitemsapi.enchantment.EnchantmentAbility;
+
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.ObjectList;
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.enchantments.Enchantment;
@@ -26,15 +31,11 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
     private final HoloItemsRevamp plugin;
 
-    private final MaterialSetTag COMPATIBLE_MATERIALS;
-
-    private static final Map<Player, ActiveSplinter> splinters = new HashMap<>();
+    private static final Object2ObjectArrayMap<Player, SplinterContext> contextMap = new Object2ObjectArrayMap<>();
 
     public Splinter(HoloItemsRevamp plugin){
         super(plugin, "splinter");
         this.plugin = plugin;
-        var materialSetTagKey = new NamespacedKey(plugin, "splinter_materials");
-        this.COMPATIBLE_MATERIALS = new MaterialSetTag(materialSetTagKey, this::isCompatibleMaterial).lock();
     }
 
     @Override
@@ -68,108 +69,65 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
 
     @Override
     public void onBlockBreak(BlockBreakEvent event, ItemStack itemStack) {
-        Block blockBroken = event.getBlock();
-        if(isInvalidSplinterType(blockBroken.getType()) || isInvalidSplinterLocation(blockBroken.getLocation())){
-            return;
-        }
-        // Presuming the block is a log - ie, it has an orientation.
-        var player = event.getPlayer();
-        tryCleanupSplinterData(player, blockBroken);
-
-        boolean isTree = isLogBlock(blockBroken.getType());
-        boolean isShroom = isShroomBlock(blockBroken.getType());
-        boolean isTrunk = isTrunkBlock(blockBroken);
-        if(isTree && isTrunk){
-            handleTreeTrunkBroken(player, blockBroken);
-        }
-        else if(isTree){
-            // && !isTrunk
-            // aka && isBranch
-            handleTreeBranchBroken(player, blockBroken);
-        }
-        else if(isShroom && isTrunk){
-            handleShroomStemBroken(player, blockBroken);
-        }
-        else if(isShroom){
-            // && !isTrunk
-            // aka && isBranch
-            handleShroomBlockBroken(player, blockBroken);
-        }
-        // else{} here shouldnt be reachable since anything else would be an invalid splinter type
-    }
-
-    /**
-     * Try to cleanup a player's Splinter data. If the data is scheduled for cleanup, but the newTrunk isn't a valid
-     * new trunk block, it will delete the data from the map entirely.
-     * @param player The player's
-     * @param newTrunk The proposed new trunk block
-     */
-    private void tryCleanupSplinterData(Player player, Block newTrunk){
-        final var activeSplinter = splinters.get(player);
-        // if(!shouldCleanup)
-        if(activeSplinter != null && activeSplinter.scheduledSplinters != 0){
-            // there is still a splinter going, so don't cleanup until that one's done
+        final var block = event.getBlock();
+        if (!Integrations.WORLDGUARD.canUseEnchantment(block.getLocation(), Splinter.class)) {
             return;
         }
 
-        splinters.remove(player);
-
-        if(!isTrunkBlock(newTrunk)){
+        final var player = event.getPlayer();
+        if (contextMap.containsKey(player)) {
             return;
         }
 
-        ActiveSplinter newData = new ActiveSplinter();
-        newData.origin = newTrunk;
-        newData.remainingCharges = 32; // In the future we can make this based on enchLevel
-        newData.scheduledSplinters = 0;
-        splinters.put(player, newData);
-    }
-
-    private void handleTreeTrunkBroken(Player player, Block trunkBlock){
-        // TODO
-    }
-
-    private void handleTreeBranchBroken(Player player, Block branchBlock){
-        // TODO
-    }
-
-    private void handleShroomStemBroken(Player player, Block stemBlock){
-        // aka the shroom stem
-        // TODO
-    }
-
-    private void handleShroomBlockBroken(Player player, Block branchBlock){
-        // TODO
-    }
-
-    private void scheduleSplinterAbility(Player player, Block block) {
-        var data = splinters.get(player);
-        if(data.remainingCharges <= 0){
-            // No power left to schedule anything.
+        final var type = SplinterType.get(block);
+        if (!type.shouldSplinter(block)) {
             return;
         }
-        int splinterDelay = data.scheduledSplinters;
-        // Update and save data
-        data.remainingCharges -= 1;
-        data.scheduledSplinters += 1;
-        splinters.put(player, data);
 
-        // Schedule a splinter
-        new BukkitRunnable(){
+        final SplinterContext context;
+        if (contextMap.containsKey(player)) {
+            context = contextMap.get(player);
+        } else {
+            context = new SplinterContext(block, 32);
+            contextMap.put(player, context);
+        }
+
+        if (type.shouldSplinterAbove(block)) {
+            final var aboveBlock = block.getRelative(BlockFace.UP);
+            scheduleSplinterAbility(context, player, itemStack, aboveBlock);
+        }
+    }
+
+    private void scheduleSplinterAbility(SplinterContext context, Player player, ItemStack itemStack, Block block) {
+        if (context.remainingCharges <= 0){
+            contextMap.remove(player);
+            return;
+        }
+
+        context.remainingCharges--;
+
+        new BukkitRunnable() {
+
             @Override
             public void run() {
-                // Break the block
-                // TODO: Check if the player is holding a Splinter axe first.
-                //  I got the itemStack to check for splinter, but idk how to check for splinter.
-                var activeItem = player.getActiveItem();
-                player.breakBlock(block);
+                if (context != contextMap.get(player)) {
+                    return;
+                }
+                if (block.getType() != context.origin.getType()
+                        || !context.type.shouldSplinter(block)
+                        || player.getInventory().getItemInMainHand() != itemStack) {
+                    contextMap.remove(player);
+                    return;
+                }
 
-                // ... then update the data.
-                var updatedData = splinters.get(player);
-                updatedData.scheduledSplinters -= 1;
-                splinters.put(player, updatedData);
+                context.scheduledSplinters--;
+                if (context.scheduledSplinters <= 0) {
+                    context.remainingCharges = 0;
+                }
+
+                player.breakBlock(block);
             }
-        }.runTaskLater(plugin, splinterDelay);
+        }.runTaskLater(plugin, context.scheduledSplinters++);
     }
 
     /**
@@ -244,18 +202,6 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         return ret;
     }
 
-    private boolean isInvalidSplinterType(Material type) {
-        return !this.COMPATIBLE_MATERIALS.isTagged(type);
-    }
-
-    private boolean isInvalidSplinterLocation(Location loc){
-        return !Integrations.WORLDGUARD.canUseEnchantment(loc, Splinter.class);
-    }
-
-    private boolean isCompatibleMaterial(Material material) {
-        return isLogBlock(material) || isShroomBlock(material);
-    }
-
     private boolean isLogBlock(Material material){
         // Remember later: All log-blocks are orientable. (shrooms are compatible-material but not orientable.)
         return Tag.LOGS.isTagged(material);
@@ -282,9 +228,79 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
         }
     }
 
-    private static class ActiveSplinter {
-        Block origin;
-        int remainingCharges;
-        int scheduledSplinters;
+    private static class SplinterContext {
+
+        private SplinterType type;
+        private BlockState origin;
+        private int remainingCharges;
+        private int scheduledSplinters;
+
+        private SplinterContext(final Block origin, final int remainingCharges) {
+            this.type = SplinterType.get(origin);
+            this.origin = origin.getState();
+            this.remainingCharges = remainingCharges;
+            this.scheduledSplinters = 0;
+        }
+    }
+
+    private static enum SplinterType {
+
+        GENERIC_TRUNK,
+        GENERIC_BRANCH,
+        SHROOM_STEM,
+        SHROOM_BLOCK,
+        INCOMPATIBLE;
+
+        private static final SplinterType get(final Block block) {
+            // FIXME
+            return switch (block.getType()) {
+                case MUSHROOM_STEM -> SHROOM_STEM;
+                case BROWN_MUSHROOM_BLOCK, RED_MUSHROOM_BLOCK -> SHROOM_BLOCK;
+                default -> INCOMPATIBLE;
+            };
+        }
+
+        private boolean shouldSplinter(final Block block) {
+            // FIXME
+            return this == SplinterType.get(block) && switch (this) {
+                case GENERIC_TRUNK -> block.getBlockData() instanceof Orientable orientable
+                        && orientable.getAxis() == Axis.Y;
+                case GENERIC_BRANCH -> block.getBlockData() instanceof Orientable orientable
+                        && orientable.getAxis() != Axis.Y;
+                case SHROOM_STEM -> search(block).isEmpty();
+                case SHROOM_BLOCK -> true;
+                case INCOMPATIBLE -> false;
+            };
+        }
+
+        private boolean shouldSplinterAbove(final Block block) {
+            // FIXME
+            return switch (this) {
+                case GENERIC_BRANCH, SHROOM_BLOCK, INCOMPATIBLE -> false;
+                default -> {
+                    final var aboveBlock = block.getRelative(BlockFace.UP);
+                    final var aboveType = SplinterType.get(aboveBlock);
+                    yield this == aboveType || (this == SHROOM_STEM && aboveType == SHROOM_BLOCK);
+                }
+            };
+        }
+
+        private ObjectList<Block> search(final Block block) {
+            // FIXME
+            return switch (this) {
+                case SHROOM_STEM -> {
+                    if (SHROOM_STEM.shouldSplinter(block.getRelative(BlockFace.EAST))
+                            || SHROOM_STEM.shouldSplinter(block.getRelative(BlockFace.SOUTH))
+                            || SHROOM_STEM.shouldSplinter(block.getRelative(BlockFace.WEST))
+                            || SHROOM_STEM.shouldSplinter(block.getRelative(BlockFace.NORTH))) {
+                                yield ObjectList.of(block);
+                            } else {
+                                yield ObjectLists.emptyList();
+                            }
+                }
+                case INCOMPATIBLE -> ObjectLists.emptyList();
+                default -> ObjectLists.emptyList();
+            };
+        }
     }
 }
