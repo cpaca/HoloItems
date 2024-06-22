@@ -120,14 +120,13 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
                     return;
                 }
 
-                context.scheduledSplinters--;
-                if (context.scheduledSplinters <= 0) {
+                if (--context.scheduledSplinters <= 0) {
                     context.remainingCharges = 0;
                 }
 
                 player.breakBlock(block);
             }
-        }.runTaskLater(plugin, context.scheduledSplinters++);
+        }.runTaskLater(plugin, ++context.scheduledSplinters);
     }
 
     /**
