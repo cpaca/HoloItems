@@ -27,9 +27,9 @@ public class HolyFire extends CustomItem implements BlockAbility {
             .decoration(TextDecoration.ITALIC, false)
     );
 
-    // 10*20 ticks = 10 seconds
+    // 5*20 ticks = 5 seconds
     private static final BlockStateExpiringSet holyFireMarker = new BlockStateExpiringSet(
-        new ExpiringSet.ConstantTicksToLiveExpirationPolicy<>(10*20)
+        new ExpiringSet.ConstantTicksToLiveExpirationPolicy<>(5*20)
     );
 
     public HolyFire(HoloItemsRevamp plugin) {
@@ -56,7 +56,24 @@ public class HolyFire extends CustomItem implements BlockAbility {
 
     @Override
     public void onCreatureSpawn(CreatureSpawnEvent event, BlockState blockState) {
-        // TODO
+        // TODO: Uncomment this. (Commented so I can debug stuff.)
+//        if(event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.NATURAL) {
+//            return;
+//        }
+
+        final var spawnLoc = event.getLocation();
+        final var selfLoc = blockState.getLocation();
+        final var distance = spawnLoc.distance(selfLoc);
+        final var range = getRange(blockState);
+        if(distance > range){
+            return;
+        }
+
+        if(!isActive(blockState)){
+            return;
+        }
+
+        event.setCancelled(true);
     }
 
     private double getRange(BlockState blockState) {
