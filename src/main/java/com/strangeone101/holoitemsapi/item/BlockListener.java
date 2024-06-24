@@ -17,13 +17,13 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.BlockInventoryHolder;
 
-import com.strangeone101.holoitemsapi.tracking.TrackingManager;
+import com.strangeone101.holoitemsapi.tracking.CustomBlockStorage;
 
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 
 public class BlockListener implements Listener {
 
-    private final TrackingManager trackingManager;
+    private final CustomBlockStorage trackingManager;
 
     public BlockListener(HoloItemsRevamp plugin) {
         this.trackingManager = plugin.getTrackingManager();
@@ -31,7 +31,7 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(final BlockBreakEvent event) {
-        if (!trackingManager.isTracked(event.getBlock())) {
+        if (!trackingManager.contains(event.getBlock())) {
             return;
         }
 
@@ -46,7 +46,7 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockDispense(BlockDispenseEvent event) {
-        if (!trackingManager.isTracked(event.getBlock())) {
+        if (!trackingManager.contains(event.getBlock())) {
             return;
         }
 
@@ -66,7 +66,7 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockExplode(final BlockExplodeEvent event) {
-        event.blockList().removeIf(trackingManager::isTracked);
+        event.blockList().removeIf(trackingManager::contains);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -88,13 +88,13 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityExplode(final EntityExplodeEvent event) {
-        event.blockList().removeIf(trackingManager::isTracked);
+        event.blockList().removeIf(trackingManager::contains);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClose(InventoryCloseEvent event) {
         if (!(event.getInventory().getHolder() instanceof BlockInventoryHolder blockInventoryHolder)
-                || !trackingManager.isTracked(blockInventoryHolder.getBlock())) {
+                || !trackingManager.contains(blockInventoryHolder.getBlock())) {
             return;
         }
 
@@ -111,7 +111,7 @@ public class BlockListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPistonExtend(BlockPistonExtendEvent event) {
         for (final var block : event.getBlocks()) {
-            if (trackingManager.isTracked(block)) {
+            if (trackingManager.contains(block)) {
                 event.setCancelled(true);
                 return;
             }
@@ -125,7 +125,7 @@ public class BlockListener implements Listener {
         }
 
         for (final var block : event.getBlocks()) {
-            if (trackingManager.isTracked(block)) {
+            if (trackingManager.contains(block)) {
                 event.setCancelled(true);
                 return;
             }
