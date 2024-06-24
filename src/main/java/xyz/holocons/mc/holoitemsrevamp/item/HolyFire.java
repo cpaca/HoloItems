@@ -18,6 +18,8 @@ import xyz.holocons.mc.holoitemsrevamp.util.ExpiringSet;
 
 import java.util.List;
 
+import static org.bukkit.Material.NETHERITE_BLOCK;
+
 public class HolyFire extends CustomItem implements BlockAbility {
 
     private static final String name = "holy_fire";
@@ -30,7 +32,7 @@ public class HolyFire extends CustomItem implements BlockAbility {
 
     // 5*20 ticks = 5 seconds
     private static final BlockStateExpiringSet holyFireMarker = new BlockStateExpiringSet(
-        new ExpiringSet.ConstantTicksToLiveExpirationPolicy<>(5*20)
+        new HolyFireExpirationPolicy()
     );
 
     public HolyFire(HoloItemsRevamp plugin) {
@@ -57,10 +59,9 @@ public class HolyFire extends CustomItem implements BlockAbility {
 
     @Override
     public void onCreatureSpawn(CreatureSpawnEvent event, BlockState blockState) {
-        // TODO: Uncomment this. (Commented so I can debug stuff.)
-//        if(event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.NATURAL) {
-//            return;
-//        }
+        if(event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.NATURAL) {
+            return;
+        }
 
         final var spawnLoc = event.getLocation();
         final var selfLoc = blockState.getLocation();
@@ -78,7 +79,7 @@ public class HolyFire extends CustomItem implements BlockAbility {
     }
 
     private double getRange(BlockState blockState) {
-        return 100.0;
+        return 1000.0;
     }
 
     private void activate(BlockState blockState) {
@@ -116,5 +117,23 @@ public class HolyFire extends CustomItem implements BlockAbility {
 
     private void deactivate(BlockState blockState) {
         holyFireMarker.remove(blockState);
+    }
+
+    private static class HolyFireExpirationPolicy implements ExpiringSet.ExpirationPolicy<BlockState> {
+
+        @Override
+        public long expirationTime(BlockState blockState) {
+            final var blockBelow = blockState.getBlock().getRelative(0, -1, 0);
+            final var matBelow = blockBelow.getType();
+            long expirationTime;
+            if(matBelow == NETHERITE_BLOCK){
+
+            }
+            else {
+
+            }
+            expirationTime = 10*20;
+            return now() + expirationTime;
+        }
     }
 }
