@@ -1212,7 +1212,7 @@ public class CollectionManager {
     }
 
     private static Idol buildTowa(HoloItemsRevamp plugin) {
-        return new Idol() {
+        return new Idol(new HolyFire(plugin)) {
 
             @Override
             public @NotNull String getSkinUrl() {
