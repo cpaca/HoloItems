@@ -87,7 +87,9 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
             context = contextMap.get(playerId);
         } else {
             context = new SplinterContext(block, 32);
-            contextMap.put(playerId, context);
+            if (context.shouldSplinter(block)) {
+                contextMap.put(playerId, context);
+            }
         }
 
         if (!context.shouldSplinter(block)) {
