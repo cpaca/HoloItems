@@ -64,15 +64,14 @@ public class HolyFire extends CustomItem implements BlockAbility {
     }
 
     private void activate(BlockState blockState) {
-        // TODO
+        holyFireMarker.add(blockState);
     }
 
     private boolean isActive(BlockState blockState) {
-        // TODO
-        return false;
+        return holyFireMarker.test(blockState);
     }
 
     private void deactivate(BlockState blockState) {
-        // TODO
+        holyFireMarker.remove(blockState);
     }
 }
