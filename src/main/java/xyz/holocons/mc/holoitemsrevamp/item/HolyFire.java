@@ -81,7 +81,7 @@ public class HolyFire extends CustomItem implements BlockAbility {
     }
 
     private double getRange(BlockState blockState) {
-        return 1000.0;
+        return 100.0;
     }
 
     private void activate(BlockState blockState) {
@@ -128,10 +128,10 @@ public class HolyFire extends CustomItem implements BlockAbility {
             final var matBelow = blockBelow.getType();
             long expirationTime;
             if(matBelow == NETHERITE_BLOCK){
-                expirationTime = Util.toTicks(15, TimeUnit.SECONDS);
+                expirationTime = Util.toTicks(1, TimeUnit.HOURS);
             }
             else {
-                expirationTime = Util.toTicks(10, TimeUnit.SECONDS);
+                expirationTime = Util.toTicks(20, TimeUnit.MINUTES);
             }
             return now() + expirationTime;
         }
