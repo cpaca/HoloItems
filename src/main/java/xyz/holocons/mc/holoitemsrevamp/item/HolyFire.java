@@ -13,10 +13,12 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
+import xyz.holocons.mc.holoitemsrevamp.Util;
 import xyz.holocons.mc.holoitemsrevamp.util.BlockStateExpiringSet;
 import xyz.holocons.mc.holoitemsrevamp.util.ExpiringSet;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.bukkit.Material.NETHERITE_BLOCK;
 
@@ -120,19 +122,17 @@ public class HolyFire extends CustomItem implements BlockAbility {
     }
 
     private static class HolyFireExpirationPolicy implements ExpiringSet.ExpirationPolicy<BlockState> {
-
         @Override
         public long expirationTime(BlockState blockState) {
             final var blockBelow = blockState.getBlock().getRelative(0, -1, 0);
             final var matBelow = blockBelow.getType();
             long expirationTime;
             if(matBelow == NETHERITE_BLOCK){
-
+                expirationTime = Util.toTicks(15, TimeUnit.SECONDS);
             }
             else {
-
+                expirationTime = Util.toTicks(10, TimeUnit.SECONDS);
             }
-            expirationTime = 10*20;
             return now() + expirationTime;
         }
     }
