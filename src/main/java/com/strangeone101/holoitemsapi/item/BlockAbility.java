@@ -52,6 +52,6 @@ public interface BlockAbility extends Keyed {
     default void onBlockInteract(PlayerInteractEvent event, BlockState blockState) {
     }
 
-    default void onCreatureSpawn(CreatureSpawnEvent event) {
+    default void onCreatureSpawn(CreatureSpawnEvent event, BlockState blockState) {
     }
 }

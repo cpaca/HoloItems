@@ -46,7 +46,7 @@ public class HolyFire extends CustomItem implements BlockAbility {
     }
 
     @Override
-    public void onCreatureSpawn(CreatureSpawnEvent event) {
+    public void onCreatureSpawn(CreatureSpawnEvent event, BlockState blockState) {
         // TODO
     }
 }

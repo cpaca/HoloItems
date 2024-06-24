@@ -145,6 +145,8 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCreatureSpawn(CreatureSpawnEvent event) {
-        // TODO
+        final var worldID = event.getLocation().getWorld().getUID();
+        trackingManager.getTrackedBlocks(worldID)
+            .forEach(entry -> entry.getValue().onCreatureSpawn(event, entry.getKey().blockState()));
     }
 }
