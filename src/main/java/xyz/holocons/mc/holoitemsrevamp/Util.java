@@ -20,8 +20,8 @@ public final class Util {
     private static final ThreadLocalRandom RANDOM = ThreadLocalRandom.current();
     private static final UUID SKULL_OWNER = new UUID(0, 0);
 
-    private static long epochTick = -1;
-    private static int previousCurrentTick = Integer.MAX_VALUE;
+    private static long epochTick = 0;
+    private static long previousCurrentTick = Long.MAX_VALUE;
 
     private Util() {
     }
@@ -77,9 +77,9 @@ public final class Util {
      * @return The current time represented in terms of game ticks, assuming 20 TPS
      */
     public static long currentTimeTicks() {
-        final var currentTick = Bukkit.getCurrentTick();
+        final var currentTick = Integer.toUnsignedLong(Bukkit.getCurrentTick());
         if (currentTick < Util.previousCurrentTick) {
-            Util.epochTick = System.currentTimeMillis() / 50 - currentTick < 0 ? Integer.MIN_VALUE : 0;
+            Util.epochTick = System.currentTimeMillis() / 50 - currentTick;
         }
         Util.previousCurrentTick = currentTick;
         return Util.epochTick + currentTick;
