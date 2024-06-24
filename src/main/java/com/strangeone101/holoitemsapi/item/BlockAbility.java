@@ -52,6 +52,11 @@ public interface BlockAbility extends Keyed {
     default void onBlockInteract(PlayerInteractEvent event, BlockState blockState) {
     }
 
+    /**
+     * Activates whenever a creature spawns in the same world as this BlockAbility.
+     * @param event The CreatureSpawnEvent
+     * @param blockState This BlockAbility's Block. Note that this may not be in the same location as the event.
+     */
     default void onCreatureSpawn(CreatureSpawnEvent event, BlockState blockState) {
     }
 }

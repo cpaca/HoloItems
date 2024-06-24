@@ -6,14 +6,18 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
+import xyz.holocons.mc.holoitemsrevamp.util.EntityExpiringSet;
+import xyz.holocons.mc.holoitemsrevamp.util.ExpiringSet;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class HolyFire extends CustomItem implements BlockAbility {
 
@@ -32,21 +36,40 @@ public class HolyFire extends CustomItem implements BlockAbility {
 
     @Override
     public void onBlockPlace(BlockPlaceEvent event, BlockState blockState) {
-        // TODO
+        activate(blockState.getBlock());
     }
 
     @Override
     public void onBlockBreak(BlockBreakEvent event, BlockState blockState) {
-        // TODO
+        deactivate(blockState.getBlock());
     }
 
     @Override
     public void onBlockInteract(PlayerInteractEvent event, BlockState blockState) {
-        // TODO
+        // Due to BlockListener, we know this is a RIGHT_CLICK_BLOCK event
+        // (and that it's not cancelled)
+        activate(blockState.getBlock());
     }
 
     @Override
     public void onCreatureSpawn(CreatureSpawnEvent event, BlockState blockState) {
+        // TODO
+    }
+
+    private double getRange(Block block) {
+        return 100.0;
+    }
+
+    private void activate(Block block) {
+        // TODO
+    }
+
+    private boolean isActive(Block block) {
+        // TODO
+        return false;
+    }
+
+    private void deactivate(Block block) {
         // TODO
     }
 }
