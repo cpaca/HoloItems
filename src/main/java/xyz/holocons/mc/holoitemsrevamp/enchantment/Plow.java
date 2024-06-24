@@ -13,11 +13,12 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.util.EntityExpiringSet;
+import xyz.holocons.mc.holoitemsrevamp.util.ExpiringSet;
 
 public class Plow extends CustomEnchantment implements EnchantmentAbility {
 
     private final EntityExpiringSet plowMarker = new EntityExpiringSet(
-            new EntityExpiringSet.ConstantTicksToLiveExpirationPolicy<>(20));
+            new ExpiringSet.ConstantTicksToLiveExpirationPolicy<>(20));
 
     public Plow(HoloItemsRevamp plugin) {
         super(plugin, "plow");

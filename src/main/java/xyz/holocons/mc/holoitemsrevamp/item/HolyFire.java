@@ -13,7 +13,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.util.BlockStateExpiringSet;
-import xyz.holocons.mc.holoitemsrevamp.util.EntityExpiringSet;
 import xyz.holocons.mc.holoitemsrevamp.util.ExpiringSet;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class HolyFire extends CustomItem implements BlockAbility {
 
     // 10*20 ticks = 10 seconds
     private static final BlockStateExpiringSet holyFireMarker = new BlockStateExpiringSet(
-        new EntityExpiringSet.ConstantTicksToLiveExpirationPolicy<>(10*20)
+        new ExpiringSet.ConstantTicksToLiveExpirationPolicy<>(10*20)
     );
 
     public HolyFire(HoloItemsRevamp plugin) {

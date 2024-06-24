@@ -20,6 +20,20 @@ public abstract class ExpiringSet<E, K> implements Predicate<K> {
         }
     }
 
+    public static class ConstantTicksToLiveExpirationPolicy<K> implements ExpirationPolicy<K> {
+
+        private final long ticksToLive;
+
+        public ConstantTicksToLiveExpirationPolicy(final long ticksToLive) {
+            this.ticksToLive = ticksToLive;
+        }
+
+        @Override
+        public long expirationTime(K k) {
+            return now() + ticksToLive;
+        }
+    }
+
     private final Object2LongArrayMap<E> delegate = new Object2LongArrayMap<>();
     private final Function<K, E> keyToEntryMapper;
     private final ExpirationPolicy<K> expirationPolicy;
