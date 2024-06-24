@@ -83,6 +83,8 @@ public class HolyFire extends CustomItem implements BlockAbility {
 
     private void activate(BlockState blockState) {
         holyFireMarker.add(blockState);
+        // This isActive is done so that the BlockData will update.
+        isActive(blockState);
     }
 
     /**
