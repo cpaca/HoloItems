@@ -7,6 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.type.Campfire;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -84,8 +85,31 @@ public class HolyFire extends CustomItem implements BlockAbility {
         holyFireMarker.add(blockState);
     }
 
+    /**
+     * Checks whether this HolyFire is active.
+     * Also updates the holyFire's ignited/not-ignited status.
+     * @implNote Since this is only called when a Natural-Spawn is attempted, if you spawn-proof the affected area
+     * before activating this, the campfire won't un-ignite.
+     */
     private boolean isActive(BlockState blockState) {
-        return holyFireMarker.test(blockState);
+        boolean isActive = holyFireMarker.test(blockState);
+
+        final var data = blockState.getBlockData();
+        if(!(data instanceof Campfire campfire)){
+            // Should always be a campfire, but incase this path actually happens:
+            return false;
+        }
+
+        if(campfire.isLit() != isActive){
+            // Either: Campfire is lit and this is not active
+            // or campfire is not lit and this is active
+            // In either case, the campfire needs to be set and updated to the HolyFire's state.
+            campfire.setLit(isActive);
+            blockState.setBlockData(campfire);
+            blockState.update();
+        }
+
+        return isActive;
     }
 
     private void deactivate(BlockState blockState) {
