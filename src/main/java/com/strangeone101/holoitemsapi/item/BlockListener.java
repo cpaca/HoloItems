@@ -4,15 +4,7 @@ import io.papermc.paper.event.packet.PlayerChunkLoadEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockBurnEvent;
-import org.bukkit.event.block.BlockDispenseEvent;
-import org.bukkit.event.block.BlockDropItemEvent;
-import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockFadeEvent;
-import org.bukkit.event.block.BlockPistonExtendEvent;
-import org.bukkit.event.block.BlockPistonRetractEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -136,7 +128,15 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockInteract(PlayerInteractEvent event) {
-        // TODO
+        final var block = event.getClickedBlock();
+        if(block == null){
+            return;
+        }
+        if(!trackingManager.contains(block)){
+            return;
+        }
+
+        trackingManager.getBlockAbility(block).onBlockInteract(event, block.getState());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
