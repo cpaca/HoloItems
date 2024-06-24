@@ -20,11 +20,11 @@ public interface EnchantmentAbility extends Keyed {
     default void onPlayerDeath(PlayerDeathEvent event, ItemStack itemStack) {
     }
 
-    default void onPlayerInteract(PlayerInteractEvent event, ItemStack itemStack) {
-    }
-
     default void onProjectileLaunch(ProjectileLaunchEvent event, ItemStack itemStack) {
     }
+
+    default void onPlayerInteract(PlayerInteractEvent event, ItemStack itemStack) {
+    }    
 
     default void onPlayerToggleSneak(PlayerToggleSneakEvent event, ItemStack itemStack) {
     }
