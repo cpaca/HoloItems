@@ -3,13 +3,16 @@ package com.strangeone101.holoitemsapi.item;
 import org.bukkit.GameMode;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.papermc.paper.event.packet.PlayerChunkLoadEvent;
@@ -44,5 +47,11 @@ public interface BlockAbility extends Keyed {
     }
 
     default void onPlayerChunkLoad(PlayerChunkLoadEvent event, BlockState blockState) {
+    }
+
+    default void onBlockInteract(PlayerInteractEvent event, BlockState blockState) {
+    }
+
+    default void onCreatureSpawn(CreatureSpawnEvent event) {
     }
 }

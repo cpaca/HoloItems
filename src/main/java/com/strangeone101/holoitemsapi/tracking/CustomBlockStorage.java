@@ -110,6 +110,10 @@ public class CustomBlockStorage {
                 : Stream.empty();
     }
 
+    public Stream<Map.Entry<BlockLocation, BlockAbility>> getTrackedBlocks(final UUID worldKey) {
+        return trackedBlocks.entrySet().stream().filter(entry -> entry.getKey().worldKey().equals(worldKey));
+    }
+
     public BlockAbility getBlockAbility(final Block block) {
         return trackedBlocks.get(new BlockLocation(block));
     }
