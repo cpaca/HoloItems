@@ -12,6 +12,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.Util;
 import xyz.holocons.mc.holoitemsrevamp.util.BlockStateExpiringSet;
@@ -40,6 +42,21 @@ public class HolyFire extends CustomItem implements BlockAbility {
     public HolyFire(HoloItemsRevamp plugin) {
         super(plugin, name, material, displayName, lore);
         register();
+    }
+
+    @Override
+    protected Recipe getRecipe() {
+        ShapedRecipe recipe = new ShapedRecipe(getKey(), buildStack(null));
+        recipe.shape(
+            " a ",
+            "aba",
+            "ccc"
+        );
+        recipe.setIngredient('a', Material.END_ROD);
+        recipe.setIngredient('b', Material.SOUL_CAMPFIRE);
+        recipe.setIngredient('c', Material.RAW_GOLD_BLOCK);
+        recipe.setGroup(name);
+        return recipe;
     }
 
     @Override
