@@ -128,6 +128,10 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockInteract(PlayerInteractEvent event) {
+        if(event.getAction() != Action.RIGHT_CLICK_BLOCK){
+            return;
+        }
+
         final var block = event.getClickedBlock();
         if(block == null){
             return;
