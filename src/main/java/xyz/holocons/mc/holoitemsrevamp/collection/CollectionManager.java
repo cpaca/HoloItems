@@ -728,8 +728,8 @@ public class CollectionManager {
         };
     }
 
-    private static Idol buildRoboco(HoloItemsRevamp plugins) {
-        return new Idol(new MagnetBook(plugins)) {
+    private static Idol buildRoboco(HoloItemsRevamp plugin) {
+        return new Idol(new MagnetBook(plugin)) {
 
             @Override
             public @NotNull String getSkinUrl() {
@@ -867,7 +867,7 @@ public class CollectionManager {
     }
 
     private static Idol buildFubuki(HoloItemsRevamp plugin) {
-        return new Idol() {
+        return new Idol(new PlowBook(plugin)) {
 
             @Override
             public @NotNull String getSkinUrl() {

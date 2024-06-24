@@ -110,6 +110,8 @@ public class EnchantManager {
                 new Memento(plugin),
                 new TideRider(plugin),
                 new Backdash(plugin),
-                new DemonAura(plugin));
+                new DemonAura(plugin),
+                new Plow(plugin)
+        );
     }
 }
