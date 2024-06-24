@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
+import org.bukkit.block.Beacon;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.type.Campfire;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -101,7 +102,7 @@ public class HolyFire extends CustomItem implements BlockAbility {
     }
 
     private double getRange(BlockState blockState) {
-        return 100.0;
+        return 100.0 * getBoostLevel(blockState);
     }
 
     private void activate(BlockState blockState) {
@@ -141,18 +142,31 @@ public class HolyFire extends CustomItem implements BlockAbility {
         holyFireMarker.remove(blockState);
     }
 
+    /**
+     * Gets the "boost level" of this HolyFire. Note that "no boost" (aka default) is 1.
+     * @param blockState Presumed to be a valid and active HolyFire
+     */
+    private static long getBoostLevel(BlockState blockState) {
+        final var blockBelow = blockState.getBlock().getRelative(0, -1, 0);
+        final var matBelow = blockBelow.getType();
+        return switch (matBelow) {
+            case DIAMOND_BLOCK:
+                yield 2;
+            case NETHERITE_BLOCK:
+                yield 3;
+            case BEACON:
+                yield (blockBelow instanceof Beacon beacon) ? beacon.getTier() + 1 : 1;
+            default:
+                yield 1;
+        };
+    }
+
     private static class HolyFireExpirationPolicy implements ExpiringSet.ExpirationPolicy<BlockState> {
         @Override
         public long expirationTime(BlockState blockState) {
-            final var blockBelow = blockState.getBlock().getRelative(0, -1, 0);
-            final var matBelow = blockBelow.getType();
             long expirationTime;
-            if(matBelow == NETHERITE_BLOCK){
-                expirationTime = Util.toTicks(1, ChronoUnit.HOURS);
-            }
-            else {
-                expirationTime = Util.toTicks(20, ChronoUnit.MINUTES);
-            }
+            final var boostLevel = getBoostLevel(blockState);
+            expirationTime = Util.toTicks(20 * boostLevel, ChronoUnit.MINUTES);
             return now() + expirationTime;
         }
     }
