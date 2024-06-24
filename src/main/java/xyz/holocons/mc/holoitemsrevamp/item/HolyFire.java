@@ -2,6 +2,7 @@ package xyz.holocons.mc.holoitemsrevamp.item;
 
 import com.strangeone101.holoitemsapi.item.BlockAbility;
 import com.strangeone101.holoitemsapi.item.CustomItem;
+import io.papermc.paper.util.Tick;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -19,6 +20,8 @@ import xyz.holocons.mc.holoitemsrevamp.Util;
 import xyz.holocons.mc.holoitemsrevamp.util.BlockStateExpiringSet;
 import xyz.holocons.mc.holoitemsrevamp.util.ExpiringSet;
 
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -145,10 +148,10 @@ public class HolyFire extends CustomItem implements BlockAbility {
             final var matBelow = blockBelow.getType();
             long expirationTime;
             if(matBelow == NETHERITE_BLOCK){
-                expirationTime = Util.toTicks(1, TimeUnit.HOURS);
+                expirationTime = Util.toTicks(1, ChronoUnit.HOURS);
             }
             else {
-                expirationTime = Util.toTicks(20, TimeUnit.MINUTES);
+                expirationTime = Util.toTicks(20, ChronoUnit.MINUTES);
             }
             return now() + expirationTime;
         }

@@ -2,11 +2,13 @@ package xyz.holocons.mc.holoitemsrevamp;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.time.temporal.TemporalUnit;
 import java.util.Base64;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+import io.papermc.paper.util.Tick;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -128,11 +130,11 @@ public final class Util {
             ? Component.translatable("enchantment.level." + Integer.toString(number)) : Component.empty();
     }
 
-    public static long toTicks(long time, TimeUnit timeUnit){
-        return 20 * TimeUnit.SECONDS.convert(time, timeUnit);
+    public static long toTicks(long time, TemporalUnit temporalUnit){
+        return toTicks(Duration.of(time, temporalUnit));
     }
 
     public static long toTicks(Duration duration){
-        return 20 * duration.toSeconds();
+        return Tick.tick().fromDuration(duration);
     }
 }
