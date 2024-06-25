@@ -1,22 +1,35 @@
 package xyz.holocons.mc.holoitemsrevamp.util;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.bukkit.Bukkit;
 
-import java.util.function.Function;
-
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
 
-public abstract class ExpiringSet<E, K> implements Predicate<K> {
+public abstract class ExpiringSet<K, E> implements Predicate<K> {
 
     @FunctionalInterface
     public interface ExpirationPolicy<K> {
 
-        long expirationTime(K k);
+        long expirationTime(final K k);
 
         default long now() {
             return Integer.toUnsignedLong(Bukkit.getCurrentTick());
+        }
+    }
+
+    public static class ConstantTicksToLiveExpirationPolicy<K> implements ExpirationPolicy<K> {
+
+        private final long ticksToLive;
+
+        public ConstantTicksToLiveExpirationPolicy(final long ticksToLive) {
+            this.ticksToLive = ticksToLive;
+        }
+
+        @Override
+        public long expirationTime(final K k) {
+            return now() + ticksToLive;
         }
     }
 
