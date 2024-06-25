@@ -17,6 +17,7 @@ import com.destroystokyo.paper.profile.ProfileProperty;
 
 import io.papermc.paper.util.Tick;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.util.Ticks;
 
 public final class Util {
 
@@ -84,7 +85,7 @@ public final class Util {
     public static long currentTimeTicks() {
         final var currentTick = Integer.toUnsignedLong(Bukkit.getCurrentTick());
         if (currentTick < Util.previousCurrentTick) {
-            Util.epochTick = System.currentTimeMillis() / 50 - currentTick;
+            Util.epochTick = System.currentTimeMillis() / Ticks.SINGLE_TICK_DURATION_MS - currentTick;
         }
         Util.previousCurrentTick = currentTick;
         return Util.epochTick + currentTick;

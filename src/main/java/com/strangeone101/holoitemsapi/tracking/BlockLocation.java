@@ -10,16 +10,20 @@ import org.bukkit.block.BlockState;
 
 public record BlockLocation(UUID worldKey, int x, int y, int z) {
 
-    public BlockLocation(Block block) {
-        this(block.getWorld().getUID(), block.getX(), block.getY(), block.getZ());
-    }
-
     public BlockLocation(UUID worldKey, long chunkKey, int blockKey) {
         this(
                 worldKey,
                 (int) chunkKey << 4 | blockKey >> 16 & 0xF,
                 blockKey & 0xFFFF,
                 (int) (chunkKey >> 32) << 4 | blockKey >> 24 & 0xF);
+    }
+
+    public BlockLocation(Block block) {
+        this(block.getWorld().getUID(), block.getX(), block.getY(), block.getZ());
+    }
+
+    public BlockLocation(BlockState blockState) {
+        this(blockState.getWorld().getUID(), blockState.getX(), blockState.getY(), blockState.getZ());
     }
 
     public World world() {

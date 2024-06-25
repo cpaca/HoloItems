@@ -1,10 +1,9 @@
 package xyz.holocons.mc.holoitemsrevamp.util;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.bukkit.Bukkit;
-
-import java.util.function.Function;
 
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
 
