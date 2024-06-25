@@ -61,4 +61,9 @@ public record BlockLocation(UUID worldKey, int x, int y, int z) {
                 && this.x == other.x && this.y == other.y && this.z == other.z
                 && this.worldKey.equals(other.worldKey);
     }
+
+    public boolean isLoaded() {
+        final var world = Bukkit.getWorld(worldKey);
+        return world != null && world.isChunkLoaded(x/16, z/16);
+    }
 }
