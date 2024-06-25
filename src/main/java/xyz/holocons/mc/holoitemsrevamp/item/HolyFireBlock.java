@@ -77,9 +77,9 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
 
         final var spawnLocation = event.getLocation();
         final var campfireLocation = blockState.getLocation();
-        final var distance = spawnLocation.distance(campfireLocation);
-        final var range = getRange(blockState);
-        if (distance > range || !isActive(blockState)) {
+        final var distanceSquared = spawnLocation.distanceSquared(campfireLocation);
+        final var rangeSquared = getRangeSquared(blockState);
+        if (distanceSquared > rangeSquared || !isActive(blockState)) {
             return;
         }
 
@@ -98,7 +98,7 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
     /**
      * Checks whether this HolyFire is active.
      * Also updates the holyFire's ignited/extinguished status.
-     * 
+     *
      * @implNote Since this is only called when a Natural-Spawn is attempted, if you
      *           spawn-proof the affected area before activating this, the campfire
      *           won't extinguish.
@@ -118,14 +118,15 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
         return isActive;
     }
 
-    private static double getRange(BlockState blockState) {
-        return 100.0d * getBoostLevel(blockState);
+    private static double getRangeSquared(BlockState blockState) {
+        final double range = 100.0d * getBoostLevel(blockState);
+        return range * range;
     }
 
     /**
      * Gets the "boost level" of this HolyFire. Note that "no boost" (aka default)
      * is 1.
-     * 
+     *
      * @param blockState Presumed to be a valid and active HolyFire
      */
     private static long getBoostLevel(BlockState blockState) {
