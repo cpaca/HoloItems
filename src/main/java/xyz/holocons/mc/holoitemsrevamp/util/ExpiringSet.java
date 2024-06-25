@@ -8,12 +8,12 @@ import java.util.function.Function;
 
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
 
-public abstract class ExpiringSet<E, K> implements Predicate<K> {
+public abstract class ExpiringSet<K, E> implements Predicate<K> {
 
     @FunctionalInterface
     public interface ExpirationPolicy<K> {
 
-        long expirationTime(K k);
+        long expirationTime(final K k);
 
         default long now() {
             return Integer.toUnsignedLong(Bukkit.getCurrentTick());
@@ -29,7 +29,7 @@ public abstract class ExpiringSet<E, K> implements Predicate<K> {
         }
 
         @Override
-        public long expirationTime(K k) {
+        public long expirationTime(final K k) {
             return now() + ticksToLive;
         }
     }

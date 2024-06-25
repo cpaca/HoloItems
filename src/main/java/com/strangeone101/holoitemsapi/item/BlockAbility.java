@@ -3,7 +3,6 @@ package com.strangeone101.holoitemsapi.item;
 import org.bukkit.GameMode;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -43,20 +42,22 @@ public interface BlockAbility extends Keyed {
     default void onBlockPlace(BlockPlaceEvent event, BlockState blockState) {
     }
 
+    /**
+     * Activates whenever a creature spawns in the same world as this BlockAbility.
+     * 
+     * @param event      The CreatureSpawnEvent
+     * @param blockState This BlockAbility's Block. Note that this may not be in the
+     *                   same location as the event.
+     */
+    default void onCreatureSpawn(CreatureSpawnEvent event, BlockState blockState) {
+    }
+
     default void onInventoryClose(InventoryCloseEvent event, BlockState blockState) {
     }
 
+    default void onPlayerInteract(PlayerInteractEvent event, BlockState blockState) {
+    }
+
     default void onPlayerChunkLoad(PlayerChunkLoadEvent event, BlockState blockState) {
-    }
-
-    default void onBlockInteract(PlayerInteractEvent event, BlockState blockState) {
-    }
-
-    /**
-     * Activates whenever a creature spawns in the same world as this BlockAbility.
-     * @param event The CreatureSpawnEvent
-     * @param blockState This BlockAbility's Block. Note that this may not be in the same location as the event.
-     */
-    default void onCreatureSpawn(CreatureSpawnEvent event, BlockState blockState) {
     }
 }

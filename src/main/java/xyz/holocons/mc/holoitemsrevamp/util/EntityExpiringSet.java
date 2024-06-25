@@ -4,7 +4,8 @@ import java.util.UUID;
 
 import org.bukkit.entity.Entity;
 
-public class EntityExpiringSet extends ExpiringSet<UUID, Entity> {
+public class EntityExpiringSet extends ExpiringSet<Entity, UUID> {
+
     public EntityExpiringSet(ExpirationPolicy<Entity> expirationPolicy) {
         super(Entity::getUniqueId, expirationPolicy);
     }
