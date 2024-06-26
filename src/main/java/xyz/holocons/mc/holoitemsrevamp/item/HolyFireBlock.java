@@ -14,6 +14,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.util.NumberConversions;
 
 import com.strangeone101.holoitemsapi.item.BlockAbility;
 import com.strangeone101.holoitemsapi.item.CustomItem;
@@ -118,25 +119,19 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
         return isActive;
     }
 
-    private static double getRangeSquared(BlockState blockState) {
-        final double range = 100.0d * getBoostLevel(blockState);
-        return range * range;
+    private static double getRangeSquared(final BlockState blockState) {
+        final var boostLevel = getBoostLevel(blockState);
+        return NumberConversions.square(80 + 12 * boostLevel);
     }
 
     /**
-     * Gets the "boost level" of this HolyFire. Note that "no boost" (aka default)
-     * is 1.
+     * Gets the "boost level" based on the block below.
      *
      * @param blockState Presumed to be a valid and active HolyFire
      */
-    private static long getBoostLevel(BlockState blockState) {
+    private static int getBoostLevel(final BlockState blockState) {
         final var blockBelow = blockState.getBlock().getRelative(BlockFace.DOWN);
-        return switch (blockBelow.getType()) {
-            case DIAMOND_BLOCK -> 2;
-            case NETHERITE_BLOCK -> 3;
-            case BEACON -> blockBelow.getState() instanceof Beacon beacon ? beacon.getTier() + 1 : 1;
-            default -> 1;
-        };
+        return blockBelow.getState() instanceof Beacon beacon ? beacon.getTier() + 1 : 0;
     }
 
     private static class HolyFireExpirationPolicy implements ExpiringSet.ExpirationPolicy<BlockState> {
@@ -144,7 +139,7 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
         @Override
         public long expirationTime(final BlockState blockState) {
             final var boostLevel = getBoostLevel(blockState);
-            return now() + Util.toTicks(20 * boostLevel, ChronoUnit.MINUTES);
+            return now() + Util.toTicks(20 + 8 * boostLevel, ChronoUnit.MINUTES);
         }
     }
 }
