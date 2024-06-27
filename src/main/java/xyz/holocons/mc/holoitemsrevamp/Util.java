@@ -28,7 +28,7 @@ public final class Util {
 
     /**
      * Convenience method to call the deprecated {@code UnsafeValues#nextEntityId()}.
-     * 
+     *
      * @return The next EntityId available
      */
     @SuppressWarnings("deprecation")
@@ -41,7 +41,7 @@ public final class Util {
      * secure random UUID, but for our use cases, we don't need it to be
      * cryptographically secure. We can generate our UUIDs a little more cheaply using
      * {@code ThreadLocalRandom} instead. Should not be called from any async threads.
-     * 
+     *
      * @return A pseudo randomly generated UUID
      */
     public static UUID randomUUID() {
@@ -50,7 +50,7 @@ public final class Util {
 
     /**
      * Returns a player head with the base64 texture. Mostly used for GUI.
-     * 
+     *
      * @param base64 A base 64 string that contains ONLY the texture
      * @return The ItemStack player head
      */
@@ -73,7 +73,7 @@ public final class Util {
      * it begins counting from 0 when the server starts. Instead, we'll use the system
      * time as an epoch and add the current tick to it to efficiently get an absolute
      * current time.
-     * 
+     *
      * @return The current time represented in terms of game ticks, assuming 20 TPS
      */
     public static long currentTimeTicks() {
@@ -87,7 +87,7 @@ public final class Util {
 
     /**
      * Returns the ore rarity of a tool material.
-     * 
+     *
      * @param material The material to check
      * @return An ingot material that corresponds to the provided material, or air if there is none.
      */
@@ -117,12 +117,23 @@ public final class Util {
     /**
      * Returns the roman numeral equivalent of a number. This is only useful for numbers 1 through 10.
      * Mainly used for enchantments.
-     * 
+     *
      * @param number A number from 1 through 10
      * @return A TranslatableComponent, or empty Component if it is outside the available range.
      */
     public static Component toRoman(int number) {
         return (number > 0 && number <= 10)
             ? Component.translatable("enchantment.level." + Integer.toString(number)) : Component.empty();
+    }
+
+    /**
+     * Equivalent to Math.clamp(). However, that function is locked behind Java 21.
+     * TODO: When Java 21 releases, remove this.
+     */
+    public static int clamp(int value, int min, int max) {
+        if(value < min) {
+            return min;
+        }
+        return Math.min(value, max);
     }
 }
