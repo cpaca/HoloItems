@@ -186,7 +186,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
                 // Deleted in commit f6c8446 apparantly?
                 getPossibleBranches(block, 0, 1)
                     .filter(test -> test.getType() == blockMaterial)
-                    .filter(test -> SplinterType.get(block) == SplinterType.GENERIC_BRANCH)
+                    .filter(test -> SplinterType.get(test) == SplinterType.GENERIC_BRANCH)
                     .forEach(returnValue::add);
                 return returnValue;
             }
