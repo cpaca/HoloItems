@@ -118,7 +118,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
                 --context.scheduledSplinters;
 
                 final var player = Bukkit.getPlayer(playerId);
-                if (!context.shouldSplinter(block) || player == null ||  !isSplinterToolInHand(player)) {
+                if (!context.shouldSplinter(block) || !isSplinterToolInHand(player)) {
                     contextMap.remove(playerId);
                     return;
                 }
@@ -133,7 +133,7 @@ public class Splinter extends CustomEnchantment implements EnchantmentAbility {
     }
 
     private boolean isSplinterToolInHand(final Player player) {
-        return player.getInventory().getItemInMainHand().containsEnchantment(this);
+        return player != null && player.getInventory().getItemInMainHand().containsEnchantment(this);
     }
 
     private static class SplinterContext {
