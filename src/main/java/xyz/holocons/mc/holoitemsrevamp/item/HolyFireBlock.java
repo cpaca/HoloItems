@@ -50,7 +50,7 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
         final var recipe = new ShapedRecipe(getKey(), buildStack(null));
         recipe.shape(" a ", "aba", "ccc");
         recipe.setIngredient('a', Material.END_ROD);
-        recipe.setIngredient('b', Material.SOUL_CAMPFIRE);
+        recipe.setIngredient('b', Material.BEDROCK);
         recipe.setIngredient('c', Material.RAW_GOLD_BLOCK);
         recipe.setGroup(name);
         return recipe;
