@@ -77,9 +77,9 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
             return;
         }
 
-        final var spawnLocation = event.getLocation();
         final var campfireLocation = blockState.getLocation();
-        final var distanceSquared = spawnLocation.distanceSquared(campfireLocation);
+        final var spawnLocation = event.getLocation();
+        final var distanceSquared = campfireLocation.distanceSquared(spawnLocation);
         final var rangeSquared = getRangeSquared(blockState);
         if (distanceSquared > rangeSquared || !isActive(blockState)) {
             return;
