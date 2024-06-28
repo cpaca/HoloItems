@@ -50,6 +50,10 @@ public record BlockLocation(UUID worldKey, int x, int y, int z) {
         return world().getBlockState(x, y, z);
     }
 
+    public boolean isLoaded() {
+        return world() != null && world().isChunkLoaded(x >> 4, z >> 4);
+    }
+
     @Override
     public int hashCode() {
         return worldKey.hashCode() ^ ((y + z * 31) * 31 + x);
@@ -60,10 +64,5 @@ public record BlockLocation(UUID worldKey, int x, int y, int z) {
         return obj instanceof BlockLocation other
                 && this.x == other.x && this.y == other.y && this.z == other.z
                 && this.worldKey.equals(other.worldKey);
-    }
-
-    public boolean isLoaded() {
-        final var world = Bukkit.getWorld(worldKey);
-        return world != null && world.isChunkLoaded(x/16, z/16);
     }
 }

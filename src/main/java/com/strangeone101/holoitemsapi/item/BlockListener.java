@@ -38,13 +38,13 @@ public class BlockListener implements Listener {
             return;
         }
 
-        trackingManager.getBlockAbility(event.getBlock())
+        trackingManager.getAbility(event.getBlock())
                 .onBlockBreak(event, event.getBlock().getState());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockBurn(BlockBurnEvent event) {
-        trackingManager.untrack(event.getBlock());
+        trackingManager.unset(event.getBlock());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -53,13 +53,13 @@ public class BlockListener implements Listener {
             return;
         }
 
-        trackingManager.getBlockAbility(event.getBlock())
+        trackingManager.getAbility(event.getBlock())
                 .onBlockDispense(event, event.getBlock().getState());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockDropItem(BlockDropItemEvent event) {
-        final var ability = trackingManager.untrack(event.getBlock());
+        final var ability = trackingManager.unset(event.getBlock());
         if (ability == null) {
             return;
         }
@@ -74,11 +74,11 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockFade(BlockFadeEvent event) {
-        trackingManager.untrack(event.getBlock());
+        trackingManager.unset(event.getBlock());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPistonExtend(BlockPistonExtendEvent event) {
+    public void onBlockPistonExtend(BlockPistonExtendEvent event) {
         for (final var block : event.getBlocks()) {
             if (trackingManager.contains(block)) {
                 event.setCancelled(true);
@@ -88,7 +88,7 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPistonRetract(BlockPistonRetractEvent event) {
+    public void onBlockPistonRetract(BlockPistonRetractEvent event) {
         if (!event.isSticky()) {
             return;
         }
@@ -104,20 +104,20 @@ public class BlockListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
         final var itemStack = event.getItemInHand();
-
         if (!(CustomItemManager.getCustomItem(itemStack) instanceof BlockAbility ability)) {
             return;
         }
 
-        trackingManager.track(event.getBlockPlaced(), ability);
+        trackingManager.set(event.getBlockPlaced(), ability);
         ability.onBlockPlace(event, event.getBlock().getState());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCreatureSpawn(CreatureSpawnEvent event) {
         final var worldKey = event.getLocation().getWorld().getUID();
-        trackingManager.getTrackedBlocks(worldKey)
-                .forEach(entry -> entry.getValue().onCreatureSpawn(event, entry.getKey().blockState()));
+        trackingManager.forEachLoadedBlock(worldKey, (location, ability) -> {
+            ability.onCreatureSpawn(event, location.blockState());
+        });
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -132,7 +132,7 @@ public class BlockListener implements Listener {
             return;
         }
 
-        trackingManager.getBlockAbility(blockInventoryHolder.getBlock())
+        trackingManager.getAbility(blockInventoryHolder.getBlock())
                 .onInventoryClose(event, blockInventoryHolder.getBlock().getState());
     }
 
@@ -147,12 +147,13 @@ public class BlockListener implements Listener {
             return;
         }
 
-        trackingManager.getBlockAbility(block).onPlayerInteract(event, block.getState());
+        trackingManager.getAbility(block).onPlayerInteract(event, block.getState());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChunkLoad(PlayerChunkLoadEvent event) {
-        trackingManager.getTrackedBlocks(event.getWorld().getUID(), event.getChunk().getChunkKey())
-                .forEach(entry -> entry.getValue().onPlayerChunkLoad(event, entry.getKey().blockState()));
+        trackingManager.forEachBlockInChunk(event.getWorld().getUID(), event.getChunk().getChunkKey(), (location, ability) -> {
+            ability.onPlayerChunkLoad(event, location.blockState());
+        });
     }
 }
