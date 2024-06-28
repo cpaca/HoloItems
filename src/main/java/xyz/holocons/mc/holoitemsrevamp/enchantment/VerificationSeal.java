@@ -7,6 +7,9 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
@@ -47,5 +50,18 @@ public class VerificationSeal extends CustomEnchantment implements EnchantmentAb
     @Override
     public int getCostMultiplier() {
         return 12;
+    }
+
+    @Override
+    public void onInventoryClicked(InventoryClickEvent event, ItemStack itemStack) {
+        if(event instanceof CraftItemEvent || event.getInventory().getType() == InventoryType.CARTOGRAPHY) {
+            event.setCancelled(true);
+        }
+        else {
+            final var clickedInventory = event.getClickedInventory();
+            if(clickedInventory != null && clickedInventory.getType() == InventoryType.CARTOGRAPHY) {
+                event.setCancelled(true);
+            }
+        }
     }
 }
