@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -37,6 +38,9 @@ public interface BlockAbility extends Keyed {
         if (itemStack.getType().equals(getMaterial()) && itemStack.getAmount() == 1) {
             items.get(items.size() - 1).setItemStack(buildStack(null));
         }
+    }
+
+    default void onBlockIgnite(BlockIgniteEvent event, BlockState blockState) {
     }
 
     default void onBlockPlace(BlockPlaceEvent event, BlockState blockState) {

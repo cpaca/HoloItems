@@ -9,6 +9,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.type.Campfire;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -56,18 +57,18 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
     }
 
     @Override
-    public void onBlockPlace(BlockPlaceEvent event, BlockState blockState) {
-        activate(blockState);
-    }
-
-    @Override
     public void onBlockBreak(BlockBreakEvent event, BlockState blockState) {
-        deactivate(blockState);
+        holyFireMarker.remove(blockState);
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event, BlockState blockState) {
-        activate(blockState);
+    public void onBlockIgnite(BlockIgniteEvent event, BlockState blockState) {
+        holyFireMarker.add(blockState);
+    }
+
+    @Override
+    public void onBlockPlace(BlockPlaceEvent event, BlockState blockState) {
+        isActive(blockState);
     }
 
     @Override
@@ -87,35 +88,32 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
         event.setCancelled(true);
     }
 
-    private void activate(BlockState blockState) {
-        holyFireMarker.add(blockState);
-        isActive(blockState);
-    }
-
-    private void deactivate(BlockState blockState) {
-        holyFireMarker.remove(blockState);
+    @Override
+    public void onPlayerInteract(PlayerInteractEvent event, BlockState blockState) {
+        if (blockState.getBlockData() instanceof Campfire campfire && !campfire.isLit()) {
+            holyFireMarker.remove(blockState);
+        }
     }
 
     /**
      * Checks whether this HolyFire is active.
-     * Also updates the holyFire's ignited/extinguished status.
+     * Also updates the block's lit state.
      *
      * @implNote Since this is only called when a Natural-Spawn is attempted, if you
      *           spawn-proof the affected area before activating this, the campfire
      *           won't extinguish.
      */
-    private boolean isActive(BlockState blockState) {
+    private static boolean isActive(final BlockState blockState) {
         if (!(blockState.getBlockData() instanceof Campfire campfire)) {
             return false;
         }
 
         final var isActive = holyFireMarker.test(blockState);
-        if (campfire.isLit() != isActive) {
-            campfire.setLit(isActive);
+        if (!isActive && campfire.isLit()) {
+            campfire.setLit(false);
             blockState.setBlockData(campfire);
             blockState.update();
         }
-
         return isActive;
     }
 
