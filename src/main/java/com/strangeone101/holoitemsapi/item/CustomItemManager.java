@@ -25,7 +25,7 @@ public class CustomItemManager {
      */
     public static void register(CustomItem item) {
         if (locked) {
-            throw new RuntimeException("CustomItemManager is locked");
+            throw new IllegalStateException("New items cannot be registered at this time");
         }
         CUSTOM_ITEMS.put(item.getInternalName(), item);
     }
