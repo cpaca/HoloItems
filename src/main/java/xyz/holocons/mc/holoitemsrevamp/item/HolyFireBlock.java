@@ -3,8 +3,6 @@ package xyz.holocons.mc.holoitemsrevamp.item;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import com.strangeone101.holoitemsapi.item.CustomItemManager;
-import com.strangeone101.holoitemsapi.recipe.CIRecipeChoice;
 import org.bukkit.Material;
 import org.bukkit.block.Beacon;
 import org.bukkit.block.BlockFace;
@@ -21,6 +19,7 @@ import org.bukkit.util.NumberConversions;
 
 import com.strangeone101.holoitemsapi.item.BlockAbility;
 import com.strangeone101.holoitemsapi.item.CustomItem;
+import com.strangeone101.holoitemsapi.recipe.CustomItemRecipeChoice;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -52,9 +51,7 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
         final var recipe = new ShapedRecipe(getKey(), buildStack(null));
         recipe.shape(" a ", "aba", "ccc");
         recipe.setIngredient('a', Material.END_ROD);
-        recipe.setIngredient('b', new CIRecipeChoice(
-            CustomItemManager.getCustomItem("saint_quartz").buildStack(null)
-        ));
+        recipe.setIngredient('b', new CustomItemRecipeChoice("saint_quartz"));
         recipe.setIngredient('c', Material.RAW_GOLD_BLOCK);
         recipe.setGroup(name);
         return recipe;

@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
 import com.strangeone101.holoitemsapi.item.CustomItem;
+import com.strangeone101.holoitemsapi.item.CustomItemManager;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -34,6 +35,8 @@ public class CollectionManager {
                     }
                 })
                 .collect(Collectors.toMap(CustomItem::getInternalName, Function.identity()));
+
+        CustomItemManager.lock();
     }
 
     /**
