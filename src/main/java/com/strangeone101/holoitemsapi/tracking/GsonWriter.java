@@ -19,7 +19,7 @@ public class GsonWriter extends JsonWriter {
         super(new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8)));
     }
 
-    public void writeBlocks(final Map<TrackedBlock, BlockAbility> blocks) throws IOException {
+    public void writeBlocks(final Map<BlockLocation, BlockAbility> blocks) throws IOException {
         final var palette = CustomItemManager.getCustomBlocks();
 
         // Save palette, always.

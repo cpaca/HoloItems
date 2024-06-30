@@ -8,18 +8,22 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 
-public record TrackedBlock(UUID worldKey, int x, int y, int z) {
+public record BlockLocation(UUID worldKey, int x, int y, int z) {
 
-    public TrackedBlock(Block block) {
-        this(block.getWorld().getUID(), block.getX(), block.getY(), block.getZ());
-    }
-
-    public TrackedBlock(UUID worldKey, long chunkKey, int blockKey) {
+    public BlockLocation(UUID worldKey, long chunkKey, int blockKey) {
         this(
                 worldKey,
                 (int) chunkKey << 4 | blockKey >> 16 & 0xF,
                 blockKey & 0xFFFF,
                 (int) (chunkKey >> 32) << 4 | blockKey >> 24 & 0xF);
+    }
+
+    public BlockLocation(Block block) {
+        this(block.getWorld().getUID(), block.getX(), block.getY(), block.getZ());
+    }
+
+    public BlockLocation(BlockState blockState) {
+        this(blockState.getWorld().getUID(), blockState.getX(), blockState.getY(), blockState.getZ());
     }
 
     public World world() {
@@ -46,6 +50,10 @@ public record TrackedBlock(UUID worldKey, int x, int y, int z) {
         return world().getBlockState(x, y, z);
     }
 
+    public boolean isLoaded() {
+        return world() != null && world().isChunkLoaded(x >> 4, z >> 4);
+    }
+
     @Override
     public int hashCode() {
         return worldKey.hashCode() ^ ((y + z * 31) * 31 + x);
@@ -53,7 +61,7 @@ public record TrackedBlock(UUID worldKey, int x, int y, int z) {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof TrackedBlock other
+        return obj instanceof BlockLocation other
                 && this.x == other.x && this.y == other.y && this.z == other.z
                 && this.worldKey.equals(other.worldKey);
     }

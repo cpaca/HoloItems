@@ -5,8 +5,9 @@ import com.strangeone101.holoitemsapi.enchantment.AnvilListener;
 import com.strangeone101.holoitemsapi.enchantment.EnchantManager;
 import com.strangeone101.holoitemsapi.enchantment.EnchantmentListener;
 import com.strangeone101.holoitemsapi.item.BlockListener;
+import com.strangeone101.holoitemsapi.item.CustomItemManager;
 import com.strangeone101.holoitemsapi.recipe.CraftListener;
-import com.strangeone101.holoitemsapi.tracking.TrackingManager;
+import com.strangeone101.holoitemsapi.tracking.CustomBlockStorage;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.holocons.mc.holoitemsrevamp.collection.CollectionManager;
@@ -17,7 +18,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
 
     private CollectionManager collectionManager;
     private EnchantManager enchantManager;
-    private TrackingManager trackingManager;
+    private CustomBlockStorage trackingManager;
 
     @Override
     public void onLoad() {
@@ -25,7 +26,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
 
         this.enchantManager = new EnchantManager(this);
         this.collectionManager = new CollectionManager(this);
-        this.trackingManager = new TrackingManager(this);
+        this.trackingManager = new CustomBlockStorage(this);
 
         Integrations.onLoad();
     }
@@ -34,6 +35,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
     public void onEnable() {
         Integrations.onEnable();
 
+        CustomItemManager.lock();
         trackingManager.loadTrackedBlocks();
 
         getServer().getPluginManager().registerEvents(new EnchantmentListener(), this);
@@ -58,7 +60,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
         return enchantManager;
     }
 
-    public TrackingManager getTrackingManager() {
+    public CustomBlockStorage getTrackingManager() {
         return trackingManager;
     }
 }

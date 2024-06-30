@@ -22,8 +22,8 @@ public class GsonReader extends JsonReader {
     }
 
     public void readBlocks(
-            final Map<TrackedBlock, BlockAbility> trackedBlocks,
-            final Map<TrackedBlock, BlockAbility> invalidBlocks) throws IOException {
+            final Map<BlockLocation, BlockAbility> trackedBlocks,
+            final Map<BlockLocation, BlockAbility> invalidBlocks) throws IOException {
         if (peek() == JsonToken.NULL) {
             return;
         }
@@ -75,7 +75,7 @@ public class GsonReader extends JsonReader {
                                     throw new IOException("Failed to read Integer: " + blockKeyString);
                                 }
 
-                                final var block = new TrackedBlock(worldKey, chunkKey, blockKey);
+                                final var block = new BlockLocation(worldKey, chunkKey, blockKey);
 
                                 final var blockAbilityInt = nextInt();
                                 final BlockAbility blockAbility;

@@ -1,20 +1,20 @@
 package com.strangeone101.holoitemsapi.tracking;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.Instant;
+import java.util.UUID;
+import java.util.function.BiConsumer;
+import java.util.logging.Logger;
+
+import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
+
 import com.strangeone101.holoitemsapi.item.BlockAbility;
 
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-
-import org.bukkit.block.Block;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
-
-import java.io.File;
-import java.io.IOException;
-import java.time.Instant;
-import java.util.Map;
-import java.util.UUID;
-import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 /**
  * Shoutout to Flo0 (a.k.a 7Smiley7 on Spigot) for sharing the block tracking
@@ -24,16 +24,16 @@ import java.util.stream.Stream;
  *      "https://www.spigotmc.org/threads/tracking-blocks-that-were-placed-by-players.500216/">Resource
  *      thread</a>
  */
-public class TrackingManager {
+public class CustomBlockStorage {
 
     public static final String FILENAME = "blocks.json";
 
     private final Logger logger;
     private final File dataFolder;
-    private final Object2ObjectOpenHashMap<TrackedBlock, BlockAbility> trackedBlocks;
+    private final Object2ObjectOpenHashMap<BlockLocation, BlockAbility> trackedBlocks;
     private final LongOpenHashSet touchedChunks;
 
-    public TrackingManager(HoloItemsRevamp plugin) {
+    public CustomBlockStorage(HoloItemsRevamp plugin) {
         this.logger = plugin.getLogger();
         this.dataFolder = plugin.getDataFolder();
         this.trackedBlocks = new Object2ObjectOpenHashMap<>();
@@ -50,7 +50,7 @@ public class TrackingManager {
             throw new IllegalStateException("Block tracker already has data!");
         }
 
-        final Object2ObjectOpenHashMap<TrackedBlock, BlockAbility> invalidBlocks = new Object2ObjectOpenHashMap<>();
+        final Object2ObjectOpenHashMap<BlockLocation, BlockAbility> invalidBlocks = new Object2ObjectOpenHashMap<>();
 
         try (final var reader = new GsonReader(file)) {
             reader.readBlocks(trackedBlocks, invalidBlocks);
@@ -78,7 +78,7 @@ public class TrackingManager {
             }
         }
 
-        trackedBlocks.keySet().stream().mapToLong(TrackedBlock::chunkKey).forEach(touchedChunks::add);
+        trackedBlocks.keySet().stream().mapToLong(BlockLocation::chunkKey).forEach(touchedChunks::add);
     }
 
     public void saveTrackedBlocks() {
@@ -93,28 +93,45 @@ public class TrackingManager {
         }
     }
 
-    public void track(final Block block, final BlockAbility ability) {
-        final var trackedBlock = new TrackedBlock(block);
-        trackedBlocks.put(trackedBlock, ability);
-        touchedChunks.add(trackedBlock.chunkKey());
+    public boolean contains(final Block block) {
+        return trackedBlocks.containsKey(new BlockLocation(block));
     }
 
-    public BlockAbility untrack(final Block block) {
-         return trackedBlocks.remove(new TrackedBlock(block));
+    public void set(final Block block, final BlockAbility ability) {
+        final var location = new BlockLocation(block);
+        trackedBlocks.put(location, ability);
+        touchedChunks.add(location.chunkKey());
     }
 
-    public Stream<Map.Entry<TrackedBlock, BlockAbility>> getTrackedBlocks(final UUID worldKey, final long chunkKey) {
-        return touchedChunks.contains(chunkKey)
-                ? trackedBlocks.entrySet().stream().filter(
-                        entry -> entry.getKey().chunkKey() == chunkKey && entry.getKey().worldKey().equals(worldKey))
-                : Stream.empty();
+    public BlockAbility unset(final Block block) {
+        return trackedBlocks.remove(new BlockLocation(block));
     }
 
-    public BlockAbility getBlockAbility(final Block block) {
-        return trackedBlocks.get(new TrackedBlock(block));
+    public BlockAbility getAbility(final Block block) {
+        return trackedBlocks.get(new BlockLocation(block));
     }
 
-    public boolean isTracked(final Block block) {
-        return trackedBlocks.containsKey(new TrackedBlock(block));
+    public void forEachBlockInChunk(final UUID worldKey, final long chunkKey,
+            final BiConsumer<? super BlockLocation, ? super BlockAbility> action) {
+        if (!touchedChunks.contains(chunkKey)) {
+            return;
+        }
+        trackedBlocks.forEach((location, ability) -> {
+            if (location.chunkKey() == chunkKey && location.worldKey().equals(worldKey)) {
+                action.accept(location, ability);
+            }
+        });
+    }
+
+    public void forEachLoadedBlock(final UUID worldKey,
+            final BiConsumer<? super BlockLocation, ? super BlockAbility> action) {
+        if (Bukkit.getWorld(worldKey) == null) {
+            return;
+        }
+        trackedBlocks.forEach((location, ability) -> {
+            if (location.worldKey().equals(worldKey) && location.isLoaded()) {
+                action.accept(location, ability);
+            }
+        });
     }
 }
