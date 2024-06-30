@@ -21,12 +21,11 @@ public class SplinterBook extends CustomItem implements Enchantable {
     private static final Material material = Material.ENCHANTED_BOOK;
     private static final Component displayName = Component.text("Splinter", NamedTextColor.RED);
     private static final List<Component> lore = List.of(
-        Component.text("Chop down large areas of logs, leaves, or mushrooms!", NamedTextColor.DARK_PURPLE)
-    );
+            Component.text("Chop down large areas of logs, leaves, or mushrooms!", NamedTextColor.DARK_PURPLE));
 
     private final EnchantManager enchantManager;
 
-    public SplinterBook(HoloItemsRevamp plugin){
+    public SplinterBook(HoloItemsRevamp plugin) {
         super(plugin, name, material, displayName, lore);
         this.enchantManager = plugin.getEnchantManager();
         this.register();
@@ -34,18 +33,12 @@ public class SplinterBook extends CustomItem implements Enchantable {
 
     @Override
     protected Recipe getRecipe() {
-        // Hmm. Due to getRecipe only returning one recipe, I can only have one orientation.
-        // Gonna call the recipe "left" for left-orientation, incase we ever decide to add right-orientation.
-        final var left = new ShapedRecipe(getKey(), buildStack(null));
-        left.shape(
-            "**",
-            "*&",
-            " |"
-        );
-        left.setIngredient('*', Material.SCUTE);
-        left.setIngredient('&', Material.CONDUIT);
-        left.setIngredient('|', Material.STICK);
-        return left;
+        final var recipe = new ShapedRecipe(getKey(), buildStack(null));
+        recipe.shape("**", "*&", " |");
+        recipe.setIngredient('*', Material.SCUTE);
+        recipe.setIngredient('&', Material.CONDUIT);
+        recipe.setIngredient('|', Material.STICK);
+        return recipe;
     }
 
     @Override
