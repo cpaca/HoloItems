@@ -21,10 +21,9 @@ public class EnchantmentListener implements Listener {
             final Consumer<? super EnchantmentAbility> action) {
         itemStack.getEnchantments().keySet().forEach(enchantment -> {
             NamespacedKey enchKey = enchantment.getKey();
-            if (enchKey.getNamespace().equals("holocons")) {
-                String name = enchKey.getKey();
-                // TODO: Need to convert from name to EnchantmentAbility somehow.
-                //   Current guess is probably something to do with CustomEnchantment
+            var ench = CustomEnchantment.getByKey(enchKey);
+            if(ench != null) {
+                action.accept(ench);
             }
 //            if (enchantment instanceof EnchantmentAbility ability) {
 //                action.accept(ability);

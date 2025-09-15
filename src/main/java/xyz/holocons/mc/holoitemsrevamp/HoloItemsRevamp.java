@@ -2,6 +2,7 @@ package xyz.holocons.mc.holoitemsrevamp;
 
 import com.strangeone101.holoitemsapi.Keys;
 import com.strangeone101.holoitemsapi.enchantment.AnvilListener;
+import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
 import com.strangeone101.holoitemsapi.enchantment.EnchantmentListener;
 import com.strangeone101.holoitemsapi.item.BlockListener;
 import com.strangeone101.holoitemsapi.item.CustomItemManager;
@@ -21,6 +22,8 @@ public final class HoloItemsRevamp extends JavaPlugin {
     @Override
     public void onLoad() {
         Keys.fillKeys(this);
+
+        CustomEnchantment.loadCustomEnchantments(this);
 
         this.collectionManager = new CollectionManager(this);
         this.trackingManager = new CustomBlockStorage(this);
