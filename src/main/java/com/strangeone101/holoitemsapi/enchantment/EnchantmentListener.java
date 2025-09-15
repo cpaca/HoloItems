@@ -3,6 +3,7 @@ package com.strangeone101.holoitemsapi.enchantment;
 import java.util.function.Consumer;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.ThrowableProjectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,9 +20,15 @@ public class EnchantmentListener implements Listener {
     private static void forEachEnchantment(final ItemStack itemStack,
             final Consumer<? super EnchantmentAbility> action) {
         itemStack.getEnchantments().keySet().forEach(enchantment -> {
-            if (enchantment instanceof EnchantmentAbility ability) {
-                action.accept(ability);
+            NamespacedKey enchKey = enchantment.getKey();
+            if (enchKey.getNamespace().equals("holocons")) {
+                String name = enchKey.getKey();
+                // TODO: Need to convert from name to EnchantmentAbility somehow.
+                //   Current guess is probably something to do with CustomEnchantment
             }
+//            if (enchantment instanceof EnchantmentAbility ability) {
+//                action.accept(ability);
+//            }
         });
     }
 
