@@ -1,5 +1,6 @@
 package xyz.holocons.mc.holoitemsrevamp.item;
 
+import org.bukkit.NamespacedKey;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 
 import org.bukkit.Bukkit;
@@ -50,8 +51,8 @@ public class MementoItem extends CustomItem implements Enchantable {
     }
 
     @Override
-    public Enchantment getEnchantment() {
-        return CustomEnchantment.getByKey(getKey());
+    public NamespacedKey getEnchantmentKey() {
+        return getKey();
     }
 
     @Override

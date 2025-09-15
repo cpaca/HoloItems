@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -51,8 +52,8 @@ public class TideRiderItem extends CustomItem implements Enchantable {
     }
 
     @Override
-    public @NotNull Enchantment getEnchantment() {
-        return CustomEnchantment.getByKey(getKey());
+    public NamespacedKey getEnchantmentKey() {
+        return getKey();
     }
 
     @Override
