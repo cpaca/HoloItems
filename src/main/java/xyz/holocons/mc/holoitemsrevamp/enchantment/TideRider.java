@@ -80,7 +80,8 @@ public class TideRider extends CustomEnchantment {
                 final var location = player.getLocation();
 
                 if (elapsedTicks % 2 != 0) {
-                    world.spawnParticle(Particle.WATER_WAKE, location, 80, 0.2, 0.0, 0.2);
+                    // TODO: Figure out what particle to replace this with.
+//                    world.spawnParticle(Particle.WATER_WAKE, location, 80, 0.2, 0.0, 0.2);
                 }
 
                 final var direction = location.getDirection().setY(0.0001).normalize();
