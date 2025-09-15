@@ -64,8 +64,16 @@ tasks {
     // Configure the Minecraft version for runServer task
     // https://github.com/jpenilla/run-paper
     runServer {
+        dependsOn("copyDatapack")
         minecraftVersion("1.21")
     }
+}
+
+tasks.register<Copy>("copyDatapack") {
+    // Not sure what group to make this
+    description = "Copies the datapack into the world's datapacks folder"
+    from("./holoitems_datapack")
+    into("./run/world/datapacks/holoitems_datapack")
 }
 
 // Configure plugin.yml generation
