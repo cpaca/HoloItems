@@ -27,21 +27,6 @@ public class Magnet extends CustomEnchantment {
     }
 
     @Override
-    public int getMaxLevel() {
-        return 1;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment other) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack item) {
-        return EnchantmentTarget.TOOL.includes(item);
-    }
-
-    @Override
     public @NotNull Component displayName(int level) {
         return Component.text()
                 .color(NamedTextColor.GRAY)

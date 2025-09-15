@@ -33,21 +33,6 @@ public class TideRider extends CustomEnchantment {
     }
 
     @Override
-    public int getMaxLevel() {
-        return 1;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment other) {
-        return !other.equals(Enchantment.MENDING) && !other.equals(Enchantment.VANISHING_CURSE);
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack item) {
-        return EnchantmentTarget.TRIDENT.includes(item);
-    }
-
-    @Override
     public @NotNull Component displayName(int level) {
         return Component.text("Tide Rider", NamedTextColor.GRAY)
                 .decoration(TextDecoration.ITALIC, false);

@@ -27,21 +27,6 @@ public class Plow extends CustomEnchantment {
     }
 
     @Override
-    public int getMaxLevel() {
-        return 1;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment enchantment) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack itemStack) {
-        return MaterialTags.SHOVELS.isTagged(itemStack);
-    }
-
-    @Override
     public @NotNull Component displayName(int i) {
         return Component.text()
                 .color(NamedTextColor.GRAY)
