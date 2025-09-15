@@ -17,7 +17,7 @@ import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.util.EntityExpiringSet;
 import xyz.holocons.mc.holoitemsrevamp.util.ExpiringSet;
 
-public class Plow extends CustomEnchantment implements EnchantmentAbility {
+public class Plow extends CustomEnchantment {
 
     private final EntityExpiringSet plowMarker = new EntityExpiringSet(
             new ExpiringSet.ConstantTicksToLiveExpirationPolicy<>(20));

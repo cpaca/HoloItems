@@ -17,7 +17,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.integration.Integrations;
 
-public class Magnet extends CustomEnchantment implements EnchantmentAbility {
+public class Magnet extends CustomEnchantment {
 
     private final HoloItemsRevamp plugin;
 

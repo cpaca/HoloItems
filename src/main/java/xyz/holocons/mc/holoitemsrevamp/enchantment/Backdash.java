@@ -1,5 +1,6 @@
 package xyz.holocons.mc.holoitemsrevamp.enchantment;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -15,7 +16,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.integration.Integrations;
 
-public class Backdash extends CustomEnchantment implements EnchantmentAbility {
+public class Backdash extends CustomEnchantment {
 
     public Backdash(HoloItemsRevamp plugin) {
         super(plugin, "backdash");

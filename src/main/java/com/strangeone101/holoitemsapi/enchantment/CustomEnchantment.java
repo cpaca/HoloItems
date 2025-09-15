@@ -9,13 +9,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public abstract class CustomEnchantment {
+public abstract class CustomEnchantment implements EnchantmentAbility {
 
     private static final HashMap<NamespacedKey, CustomEnchantment> enchantmentsByKey = new HashMap<>();
 
+    protected final NamespacedKey key;
+
     public CustomEnchantment(Plugin plugin, String key) {
-        // TODO: Should I just put the <key> in there? since the namespace seems to always be <holoitems> anyway?
-        enchantmentsByKey.put(new NamespacedKey(plugin, key), this);
+        this.key = new NamespacedKey(plugin, key);
+        enchantmentsByKey.put(this.key, this);
     }
 
     /**

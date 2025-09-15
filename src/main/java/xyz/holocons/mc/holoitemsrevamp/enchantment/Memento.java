@@ -16,7 +16,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.integration.Integrations;
 
-public class Memento extends CustomEnchantment implements EnchantmentAbility {
+public class Memento extends CustomEnchantment {
 
     public Memento(HoloItemsRevamp plugin) {
         super(plugin, "memento");
