@@ -53,7 +53,7 @@ public class BackdashBoots extends CustomItem implements Enchantable {
         var enchantedMeta = enchantedStack.hasItemMeta() ? enchantedStack.getItemMeta() : Bukkit.getItemFactory().getItemMeta(enchantedStack.getType());
 
         if (enchantedMeta.addEnchant(getEnchantment(), 1, false)) {
-            enchantedStack.setItemMeta(enchantedMeta)
+            enchantedStack.setItemMeta(enchantedMeta);
             return enchantedStack;
         } else {
             return null;
