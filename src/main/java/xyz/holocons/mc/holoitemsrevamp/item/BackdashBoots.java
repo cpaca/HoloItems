@@ -25,7 +25,9 @@ public class BackdashBoots extends CustomItem implements Enchantable {
 
     public BackdashBoots(HoloItemsRevamp plugin) {
         super(plugin, name, material, displayName, lore);
-        this.setStackable(false);
+        // TODO: Why was setUnstackable() here? It's boots, they don't stack anyway?
+        //   Should this be removed?
+        this.setStackSize(1);
         this.register();
     }
 

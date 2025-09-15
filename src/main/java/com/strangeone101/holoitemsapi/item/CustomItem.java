@@ -49,7 +49,7 @@ public class CustomItem implements Keyed {
     private Component displayName;
     private List<Component> lore;
     private int cooldown = 0;
-    private boolean stackable = true;
+    private Integer stackSize = null;
     private Set<Property<?>> properties = new HashSet<>();
     private Set<StatsWrapper<?>> statGoals;
     private int hex;
@@ -119,7 +119,9 @@ public class CustomItem implements Keyed {
         Keys.ITEM_ID.set(meta.getPersistentDataContainer(), getInternalName());
 
         // If the item shouldn't be stackable, add a random INTEGER to the NBT
-        Keys.UNSTACKABLE.set(meta.getPersistentDataContainer(), !isStackable());
+        if(this.getStackSize() != null){
+            meta.setMaxStackSize(this.getStackSize());
+        }
 
         if (flags != null && flags.length > 0) meta.addItemFlags(flags);
 
@@ -385,20 +387,31 @@ public class CustomItem implements Keyed {
     }
 
     /**
-     * If the item is stackable
-     * @return True if stackable
+     * The stack size of the item, or null if using the default.
+     * @return the stack size, or null
      */
-    public boolean isStackable() {
-        return stackable && material.getMaxStackSize() != 1;
+    public Integer getStackSize() {
+        return stackSize;
     }
 
     /**
-     * Whether the item can be stacked
-     * @param stackable Stackable
+     * The stack size of the item, or the default stack size if it's not defined.
+     * @return the stack size
+     */
+    public int getStackSizeOrDefault() {
+        // Note: I did it this way because Registry does it this way (though with getOrThrow).
+        // https://jd.papermc.io/paper/1.21.8/org/bukkit/Registry.html#get(org.bukkit.NamespacedKey)
+        // I'm not 100% sure if this is the best way, though.
+        return stackSize != null ? stackSize : material.getMaxStackSize();
+    }
+
+    /**
+     * Sets the stack size of the item. Feeding null will reset to the default stack size.
+     * @param stackSize The new stack size
      * @return Itself
      */
-    public CustomItem setStackable(boolean stackable) {
-        this.stackable = stackable;
+    public CustomItem setStackSize(Integer stackSize) {
+        this.stackSize = stackSize;
         return this;
     }
 
@@ -427,7 +440,7 @@ public class CustomItem implements Keyed {
                 ", textureID=" + customModelID +
                 ", material=" + material +
                 ", displayName='" + displayName + "\'\u00A7r'" +
-                ", stackable=" + stackable +
+                ", stackSize=" + stackSize +
                 ", properties=" + properties +
                 '}';
     }

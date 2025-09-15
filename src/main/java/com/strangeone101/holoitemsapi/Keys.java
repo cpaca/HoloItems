@@ -10,6 +10,7 @@ public class Keys {
 
     public static Property<UUID> OWNER;
     public static Property<Long> COOLDOWN;
+    // TODO: Remove?
     public static Property<Boolean> UNSTACKABLE;
     public static Property<String> ITEM_ID;
 

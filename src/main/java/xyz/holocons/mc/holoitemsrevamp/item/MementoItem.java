@@ -30,6 +30,7 @@ public class MementoItem extends CustomItem implements Enchantable {
 
     public MementoItem(HoloItemsRevamp plugin) {
         super(plugin, name, material, displayName, lore);
+        this.setStackSize(99);
         this.register();
     }
 
