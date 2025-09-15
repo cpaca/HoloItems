@@ -13,7 +13,7 @@ public abstract class CustomEnchantment implements EnchantmentAbility {
 
     private static final HashMap<NamespacedKey, CustomEnchantment> enchantmentsByKey = new HashMap<>();
     // TODO: Either make plugin use this namespace, or change datapack's namespace.
-    private static final String ENCHANTMENT_NAMESPACE = "holocons";
+    private static final String ENCHANTMENT_NAMESPACE = "holoitems";
 
     protected final NamespacedKey key;
 
