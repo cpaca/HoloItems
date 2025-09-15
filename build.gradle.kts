@@ -69,11 +69,16 @@ tasks {
     }
 }
 
-tasks.register<Copy>("copyDatapack") {
+tasks.register("copyDatapack") {
     // Not sure what group to make this
     description = "Copies the datapack into the world's datapacks folder"
-    from("./holoitems_datapack")
-    into("./run/world/datapacks/holoitems_datapack")
+
+    delete("./run/world/datapacks/holoitems_datapack")
+
+    copy {
+        from("./holoitems_datapack")
+        into("./run/world/datapacks/holoitems_datapack")
+    }
 }
 
 // Configure plugin.yml generation
