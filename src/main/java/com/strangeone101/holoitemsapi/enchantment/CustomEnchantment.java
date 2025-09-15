@@ -6,8 +6,11 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
+import xyz.holocons.mc.holoitemsrevamp.enchantment.*;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public abstract class CustomEnchantment implements EnchantmentAbility {
 
@@ -19,7 +22,6 @@ public abstract class CustomEnchantment implements EnchantmentAbility {
 
     public CustomEnchantment(Plugin plugin, String key) {
         this.key = new NamespacedKey(ENCHANTMENT_NAMESPACE, key);
-        enchantmentsByKey.put(this.key, this);
     }
 
     @Override
@@ -58,4 +60,22 @@ public abstract class CustomEnchantment implements EnchantmentAbility {
      */
     public abstract int getCostMultiplier();
 
+    public static final void loadCustomEnchantments(HoloItemsRevamp plugin) {
+        Set<CustomEnchantment> enchantments = Set.of(
+                new Magnet(plugin),
+                new Memento(plugin),
+                new TideRider(plugin),
+                new Backdash(plugin),
+                new Plow(plugin)
+        );
+
+        for(var ench : enchantments) {
+            if(enchantmentsByKey.containsKey(ench.key)){
+                throw new RuntimeException("Duplicate CustomEnchantment defined for namespacedKey " + ench.key);
+            }
+            else {
+                enchantmentsByKey.put(ench.key, ench);
+            }
+        }
+    }
 }
