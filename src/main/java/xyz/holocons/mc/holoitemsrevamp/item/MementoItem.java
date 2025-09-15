@@ -11,7 +11,6 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
 import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
-import com.strangeone101.holoitemsapi.enchantment.EnchantManager;
 import com.strangeone101.holoitemsapi.enchantment.Enchantable;
 import com.strangeone101.holoitemsapi.item.CustomItem;
 
@@ -29,11 +28,8 @@ public class MementoItem extends CustomItem implements Enchantable {
         Component.text("Keep your items on death. Consumable.", NamedTextColor.DARK_PURPLE)
     );
 
-    private final EnchantManager enchantManager;
-
     public MementoItem(HoloItemsRevamp plugin) {
         super(plugin, name, material, displayName, lore);
-        this.enchantManager = plugin.getEnchantManager();
         this.register();
     }
 
@@ -62,8 +58,6 @@ public class MementoItem extends CustomItem implements Enchantable {
 
         if (enchantedMeta.addEnchant(getEnchantment(), 1, false)) {
             enchantedStack.setItemMeta(enchantedMeta);
-            enchantManager.removeCustomEnchantmentLore(enchantedStack);
-            enchantManager.applyCustomEnchantmentLore(enchantedStack);
             return enchantedStack;
         } else {
             return null;

@@ -1,7 +1,6 @@
 package xyz.holocons.mc.holoitemsrevamp.item;
 
 import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
-import com.strangeone101.holoitemsapi.enchantment.EnchantManager;
 import com.strangeone101.holoitemsapi.enchantment.Enchantable;
 import com.strangeone101.holoitemsapi.item.CustomItem;
 import net.kyori.adventure.text.Component;
@@ -27,11 +26,8 @@ public class TideRiderItem extends CustomItem implements Enchantable {
         Component.text("Surf the waves")
     );
 
-    private final EnchantManager enchantManager;
-
     public TideRiderItem(HoloItemsRevamp plugin) {
         super(plugin, name, material, displayName, lore);
-        this.enchantManager = plugin.getEnchantManager();
         this.register();
     }
 
@@ -63,8 +59,6 @@ public class TideRiderItem extends CustomItem implements Enchantable {
 
         if (enchantedMeta.addEnchant(getEnchantment(), 1, false)) {
             enchantedStack.setItemMeta(enchantedMeta);
-            enchantManager.removeCustomEnchantmentLore(enchantedStack);
-            enchantManager.applyCustomEnchantmentLore(enchantedStack);
             return enchantedStack;
         } else {
             return null;

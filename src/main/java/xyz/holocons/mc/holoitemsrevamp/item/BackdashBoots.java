@@ -1,6 +1,5 @@
 package xyz.holocons.mc.holoitemsrevamp.item;
 
-import com.strangeone101.holoitemsapi.enchantment.EnchantManager;
 import com.strangeone101.holoitemsapi.item.CustomItem;
 import com.strangeone101.holoitemsapi.enchantment.Enchantable;
 import net.kyori.adventure.text.Component;
@@ -24,11 +23,8 @@ public class BackdashBoots extends CustomItem implements Enchantable {
         Component.text("Crouch to backdash")
     );
 
-    private final EnchantManager enchantManager;
-
     public BackdashBoots(HoloItemsRevamp plugin) {
         super(plugin, name, material, displayName, lore);
-        this.enchantManager = plugin.getEnchantManager();
         this.setStackable(false);
         this.register();
     }
@@ -57,9 +53,7 @@ public class BackdashBoots extends CustomItem implements Enchantable {
         var enchantedMeta = enchantedStack.hasItemMeta() ? enchantedStack.getItemMeta() : Bukkit.getItemFactory().getItemMeta(enchantedStack.getType());
 
         if (enchantedMeta.addEnchant(getEnchantment(), 1, false)) {
-            enchantedStack.setItemMeta(enchantedMeta);
-            enchantManager.removeCustomEnchantmentLore(enchantedStack);
-            enchantManager.applyCustomEnchantmentLore(enchantedStack);
+            enchantedStack.setItemMeta(enchantedMeta)
             return enchantedStack;
         } else {
             return null;
