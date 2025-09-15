@@ -6,7 +6,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.EntityCategory;
-import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -122,7 +122,7 @@ public abstract class CustomEnchantment extends Enchantment {
     }
 
     @Override
-    public @NotNull Set<EquipmentSlot> getActiveSlots() {
+    public @NotNull Set<EquipmentSlotGroup> getActiveSlotGroups() {
         return null;
     }
 }
