@@ -1,6 +1,5 @@
 package com.strangeone101.holoitemsapi.enchantment;
 
-import io.papermc.paper.enchantments.EnchantmentRarity;
 import net.kyori.adventure.text.Component;
 
 import org.bukkit.NamespacedKey;
@@ -115,11 +114,6 @@ public abstract class CustomEnchantment extends Enchantment {
     @Override
     public boolean isDiscoverable() {
         return false;
-    }
-
-    @Override
-    public @NotNull EnchantmentRarity getRarity() {
-        return EnchantmentRarity.VERY_RARE;
     }
 
     @Override
