@@ -11,7 +11,7 @@ description = "A plugin for HoloCons SMP that adds a ton of custom items and blo
 
 java {
     // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 repositories {
@@ -21,8 +21,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
-    compileOnly("com.comphenix.protocol:ProtocolLib:5.2.0-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.4.0-SNAPSHOT")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
     implementation("com.github.stefvanschie.inventoryframework:IF:0.10.13")
 }
@@ -38,7 +38,7 @@ tasks {
 
         // Set the release flag. This configures what version bytecode the compiler will emit, as well as what JDK APIs are usable.
         // See https://openjdk.java.net/jeps/247 for more information.
-        options.release.set(17)
+        options.release.set(21)
     }
     javadoc {
         options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
@@ -64,7 +64,7 @@ tasks {
     // Configure the Minecraft version for runServer task
     // https://github.com/jpenilla/run-paper
     runServer {
-        minecraftVersion("1.20.1")
+        minecraftVersion("1.21")
     }
 }
 
@@ -72,7 +72,7 @@ tasks {
 // https://github.com/Minecrell/plugin-yml
 bukkit {
     main = "xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp"
-    apiVersion = "1.20"
+    apiVersion = "1.21"
     authors = listOf("TraceL", "dlee13")
     website = "holocons.xyz"
     depend = listOf("ProtocolLib")
