@@ -12,11 +12,13 @@ import java.util.HashMap;
 public abstract class CustomEnchantment implements EnchantmentAbility {
 
     private static final HashMap<NamespacedKey, CustomEnchantment> enchantmentsByKey = new HashMap<>();
+    // TODO: Either make plugin use this namespace, or change datapack's namespace.
+    private static final String ENCHANTMENT_NAMESPACE = "holocons";
 
     protected final NamespacedKey key;
 
     public CustomEnchantment(Plugin plugin, String key) {
-        this.key = new NamespacedKey(plugin, key);
+        this.key = new NamespacedKey(ENCHANTMENT_NAMESPACE, key);
         enchantmentsByKey.put(this.key, this);
     }
 
