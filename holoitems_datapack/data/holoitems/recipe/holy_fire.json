@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " a ",
+    "aba",
+    "ccc"
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:end_rod"
+    },
+    "b": {
+      "item": "minecraft:quartz"
+    },
+    "c": {
+      "item": "minecraft:raw_gold_block"
+    }
+  },
+  "result": {
+    "id": "minecraft:soul_campfire",
+    "components": {
+      "minecraft:custom_data": {
+        "PublicBukkitValues": {
+          "holoitems:item_id": "holy_fire"
+        }
+      },
+      "minecraft:item_name": "{\"color\":\"dark_purple\",\"text\":\"Holy Fire\"}",
+      "minecraft:lore": [
+        "{\"color\":\"aqua\",\"italic\":false,\"text\":\"Prevent natural mob spawning within 100 blocks when lit\"}"
+      ]
+    }
+  }
+}

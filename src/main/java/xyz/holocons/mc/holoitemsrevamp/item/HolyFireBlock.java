@@ -47,17 +47,6 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
     }
 
     @Override
-    protected Recipe getRecipe() {
-        final var recipe = new ShapedRecipe(getKey(), buildStack(null));
-        recipe.shape(" a ", "aba", "ccc");
-        recipe.setIngredient('a', Material.END_ROD);
-        recipe.setIngredient('b', new CustomItemRecipeChoice("saint_quartz"));
-        recipe.setIngredient('c', Material.RAW_GOLD_BLOCK);
-        recipe.setGroup(name);
-        return recipe;
-    }
-
-    @Override
     public void onBlockBreak(BlockBreakEvent event, BlockState blockState) {
         holyFireMarker.remove(blockState);
     }

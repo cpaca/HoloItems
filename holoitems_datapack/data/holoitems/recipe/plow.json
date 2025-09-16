@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "ACA",
+    "ACA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:tinted_glass"
+    },
+    "B": {
+      "item": "minecraft:obsidian"
+    },
+    "C": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "minecraft:enchanted_book",
+    "components": {
+      "minecraft:custom_data": {
+        "PublicBukkitValues": {
+          "holoitems:item_id": "plow"
+        }
+      },
+      "minecraft:item_name": "{\"color\":\"red\",\"text\":\"Plow\"}",
+      "minecraft:lore": [
+        "{\"color\":\"dark_purple\",\"text\":\"Shovel snow!\"}"
+      ],
+      "minecraft:stored_enchantments": {
+        "levels": {
+          "holoitems:plow": 1
+        }
+      }
+    }
+  }
+}

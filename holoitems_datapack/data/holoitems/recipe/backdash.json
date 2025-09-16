@@ -17,7 +17,8 @@
             "item_name": "{\"color\":\"dark_gray\",\"text\":\"Backdash\"}",
             "custom_data": {
                 "PublicBukkitValues": {
-                    "holoitems:book_like": 20
+                    "holoitems:item_id": "backdash",
+                    "holoitems:book_like": 1
                 }
             }
         }

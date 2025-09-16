@@ -31,24 +31,6 @@ public class MagnetBook extends CustomItem implements Enchantable {
     }
 
     @Override
-    protected Recipe getRecipe() {
-        final var recipe = new ShapedRecipe(getKey(), buildStack(null));
-        recipe.shape(
-            "AAB",
-            "CDE",
-            "FGD"
-        );
-        recipe.setIngredient('A', Material.POWERED_RAIL);
-        recipe.setIngredient('B', Material.IRON_PICKAXE);
-        recipe.setIngredient('C', Material.HOPPER);
-        recipe.setIngredient('D', Material.IRON_BLOCK);
-        recipe.setIngredient('E', Material.REDSTONE);
-        recipe.setIngredient('F', Material.DROPPER);
-        recipe.setIngredient('G', Material.COMPARATOR);
-        return recipe;
-    }
-
-    @Override
     public NamespacedKey getEnchantmentKey() {
         return getKey();
     }

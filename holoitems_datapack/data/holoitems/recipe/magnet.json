@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAB",
+    "CDE",
+    "FGD"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:powered_rail"
+    },
+    "B": {
+      "item": "minecraft:iron_pickaxe"
+    },
+    "C": {
+      "item": "minecraft:hopper"
+    },
+    "D": {
+      "item": "minecraft:iron_block"
+    },
+    "E": {
+      "item": "minecraft:redstone"
+    },
+    "F": {
+      "item": "minecraft:dropper"
+    },
+    "G": {
+      "item": "minecraft:comparator"
+    }
+  },
+  "result": {
+    "id": "minecraft:enchanted_book",
+    "components": {
+      "minecraft:custom_data": {
+        "PublicBukkitValues": {
+          "holoitems:item_id": "magnet"
+        }
+      },
+      "minecraft:item_name": "{\"color\":\"red\",\"text\":\"Magnet\"}",
+      "minecraft:lore": [
+        "{\"color\":\"dark_purple\", \"text\":\"Automatically put mined items to your inventory!\"}"
+      ],
+      "minecraft:stored_enchantments": {
+        "levels": {
+          "holoitems:magnet": 1
+        }
+      }
+    }
+  }
+}
