@@ -85,7 +85,7 @@ tasks.register("copyDatapack") {
 // https://github.com/Minecrell/plugin-yml
 bukkit {
     main = "xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp"
-    apiVersion = "1.21"
+    apiVersion = "1.21.1"
     authors = listOf("TraceL", "dlee13")
     website = "holocons.xyz"
     depend = listOf("ProtocolLib")
