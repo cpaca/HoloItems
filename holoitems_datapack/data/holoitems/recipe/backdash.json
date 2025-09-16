@@ -1,0 +1,25 @@
+{
+    "type": "crafting_shaped",
+    "pattern": [
+        "p p",
+        "m m"
+    ],
+    "key": {
+        "p": {"item":"minecraft:piston"},
+        "m": {"item":"minecraft:phantom_membrane"}
+    },
+    "result": {
+        "id": "leather_boots",
+        "components": {
+            "dyed_color": {"rgb":0},
+            "enchantments": {"levels": {"holoitems:backdash": 1}},
+            "lore": ["\"Crouch to backdash\""],
+            "custom_name": "{\"color\":\"dark_gray\",\"text\":\"Backdash\"}",
+            "custom_data": {
+                "PublicBukkitValues": {
+                    "holoitems:item_id": "backdash"
+                }
+            }
+        }
+    }
+}
