@@ -99,12 +99,12 @@ public class AcquireCommand implements SubCommand {
         }
 
         var itemStack = customItem.buildStack(player);
-        itemStack.setAmount(customItem.getStackSize());
+        itemStack.setAmount(customItem.getStackSizeOrDefault());
 
-        int totalItemStacks = ((amount - 1)/customItem.getStackSize()) + 1;
-        int lastItemStackSize = amount - ((totalItemStacks - 1) * customItem.getStackSize());
+        int totalItemStacks = ((amount - 1)/customItem.getStackSizeOrDefault()) + 1;
+        int lastItemStackSize = amount - ((totalItemStacks - 1) * customItem.getStackSizeOrDefault());
         // Failsafe incase my math was bad (it was one time lol)
-        lastItemStackSize = Math.clamp(0, lastItemStackSize, customItem.getStackSize());
+        lastItemStackSize = Math.clamp(0, lastItemStackSize, customItem.getStackSizeOrDefault());
         ItemStack lastItemStack = itemStack.clone();
         lastItemStack.setAmount(lastItemStackSize);
 
