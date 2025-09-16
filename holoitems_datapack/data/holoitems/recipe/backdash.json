@@ -14,7 +14,7 @@
             "dyed_color": {"rgb":0},
             "enchantments": {"levels": {"holoitems:backdash": 1}},
             "lore": ["\"Crouch to backdash\""],
-            "custom_name": "{\"color\":\"dark_gray\",\"text\":\"Backdash\"}",
+            "item_name": "{\"color\":\"dark_gray\",\"text\":\"Backdash\"}",
             "custom_data": {
                 "PublicBukkitValues": {
                     "holoitems:book_like": 20
