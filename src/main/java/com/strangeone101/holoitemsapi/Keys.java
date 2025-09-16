@@ -102,7 +102,7 @@ public class Keys {
 
             @Override
             public Boolean get(PersistentDataContainer data) {
-                return data.getOrDefault(getKey(), PersistentDataType.BOOLEAN, true);
+                return data.getOrDefault(getKey(), PersistentDataType.BOOLEAN, false);
             }
 
             @Override

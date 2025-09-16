@@ -74,7 +74,7 @@ public class AnvilListener implements Listener {
             }
         }
 
-        if(Keys.BOOK_LIKE.has(firstItem.getItemMeta().getPersistentDataContainer())) {
+        if(Keys.BOOK_LIKE.get(firstItem.getItemMeta().getPersistentDataContainer())) {
             // First item is book-like.
             // If this is adding enchantments, don't let the result stay book-like.
             // (If this is just a renaming or repairing, it's fine.)
