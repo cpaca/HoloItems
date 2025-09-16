@@ -10,7 +10,6 @@ import java.util.UUID;
 
 public class Keys {
 
-    public static Property<UUID> OWNER;
     public static Property<Long> COOLDOWN;
     // TODO: Remove?
     public static Property<Boolean> UNSTACKABLE;
@@ -23,29 +22,6 @@ public class Keys {
     public static Property<Byte> BOOK_LIKE;
 
     public static void fillKeys(Plugin plugin) {
-        OWNER = new Property<UUID>(plugin, "owner") {
-
-            @Override
-            public boolean has(PersistentDataContainer data) {
-                return data.has(getKey(), DataType.UUID);
-            }
-
-            @Override
-            public UUID get(PersistentDataContainer data) {
-                return data.get(getKey(), DataType.UUID);
-            }
-
-            @Override
-            public void set(PersistentDataContainer data, UUID value) {
-                data.set(getKey(), DataType.UUID, value);
-            }
-
-            @Override
-            public String getPropertyName() {
-                return "Owner";
-            }
-        };
-
         COOLDOWN = new Property<Long>(plugin, "cooldown") {
 
             @Override

@@ -108,10 +108,6 @@ public class CustomItem implements Keyed {
 
         if (customModelID != 0) meta.setCustomModelData(customModelID); //Used for resource packs
 
-        if (properties.contains(Keys.OWNER) && player != null) {
-            Keys.OWNER.set(meta.getPersistentDataContainer(), player.getUniqueId());
-        }
-
         if (properties.contains(Keys.COOLDOWN)) {
             Keys.COOLDOWN.set(meta.getPersistentDataContainer(), 0L);
         }
@@ -143,13 +139,6 @@ public class CustomItem implements Keyed {
             meta = itemStack.getItemMeta();
             if (meta instanceof Damageable newDamageable) {
                 newDamageable.setDamage(damage);
-            }
-        }
-
-        if (properties.contains(Keys.OWNER) && player != null) {
-            var uuid = Keys.OWNER.get(meta.getPersistentDataContainer());
-            if (uuid == null) { // There should be a UUID, so we'll add the player's UUID as a failsafe
-                Keys.OWNER.set(meta.getPersistentDataContainer(), player.getUniqueId());
             }
         }
 
