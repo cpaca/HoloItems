@@ -1,10 +1,14 @@
 package com.strangeone101.holoitemsapi.enchantment;
 import com.strangeone101.holoitemsapi.Keys;
+import io.papermc.paper.registry.RegistryAccess;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.inventory.PrepareGrindstoneEvent;
+import org.bukkit.inventory.meta.Repairable;
+import org.bukkit.persistence.PersistentDataType;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 
 import java.util.Map;
@@ -28,7 +32,7 @@ public class AnvilListener implements Listener {
             return;
         }
 
-        if(Keys.BOOK_LIKE.get(secondItem.getItemMeta().getPersistentDataContainer()) > 0) {
+        if(Keys.BOOK_LIKE.get(secondItem.getItemMeta().getPersistentDataContainer())) {
             // Second item is book-like. That means its enchantments need to be applied to the result.
             var result = inventory.getResult();
             if(result == null) {
@@ -59,9 +63,14 @@ public class AnvilListener implements Listener {
                 // If it succeeded, the repair-cost also needs to be set.
                 // If it's non-zero, the book_like tag tells us what the repair cost should be!
                 // TODO: Remove this todo when your IDE is no longer marking getView and setRepairCost as unstable
-                //   (when that happens, it might get deprecated/changed/removed, hence the todo.)
+                //   (when that happens, it might get deprecated/changed/removed.)
                 var anvilView = event.getView();
-                anvilView.setRepairCost(Keys.BOOK_LIKE.get(secondItem.getItemMeta().getPersistentDataContainer()));
+                if(firstItem instanceof Repairable repairable) {
+                    anvilView.setRepairCost(repairable.getRepairCost());
+                }
+                else {
+                    anvilView.setRepairCost(1);
+                }
             }
         }
 
@@ -72,7 +81,7 @@ public class AnvilListener implements Listener {
             var result = event.getResult();
             if(result != null) {
                 if(!firstItem.getEnchantments().equals(result.getEnchantments())) {
-                    Keys.BOOK_LIKE.set(result.getItemMeta().getPersistentDataContainer(), (byte) 0);
+                    Keys.BOOK_LIKE.set(result.getItemMeta().getPersistentDataContainer(), false);
                 }
             }
         }
@@ -84,7 +93,7 @@ public class AnvilListener implements Listener {
         var result = event.getResult();
         if(result != null) {
             var meta = result.getItemMeta();
-            Keys.BOOK_LIKE.set(meta.getPersistentDataContainer(), (byte) 0);
+            Keys.BOOK_LIKE.set(meta.getPersistentDataContainer(), false);
             result.setItemMeta(meta);
         }
     }

@@ -17,9 +17,8 @@ public class Keys {
     /**
      * Used to represent an item that can also be used "like" an enchantment book.
      * The first example of this is Backdash, which is both boots and applicable to other boots.
-     * This is an integer: The integer represents how much it costs to apply the book-like item to another item.
      */
-    public static Property<Byte> BOOK_LIKE;
+    public static Property<Boolean> BOOK_LIKE;
 
     public static void fillKeys(Plugin plugin) {
         COOLDOWN = new Property<Long>(plugin, "cooldown") {
@@ -95,25 +94,23 @@ public class Keys {
             }
         };
 
-        // Note: This is Byte instead of Integer, because minecraft keeps parsing the datapack
-        // value as a Byte, and making it a ByteTag. I do not know how to stop it.
-        BOOK_LIKE = new Property<Byte>(plugin, "book_like") {
+        BOOK_LIKE = new Property<Boolean>(plugin, "book_like") {
             @Override
             public boolean has(PersistentDataContainer data) {
-                return data.has(getKey(), PersistentDataType.BYTE);
+                return data.has(getKey(), PersistentDataType.BOOLEAN);
             }
 
             @Override
-            public Byte get(PersistentDataContainer data) {
-                return data.getOrDefault(getKey(), PersistentDataType.BYTE, (byte) 0);
+            public Boolean get(PersistentDataContainer data) {
+                return data.getOrDefault(getKey(), PersistentDataType.BOOLEAN, true);
             }
 
             @Override
-            public void set(PersistentDataContainer data, Byte value) {
-                if (value == 0) {
+            public void set(PersistentDataContainer data, Boolean value) {
+                if (value == null || !value) {
                     data.remove(getKey());
                 } else {
-                    data.set(getKey(), PersistentDataType.BYTE, value);
+                    data.set(getKey(), PersistentDataType.BOOLEAN, true);
                 }
             }
 
