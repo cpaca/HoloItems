@@ -4,6 +4,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.inventory.PrepareGrindstoneEvent;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 
 import java.util.Map;
@@ -74,6 +75,17 @@ public class AnvilListener implements Listener {
                     Keys.BOOK_LIKE.set(result.getItemMeta().getPersistentDataContainer(), (byte) 0);
                 }
             }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPrepareGrindstone(PrepareGrindstoneEvent event) {
+        // Make grindstones remove book-like value.
+        var result = event.getResult();
+        if(result != null) {
+            var meta = result.getItemMeta();
+            Keys.BOOK_LIKE.set(meta.getPersistentDataContainer(), (byte) 0);
+            result.setItemMeta(meta);
         }
     }
 }

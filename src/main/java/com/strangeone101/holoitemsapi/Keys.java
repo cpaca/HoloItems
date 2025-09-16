@@ -110,7 +110,11 @@ public class Keys {
 
             @Override
             public void set(PersistentDataContainer data, Byte value) {
-                data.set(getKey(), PersistentDataType.BYTE, value);
+                if (value == 0) {
+                    data.remove(getKey());
+                } else {
+                    data.set(getKey(), PersistentDataType.BYTE, value);
+                }
             }
 
             @Override
