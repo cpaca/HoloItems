@@ -33,7 +33,6 @@ public class CustomItemManager {
     public static void lock() {
         if (!locked) {
             locked = true;
-            CUSTOM_ITEMS.values().forEach(item -> RecipeManager.registerRecipe(item.getRecipe()));
         }
     }
 
