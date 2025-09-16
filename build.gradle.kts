@@ -65,7 +65,7 @@ tasks {
     // https://github.com/jpenilla/run-paper
     runServer {
         dependsOn("copyDatapack")
-        minecraftVersion("1.21")
+        minecraftVersion("1.21.1")
     }
 }
 
