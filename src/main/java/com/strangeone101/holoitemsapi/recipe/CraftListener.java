@@ -31,6 +31,7 @@ public class CraftListener implements Listener {
         ItemStack stack = event.getCurrentItem();
         if (CustomItemManager.isCustomItem(event.getCurrentItem()) && event.getWhoClicked() instanceof Player) {
             //Makes the output a fresh build of the item. Means it will be owned by that player
+            // TODO: Don't do that? Maybe? buildStack is messing with the output of the datapacks.
             event.setCurrentItem(CustomItemManager.getCustomItem(stack).buildStack((Player) event.getWhoClicked()));
         }
 

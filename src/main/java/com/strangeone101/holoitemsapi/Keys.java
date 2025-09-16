@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.UUID;
 
 public class Keys {
@@ -13,6 +15,12 @@ public class Keys {
     // TODO: Remove?
     public static Property<Boolean> UNSTACKABLE;
     public static Property<String> ITEM_ID;
+    /**
+     * Used to represent an item that can also be used "like" an enchantment book.
+     * The first example of this is Backdash, which is both boots and applicable to other boots.
+     * This is an integer: The integer represents how much it costs to apply the book-like item to another item.
+     */
+    public static Property<Byte> BOOK_LIKE;
 
     public static void fillKeys(Plugin plugin) {
         OWNER = new Property<UUID>(plugin, "owner") {
@@ -108,6 +116,30 @@ public class Keys {
             @Override
             public String getPropertyName() {
                 return "Item ID";
+            }
+        };
+
+        // Note: This is Byte instead of Integer, because minecraft keeps parsing the datapack
+        // value as a Byte, and making it a ByteTag. I do not know how to stop it.
+        BOOK_LIKE = new Property<Byte>(plugin, "book_like") {
+            @Override
+            public boolean has(PersistentDataContainer data) {
+                return data.has(getKey(), PersistentDataType.BYTE);
+            }
+
+            @Override
+            public Byte get(PersistentDataContainer data) {
+                return data.getOrDefault(getKey(), PersistentDataType.BYTE, (byte) 0);
+            }
+
+            @Override
+            public void set(PersistentDataContainer data, Byte value) {
+                data.set(getKey(), PersistentDataType.BYTE, value);
+            }
+
+            @Override
+            public String getPropertyName() {
+                return "Book-like";
             }
         };
     }
