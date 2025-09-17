@@ -138,16 +138,6 @@ public class CustomItem implements Keyed {
             }
         }
 
-        if (properties.contains(Keys.UNSTACKABLE)) {
-            if (!Keys.UNSTACKABLE.has(meta.getPersistentDataContainer())) {
-                Keys.UNSTACKABLE.set(meta.getPersistentDataContainer(), true);
-            }
-        } else {
-            if (Keys.UNSTACKABLE.has(meta.getPersistentDataContainer())) {
-                Keys.UNSTACKABLE.set(meta.getPersistentDataContainer(), false);
-            }
-        }
-
         var lore = new ArrayList<Component>();
 
         for (var line : getLore()) {

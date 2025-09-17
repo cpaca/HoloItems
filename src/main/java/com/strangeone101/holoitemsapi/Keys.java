@@ -11,8 +11,6 @@ import java.util.UUID;
 public class Keys {
 
     public static Property<Long> COOLDOWN;
-    // TODO: Remove?
-    public static Property<Boolean> UNSTACKABLE;
     public static Property<String> ITEM_ID;
     /**
      * Used to represent an item that can also be used "like" an enchantment book.
@@ -41,33 +39,6 @@ public class Keys {
             @Override
             public String getPropertyName() {
                 return "Cooldown";
-            }
-        };
-
-        UNSTACKABLE = new Property<Boolean>(plugin, "unstackable") {
-
-            @Override
-            public boolean has(PersistentDataContainer data) {
-                return data.has(getKey(), PersistentDataType.INTEGER);
-            }
-
-            @Override
-            public Boolean get(PersistentDataContainer data) {
-                return has(data);
-            }
-
-            @Override
-            public void set(PersistentDataContainer data, Boolean value) {
-                if (value) {
-                    data.set(getKey(), PersistentDataType.INTEGER, Bukkit.getCurrentTick());
-                } else {
-                    data.remove(getKey());
-                }
-            }
-
-            @Override
-            public String getPropertyName() {
-                return "Unstackable";
             }
         };
 
