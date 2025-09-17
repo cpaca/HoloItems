@@ -8,6 +8,7 @@ import com.strangeone101.holoitemsapi.item.BlockListener;
 import com.strangeone101.holoitemsapi.item.CustomItemManager;
 import com.strangeone101.holoitemsapi.recipe.CraftListener;
 import com.strangeone101.holoitemsapi.tracking.CustomBlockStorage;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.holocons.mc.holoitemsrevamp.collection.CollectionManager;
@@ -43,7 +44,14 @@ public final class HoloItemsRevamp extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CraftListener(this), this);
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
 
-        getCommand("holoitems").setExecutor(new MainCommand(this));
+//        getCommand("holoitems").setExecutor(new MainCommand(this));
+        var lifecycleManager = this.getLifecycleManager();
+        var mainCommand = new MainCommand(this);
+        lifecycleManager.registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
+            var registrar = commands.registrar();
+            registrar.register("holoitems", mainCommand);
+        });
+
         getLogger().info("HoloItems-Revamped [ON]");
     }
 

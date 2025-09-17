@@ -1,11 +1,14 @@
 package xyz.holocons.mc.holoitemsrevamp.command;
 
+import io.papermc.paper.command.brigadier.BasicCommand;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -17,10 +20,11 @@ import xyz.holocons.mc.holoitemsrevamp.command.subcommand.CollectionsCommand;
 import xyz.holocons.mc.holoitemsrevamp.command.subcommand.StatsCommand;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public class MainCommand implements TabExecutor {
+public class MainCommand implements TabExecutor, BasicCommand {
 
     private final Set<SubCommand> subCommands;
     private final TextComponent helpComponent;
@@ -84,5 +88,22 @@ public class MainCommand implements TabExecutor {
             }
         }
         return null;
+    }
+
+    @Override
+    public void execute(CommandSourceStack sourceStack, String[] args) {
+        // TODO
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Collection<String> suggest(CommandSourceStack sourceStack, String[] args) {
+        // TODO
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean canUse(CommandSender sender) {
+        return true;
     }
 }

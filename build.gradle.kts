@@ -1,6 +1,7 @@
 plugins {
     `java-library`
-    id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Generates plugin.yml
+    id("java")
+    id("net.minecrell.plugin-yml.paper") version "0.6.0" // Generates plugin.yml
     id("com.gradleup.shadow") version "8.3.9" // Shades and relocates dependencies into our plugin jar
     id("xyz.jpenilla.run-paper") version "2.3.0" // Adds runServer and runMojangMappedServer tasks for testing
 }
@@ -18,6 +19,7 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.dmulloy2.net/repository/public/")
     maven("https://maven.enginehub.org/repo/")
+    maven("https://papermc.io/repo/repository/maven-public/")
 }
 
 dependencies {
@@ -83,18 +85,25 @@ tasks.register("copyDatapack") {
 
 // Configure plugin.yml generation
 // https://github.com/Minecrell/plugin-yml
-bukkit {
+paper {
     main = "xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp"
+    bootstrapper = "xyz.holocons.mc.holoitemsrevamp.HoloitemsBootstrap"
     apiVersion = "1.21.1"
     authors = listOf("TraceL", "dlee13")
     website = "holocons.xyz"
-    depend = listOf("ProtocolLib")
-    softDepend = listOf("WorldGuard")
     prefix = "HoloItems"
 
-    commands {
-        register("holoitems") {
-            usage = "/holoitems"
+    serverDependencies {
+        register("ProtocolLib")
+
+        register("WorldGuard") {
+            required = false
         }
     }
+
+//    commands {
+//        register("holoitems") {
+//            usage = "/holoitems"
+//        }
+//    }
 }

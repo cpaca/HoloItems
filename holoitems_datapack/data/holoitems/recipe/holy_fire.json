@@ -10,7 +10,7 @@
       "item": "minecraft:end_rod"
     },
     "b": {
-      "item": "minecraft:quartz"
+      "tag": "holoitems:saint_quartz"
     },
     "c": {
       "item": "minecraft:raw_gold_block"
