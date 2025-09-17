@@ -32,6 +32,19 @@ public class BackdashBoots extends CustomItem implements Enchantable {
     }
 
     @Override
+    public Recipe getRecipe() {
+        final var recipe = new ShapedRecipe(getKey(), buildStack(null));
+        recipe.shape(
+                "   ",
+                "A A",
+                "B B"
+        );
+        recipe.setIngredient('A', Material.PISTON);
+        recipe.setIngredient('B', Material.PHANTOM_MEMBRANE);
+        return recipe;
+    }
+
+    @Override
     public NamespacedKey getEnchantmentKey() {
         return getKey();
     }

@@ -32,6 +32,20 @@ public class TideRiderItem extends CustomItem implements Enchantable {
     }
 
     @Override
+    public Recipe getRecipe() {
+        final var recipe = new ShapedRecipe(getKey(), buildStack(null));
+        recipe.shape(
+                "ATA",
+                "AG ",
+                " D "
+        );
+        recipe.setIngredient('A', Material.PRISMARINE_BRICKS);
+        recipe.setIngredient('T', Material.TRIDENT);
+        recipe.setIngredient('G', Material.ENCHANTED_GOLDEN_APPLE);
+        return recipe;
+    }
+
+    @Override
     public NamespacedKey getEnchantmentKey() {
         return getKey();
     }

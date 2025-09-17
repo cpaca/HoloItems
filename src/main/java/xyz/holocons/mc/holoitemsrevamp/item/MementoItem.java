@@ -35,6 +35,19 @@ public class MementoItem extends CustomItem implements Enchantable {
     }
 
     @Override
+    public Recipe getRecipe() {
+        final var recipe = new ShapedRecipe(getKey(), buildStack(null));
+        recipe.shape(
+                "AAA",
+                "ABA",
+                "AAA"
+        );
+        recipe.setIngredient('A', Material.ENDER_CHEST);
+        recipe.setIngredient('B', Material.END_CRYSTAL);
+        return recipe;
+    }
+
+    @Override
     public NamespacedKey getEnchantmentKey() {
         return getKey();
     }

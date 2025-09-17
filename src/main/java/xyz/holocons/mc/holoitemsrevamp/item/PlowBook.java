@@ -30,6 +30,20 @@ public class PlowBook extends CustomItem implements Enchantable {
     }
 
     @Override
+    public Recipe getRecipe() {
+        ShapedRecipe recipe = new ShapedRecipe(getKey(), buildStack(null));
+        recipe.shape(
+                "ABA",
+                "ACA",
+                "ACA"
+        );
+        recipe.setIngredient('A', Material.TINTED_GLASS);
+        recipe.setIngredient('B', Material.OBSIDIAN);
+        recipe.setIngredient('C', Material.STICK);
+        return recipe;
+    }
+
+    @Override
     public NamespacedKey getEnchantmentKey() {
         return getKey();
     }
