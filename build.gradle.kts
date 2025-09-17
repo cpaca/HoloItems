@@ -25,6 +25,7 @@ dependencies {
     compileOnly("com.comphenix.protocol:ProtocolLib:5.4.0-SNAPSHOT")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
     implementation("com.github.stefvanschie.inventoryframework:IF:0.11.3")
+    implementation("com.typesafe:config:1.4.4")
 }
 
 tasks {
@@ -57,6 +58,7 @@ tasks {
     // https://github.com/johnrengelman/shadow
     shadowJar {
         relocate("com.github.stefvanschie.inventoryframework", "shadow.inventoryframework")
+        relocate("com.typesafe.config", "shadow.lightbend")
 
         archiveClassifier.set("")
     }
