@@ -7,7 +7,6 @@ import java.util.Map;
 import org.bukkit.inventory.ItemStack;
 
 import com.strangeone101.holoitemsapi.Keys;
-import com.strangeone101.holoitemsapi.recipe.RecipeManager;
 
 /**
  * A registry for managing all custom items
