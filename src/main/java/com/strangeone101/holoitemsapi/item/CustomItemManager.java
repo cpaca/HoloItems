@@ -3,7 +3,9 @@ package com.strangeone101.holoitemsapi.item;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
 import com.strangeone101.holoitemsapi.Keys;
@@ -32,6 +34,9 @@ public class CustomItemManager {
     public static void lock() {
         if (!locked) {
             locked = true;
+            CUSTOM_ITEMS.values().stream()
+                    .map(CustomItem::getRecipe)
+                    .forEach(Bukkit::addRecipe);
         }
     }
 

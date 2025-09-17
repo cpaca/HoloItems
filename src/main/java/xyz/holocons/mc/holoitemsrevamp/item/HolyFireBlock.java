@@ -50,14 +50,21 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
     }
 
     @Override
-    public boolean editRecipe(Recipe r) {
-        if(r instanceof ShapedRecipe recipe) {
-            // if it's not this, a new recipe was probably added to the datapack?
-            char saintQuartzKey = recipe.getShape()[1].charAt(1);
-            recipe.setIngredient(saintQuartzKey, new CustomItemRecipeChoice("saint_quartz"));
-            return true;
-        }
-        return false;
+    public Recipe getRecipe() {
+        final var recipeKey = getKey();
+        final var outStack = buildStack(null);
+        final var recipe = new ShapedRecipe(recipeKey, outStack);
+
+        recipe.shape(
+                " E ",
+                "EQE",
+                "GGG"
+        );
+        recipe.setIngredient('E', Material.END_ROD);
+        recipe.setIngredient('G', Material.RAW_GOLD_BLOCK);
+        recipe.setIngredient('Q', new CustomItemRecipeChoice("saint_quartz"));
+
+        return recipe;
     }
 
     @Override

@@ -34,6 +34,7 @@ import com.strangeone101.holoitemsapi.statistic.StatsWrapper;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.Nullable;
 import xyz.holocons.mc.holoitemsrevamp.Util;
 
 /**
@@ -156,13 +157,12 @@ public class CustomItem implements Keyed {
     }
 
     /**
-     * Called by RecipeManger for every recipe where this CustomItem is the result.
-     * Can be used by subclasses to edit recipes.
-     * @param r The recipe
-     * @return Whether the edited recipe should replace the old one
+     * Called by CustomItemManager on every CustomItem.
+     * If non-null, the recipe is added to the server.
+     * @return A recipe to add.
      */
-    public boolean editRecipe(Recipe r) {
-        return false;
+    public @Nullable Recipe getRecipe() {
+        return null;
     }
 
     /**
