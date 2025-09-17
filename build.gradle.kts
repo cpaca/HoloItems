@@ -87,7 +87,7 @@ tasks.register("copyDatapack") {
 // https://github.com/Minecrell/plugin-yml
 paper {
     main = "xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp"
-    bootstrapper = "xyz.holocons.mc.holoitemsrevamp.HoloitemsBootstrap"
+    bootstrapper = "xyz.holocons.mc.holoitemsrevamp.HoloItemsBootstrap"
     apiVersion = "1.21.1"
     authors = listOf("TraceL", "dlee13")
     website = "holocons.xyz"
