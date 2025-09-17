@@ -1,8 +1,10 @@
 package xyz.holocons.mc.holoitemsrevamp.item;
 
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.List;
 
+import com.strangeone101.holoitemsapi.item.CustomItemManager;
 import org.bukkit.Material;
 import org.bukkit.block.Beacon;
 import org.bukkit.block.BlockFace;
@@ -13,6 +15,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.util.NumberConversions;
@@ -44,6 +47,17 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
     public HolyFireBlock(HoloItemsRevamp plugin) {
         super(plugin, name, material, displayName, lore);
         register();
+    }
+
+    @Override
+    public boolean editRecipe(Recipe r) {
+        if(r instanceof ShapedRecipe recipe) {
+            // if it's not this, a new recipe was probably added to the datapack?
+            char saintQuartzKey = recipe.getShape()[1].charAt(1);
+            recipe.setIngredient(saintQuartzKey, new CustomItemRecipeChoice("saint_quartz"));
+            return true;
+        }
+        return false;
     }
 
     @Override

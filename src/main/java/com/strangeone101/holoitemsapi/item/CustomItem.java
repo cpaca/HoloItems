@@ -199,6 +199,16 @@ public class CustomItem implements Keyed {
     }
 
     /**
+     * Called by RecipeManger for every recipe where this CustomItem is the result.
+     * Can be used by subclasses to edit recipes.
+     * @param r The recipe
+     * @return Whether the edited recipe should replace the old one
+     */
+    public boolean editRecipe(Recipe r) {
+        return false;
+    }
+
+    /**
      * Replaces the string provided with variables
      * @param component The component
      * @param dataHolder The data holder
