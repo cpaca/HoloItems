@@ -126,39 +126,6 @@ public class CustomItem implements Keyed {
         return stack;
     }
 
-    public ItemStack updateStack(Player player, ItemStack itemStack) {
-        var meta = itemStack.getItemMeta();
-
-        if (getMaterial() != itemStack.getType() && meta instanceof Damageable originalDamageable) {
-            int damage = originalDamageable.getDamage();
-            itemStack = buildStack(player);
-            meta = itemStack.getItemMeta();
-            if (meta instanceof Damageable newDamageable) {
-                newDamageable.setDamage(damage);
-            }
-        }
-
-        var lore = new ArrayList<Component>();
-
-        for (var line : getLore()) {
-            lore.add(replaceVariables(line, meta.getPersistentDataContainer()));
-        }
-
-        if (meta instanceof LeatherArmorMeta) {
-            ((LeatherArmorMeta) meta).setColor(Color.fromRGB(hex));
-        } else if (meta instanceof PotionMeta) {
-            ((PotionMeta) meta).setColor(Color.fromRGB(hex));
-        }
-
-        itemStack.setItemMeta(meta);
-
-        if (this instanceof Enchantable enchantable) {
-            itemStack = enchantable.applyEnchantment(itemStack);
-        }
-
-        return itemStack;
-    }
-
     /**
      * Builds an ItemStack that should only be used for showing an item through an inventory or any other methods
      * that does not allow the player to use the item. This will add missing statistics to the lore.
