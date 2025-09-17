@@ -9,9 +9,6 @@ import org.jetbrains.annotations.NotNull;
 public class HoloItemsBootstrap implements PluginBootstrap {
     @Override
     public void bootstrap(@NotNull BootstrapContext context) {
-        var manager = context.getLifecycleManager();
-        manager.registerEventHandler(LifecycleEvents.TAGS.preFlatten(RegistryKey.ITEM), event -> {
-            // TODO
-        });
+        
     }
 }
