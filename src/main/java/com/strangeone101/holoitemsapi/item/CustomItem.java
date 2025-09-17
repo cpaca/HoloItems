@@ -55,6 +55,7 @@ public class CustomItem implements Keyed {
     private Set<StatsWrapper<?>> statGoals;
     private int hex;
     private ItemFlag[] flags;
+    private boolean bookLike;
 
     private Map<String, Function<PersistentDataContainer, Component>> variables = new HashMap<>();
 
@@ -110,6 +111,7 @@ public class CustomItem implements Keyed {
         }
 
         Keys.ITEM_ID.set(meta.getPersistentDataContainer(), getInternalName());
+        Keys.BOOK_LIKE.set(meta.getPersistentDataContainer(), this.getBookLike());
 
         // If the item shouldn't be stackable, add a random INTEGER to the NBT
         if(this.getStackSize() != null){
@@ -446,5 +448,13 @@ public class CustomItem implements Keyed {
     public CustomItem setFlags(ItemFlag... flags) {
         this.flags = flags;
         return this;
+    }
+
+    public boolean getBookLike() {
+        return bookLike;
+    }
+
+    public void setBookLike(boolean bookLike) {
+        this.bookLike = bookLike;
     }
 }
