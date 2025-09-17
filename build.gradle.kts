@@ -26,7 +26,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.4.0-SNAPSHOT")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
-    implementation("com.github.stefvanschie.inventoryframework:IF:0.10.13")
+    implementation("com.github.stefvanschie.inventoryframework:IF:0.11.3")
 }
 
 tasks {
