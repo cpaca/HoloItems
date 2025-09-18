@@ -68,7 +68,7 @@ public class CollectionManager {
     }
 
     private List<IdolCollection> buildIdolCollections(ClassLoader loader) {
-        System.out.println("Building idol collections");
+        plugin.getLogger().info("Building idol collections.");
         final var collectionsConfig = ConfigFactory.parseResources(loader, COLLECTIONS_ROOT + "/collections.conf");
         final var collectionNames = collectionsConfig.getStringList("collections");
 
