@@ -1,26 +1,43 @@
 package xyz.holocons.mc.holoitemsrevamp.collection;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.typesafe.config.ConfigFactory;
+import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import net.kyori.adventure.text.Component;
+import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
+import xyz.holocons.mc.holoitemsrevamp.Util;
 
-public abstract class IdolCollection {
+public class IdolCollection {
 
-    private final Set<Idol> idolSet;
+    private final List<Idol> idols = new ArrayList<>();
     private final ItemStack guiItem;
+    private final Material material;
+    private final Component displayName;
+    private final List<Component> lore;
 
-    public IdolCollection(Idol... idols) {
-        this.idolSet = Set.of(idols);
+    public IdolCollection(ClassLoader loader, String basePath) {
+        final var data = ConfigFactory
+                .parseResources(loader, basePath + "/_info.conf")
+                .withFallback(CollectionManager.defaultCollectionConfig);
+
+        material = Material.getMaterial(data.getString("material"));
+        displayName = Util.configToComponent(data.getConfig("display_name"));
+        lore = data.getConfigList("lore").stream().map(Util::configToComponent).toList();
+
+        // TODO: Handle the list of idols.
+
         this.guiItem = buildGuiItem();
     }
 
-    public final Set<Idol> getIdolSet() {
-        return idolSet;
+    public final List<Idol> getIdolSet() {
+        return idols;
     }
 
     public final ItemStack getGuiItem() {
@@ -33,21 +50,27 @@ public abstract class IdolCollection {
      * @return a Bukkit Material
      */
     @NotNull
-    public abstract Material getMaterial();
+    public Material getMaterial() {
+        return material;
+    }
 
     /**
      * Returns the display name of the itemstack that represents the idol collection in the GUI
      * 
      * @return an Adventure Component
      */
-    public abstract Component getDisplayName();
+    public Component getDisplayName() {
+        return this.displayName;
+    }
 
     /**
      * Returns the lore of the itemstack that represents the idol collection in the GUI
      * 
      * @return a list of Adventure Components
      */
-    public abstract List<Component> getLore();
+    public List<Component> getLore() {
+        return this.lore;
+    }
 
     private ItemStack buildGuiItem() {
         var item = new ItemStack(getMaterial());

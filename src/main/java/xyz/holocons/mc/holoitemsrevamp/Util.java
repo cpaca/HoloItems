@@ -1,13 +1,18 @@
 package xyz.holocons.mc.holoitemsrevamp;
 
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.time.temporal.TemporalUnit;
 import java.util.Base64;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigValueFactory;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -26,6 +31,13 @@ public final class Util {
 
     private static long epochTick = 0;
     private static long previousCurrentTick = Long.MAX_VALUE;
+
+    private static final Config defaultComponentConfig = ConfigValueFactory.fromMap(Map.ofEntries(
+            Map.entry("text", "Util component"),
+            Map.entry("color", "#FFFFFF"),
+            Map.entry("bold", false),
+            Map.entry("italics", false)
+    )).toConfig();
 
     private Util() {
     }
@@ -111,5 +123,13 @@ public final class Util {
 
     public static long toTicks(Duration duration) {
         return Tick.tick().fromDuration(duration);
+    }
+
+    public static Component configToComponent(Config config) {
+        config = config.withFallback(defaultComponentConfig);
+        return Component.text(config.getString("text"))
+                .color(TextColor.fromHexString(config.getString("color")))
+                .decoration(TextDecoration.BOLD, config.getBoolean("bold"))
+                .decoration(TextDecoration.ITALIC, config.getBoolean("italics"));
     }
 }

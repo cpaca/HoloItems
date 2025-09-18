@@ -3,14 +3,14 @@ package xyz.holocons.mc.holoitemsrevamp.collection;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.ConfigValueFactory;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.inventory.CrafterInventory;
 import org.jetbrains.annotations.NotNull;
@@ -28,9 +28,18 @@ public class CollectionManager {
 
     private final List<IdolCollection> idolCollections;
     private final Map<String, CustomItem> customItems;
+    private final HoloItemsRevamp plugin;
+    private static final String COLLECTIONS_ROOT = "collections";
+
+    // default access modifier
+    static final Config defaultCollectionConfig = getDefaultCollectionConfig();
+    static final Config defaultIdolConfig = getDefaultIdolConfig();
 
     public CollectionManager(HoloItemsRevamp plugin) {
-        this.idolCollections = buildIdolCollections(plugin);
+        this.plugin = plugin;
+
+        final var loader = CollectionManager.class.getClassLoader();
+        this.idolCollections = buildIdolCollections(loader);
 
         // Key is the internal name, value is the initialized custom item
         this.customItems = idolCollections.stream()
@@ -58,17 +67,25 @@ public class CollectionManager {
         return customItems;
     }
 
-    private static List<IdolCollection> buildIdolCollections(HoloItemsRevamp plugin) {
+    private List<IdolCollection> buildIdolCollections(ClassLoader loader) {
         System.out.println("Building idol collections");
-        final var COLLECTIONS_ROOT = "collections";
-        System.setProperty("base_data.abc", "123");
-        final var loader = CollectionManager.class.getClassLoader();
         final var collectionsConfig = ConfigFactory.parseResources(loader, COLLECTIONS_ROOT + "/collections.conf");
         final var collectionNames = collectionsConfig.getStringList("collections");
 
-        System.out.println(collectionNames);
+        final var collections = collectionNames.stream()
+                .map(name -> new IdolCollection(loader, COLLECTIONS_ROOT + "/" + name));
 
-        return List.of();
+        return collections.toList();
+    }
+
+    private static Config getDefaultCollectionConfig() {
+        final var loader = CollectionManager.class.getClassLoader();
+        return ConfigFactory.parseResources(loader, COLLECTIONS_ROOT + "/default_collection_info.conf");
+    }
+
+    private static Config getDefaultIdolConfig() {
+        final var loader = CollectionManager.class.getClassLoader();
+        return ConfigFactory.parseResources(loader, COLLECTIONS_ROOT + "/default_idol.conf");
     }
 
 //    private static List<IdolCollection> buildIdolCollections(HoloItemsRevamp plugin) {
