@@ -1,2 +1,0 @@
-gura.conf
-_info.conf
