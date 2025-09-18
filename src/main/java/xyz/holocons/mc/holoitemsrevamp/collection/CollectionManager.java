@@ -58,7 +58,7 @@ public class CollectionManager {
     private static List<IdolCollection> buildIdolCollections(HoloItemsRevamp plugin) {
         System.out.println("Building idol collections.");
         final var COLLECTIONS_ROOT = Util.RESOURCES_ROOT + "/collections";
-        final var loader = CollectionManager.class.getClassLoader();
+        final var loader = Thread.currentThread().getContextClassLoader();
         final List<String> collections = new ArrayList<>();
         System.out.println(COLLECTIONS_ROOT);
         try(final var collectionsStream = loader.getResourceAsStream(COLLECTIONS_ROOT)) {

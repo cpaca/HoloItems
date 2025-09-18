@@ -69,6 +69,12 @@ tasks {
         dependsOn("copyDatapack")
         minecraftVersion("1.21.1")
     }
+
+    build {
+        doFirst {
+            copyFolderNamesToFile(file("./src/main/resources"))
+        }
+    }
 }
 
 tasks.register("copyDatapack") {
@@ -80,6 +86,19 @@ tasks.register("copyDatapack") {
     copy {
         from("./holoitems_datapack")
         into("./run/world/datapacks/holoitems_datapack")
+    }
+}
+
+fun copyFolderNamesToFile(folder: File) {
+    if(!folder.isDirectory) return
+    val outFile = folder.resolve("files.txt")
+    outFile.delete()
+    outFile.createNewFile()
+    folder.listFiles()?.forEach { file ->
+        if(file.name != "files.txt") {
+            outFile.appendText(file.name + "\n")
+            copyFolderNamesToFile(file)
+        }
     }
 }
 
