@@ -25,6 +25,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
 
         CustomEnchantment.loadCustomEnchantments(this);
 
+        CustomItemManager.loadCustomItems(this);
         this.collectionManager = new CollectionManager(this);
         this.trackingManager = new CustomBlockStorage(this);
 

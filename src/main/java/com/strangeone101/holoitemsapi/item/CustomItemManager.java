@@ -1,14 +1,14 @@
 package com.strangeone101.holoitemsapi.item;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
+import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
 import com.strangeone101.holoitemsapi.Keys;
+import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
+import xyz.holocons.mc.holoitemsrevamp.item.*;
 
 /**
  * A registry for managing all custom items
@@ -100,5 +100,22 @@ public class CustomItemManager {
      */
     public static BlockAbility getCustomBlock(String id) {
         return CUSTOM_ITEMS.get(id) instanceof BlockAbility ability ? ability : null;
+    }
+
+    public static void loadCustomItems(HoloItemsRevamp plugin) {
+        // While I do have it going into a Set.of(),
+        // CustomItems register themselves. Each CustomItem has a register() function in its constructor.
+        // TODO: Ask if that's dumb and this function should be the one registering them
+        //   because imo that's dumb.
+        final var items = Set.of(
+                new BackdashBoots(plugin),
+                new DummyBlockBlock(plugin),
+                new HolyFireBlock(plugin),
+                new MagnetBook(plugin),
+                new MementoItem(plugin),
+                new PlowBook(plugin),
+                new SaintQuartzItem(plugin),
+                new TideRiderItem(plugin)
+        );
     }
 }
