@@ -1,6 +1,8 @@
 package xyz.holocons.mc.holoitemsrevamp.collection;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import java.util.Scanner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.typesafe.config.ConfigFactory;
 import org.bukkit.Material;
 import org.bukkit.inventory.CrafterInventory;
 import org.jetbrains.annotations.NotNull;
@@ -56,23 +59,15 @@ public class CollectionManager {
     }
 
     private static List<IdolCollection> buildIdolCollections(HoloItemsRevamp plugin) {
-        System.out.println("Building idol collections.");
-        final var COLLECTIONS_ROOT = Util.RESOURCES_ROOT + "/collections";
+        System.out.println("Building idol collections");
+        final var COLLECTIONS_ROOT = "collections";
+        System.setProperty("base_data.abc", "123");
         final var loader = CollectionManager.class.getClassLoader();
-        final List<String> collections = new ArrayList<>();
-        System.out.println(COLLECTIONS_ROOT);
-        try(final var collectionsStream = loader.getResourceAsStream(COLLECTIONS_ROOT)) {
-            if(collectionsStream == null) {
-                throw new RuntimeException("Resource-to-stream failed.");
-            }
-            Scanner scanner = new Scanner(collectionsStream);
-            while(scanner.hasNext()) {
-                System.out.println(scanner.nextLine());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("Built idol collections.");
+        final var collectionsConfig = ConfigFactory.parseResources(loader, COLLECTIONS_ROOT + "/collections.conf");
+        final var collectionNames = collectionsConfig.getStringList("collections");
+
+        System.out.println(collectionNames);
+
         return List.of();
     }
 

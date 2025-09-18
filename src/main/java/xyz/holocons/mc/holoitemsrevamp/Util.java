@@ -27,8 +27,6 @@ public final class Util {
     private static long epochTick = 0;
     private static long previousCurrentTick = Long.MAX_VALUE;
 
-    public static final String RESOURCES_ROOT = "/resources";
-
     private Util() {
     }
 
