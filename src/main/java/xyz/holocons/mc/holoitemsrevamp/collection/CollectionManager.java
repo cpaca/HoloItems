@@ -27,7 +27,6 @@ import xyz.holocons.mc.holoitemsrevamp.item.*;
 public class CollectionManager {
 
     private final List<IdolCollection> idolCollections;
-    private final Map<String, CustomItem> customItems;
     private final HoloItemsRevamp plugin;
     private static final String COLLECTIONS_ROOT = "collections";
 
@@ -40,17 +39,6 @@ public class CollectionManager {
 
         final var loader = CollectionManager.class.getClassLoader();
         this.idolCollections = buildIdolCollections(loader);
-
-        // Key is the internal name, value is the initialized custom item
-        this.customItems = idolCollections.stream()
-                .<CustomItem>mapMulti((idolCollection, consumer) -> {
-                    for (final var idol : idolCollection.getIdolSet()) {
-                        for (final var customItem : idol.getItemSet()) {
-                            consumer.accept(customItem);
-                        }
-                    }
-                })
-                .collect(Collectors.toMap(CustomItem::getInternalName, Function.identity()));
     }
 
     /**
