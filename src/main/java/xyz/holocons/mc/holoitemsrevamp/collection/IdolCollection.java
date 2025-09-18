@@ -33,7 +33,7 @@ public class IdolCollection {
 
         this.idols = data.getStringList("idols")
                 .stream()
-                .map(name -> new Idol(loader, basePath + "/" + name + ".conf"))
+                .map(name -> new Idol(loader, basePath, name))
                 .toList();
 
         this.guiItem = buildGuiItem();

@@ -21,11 +21,16 @@ public class Idol {
     private final Component displayName;
     private final List<Component> lore;
 
-    public Idol(ClassLoader loader, String path) {
+    // Internal name. If you need to get() an idol, you use the internal name.
+    // This is also the name of the file in resources.
+    private final String name;
+
+    public Idol(ClassLoader loader, String collectionPath, String name) {
         final var data = ConfigFactory
-                .parseResources(loader, path)
+                .parseResources(loader, collectionPath + "/" + name + ".conf")
                 .withFallback(CollectionManager.defaultIdolConfig);
 
+        this.name = name;
         displayName = Util.configToComponent(data.getConfig("display_name"));
         lore = data.getConfigList("lore").stream().map(Util::configToComponent).toList();
 
@@ -69,5 +74,13 @@ public class Idol {
      */
     public List<Component> getLore() {
         return lore;
+    }
+
+    /**
+     * Returns the internal name of this idol. Generally, this is all-lowercase, even for IRyS and AZKi.
+     * @return The internal name
+     */
+    public String getName() {
+        return name;
     }
 }
