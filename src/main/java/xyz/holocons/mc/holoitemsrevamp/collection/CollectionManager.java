@@ -1,5 +1,6 @@
 package xyz.holocons.mc.holoitemsrevamp.collection;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -51,314 +52,322 @@ public class CollectionManager {
     }
 
     private static List<IdolCollection> buildIdolCollections(HoloItemsRevamp plugin) {
-        var en1 = new IdolCollection(
-                buildGura(plugin), buildIRyS(plugin), buildCalliope(plugin), buildIna(plugin), buildKiara(plugin),
-                buildAmelia(plugin)) {
+        ArrayList<IdolCollection> out = new ArrayList<>();
 
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
 
-            @Override
-            public Component getDisplayName() {
-                return Component.text("EN Generation 1", TextColor.color(0x1D83FF));
-            }
 
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var en2 = new IdolCollection(
-                buildFauna(plugin), buildBaelz(plugin), buildMumei(plugin), buildKronii(plugin), buildSana(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("EN Generation 2", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var gamers = new IdolCollection(
-                buildKorone(plugin), buildOkayu(plugin), buildMio(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Hololive Gamers", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var gen0 = new IdolCollection(
-                buildAZKi(plugin), buildSuisei(plugin), buildRoboco(plugin), buildMiko(plugin), buildSora(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Hololive Generation 0", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var gen1 = new IdolCollection(
-                buildHaato(plugin), buildAki(plugin), buildMatsuri(plugin), buildFubuki(plugin), buildMel(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Hololive Generation 1", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var gen2 = new IdolCollection(
-                buildAqua(plugin), buildShion(plugin), buildAyame(plugin), buildSubaru(plugin), buildChoco(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Hololive Generation 2", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var gen3 = new IdolCollection(
-                buildMarine(plugin), buildFlare(plugin), buildNoel(plugin), buildRushia(plugin), buildPekora(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Hololive Generation 3", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var gen4 = new IdolCollection(
-                buildKanata(plugin), buildLuna(plugin), buildCoco(plugin), buildTowa(plugin), buildWatame(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Hololive Generation 4", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var gen5 = new IdolCollection(
-                buildNene(plugin), buildPolka(plugin), buildBotan(plugin), buildLamy(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Hololive Generation 5", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var gen6 = new IdolCollection(
-                buildKoyori(plugin), buildIroha(plugin), buildLaplus(plugin), buildChloe(plugin), buildLui(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Hololive Generation 6", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var id1 = new IdolCollection(
-                buildIofi(plugin), buildRisu(plugin), buildMoona(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Hololive ID Generation 1", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var id2 = new IdolCollection(
-                buildAnya(plugin), buildOllie(plugin), buildReine(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Hololive ID Generation 2", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var misc = new IdolCollection(
-                buildAchan(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Hololive Misc", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var stars1 = new IdolCollection(
-                buildAruran(plugin), buildMiyabi(plugin), buildIzuru(plugin), buildRikka(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Holostars Generation 1", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var stars2 = new IdolCollection(
-                buildAstel(plugin), buildTemma(plugin), buildRoberu(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Holostars Generation 2", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        var stars3 = new IdolCollection(
-                buildOga(plugin), buildShien(plugin)) {
-
-            @Override
-            public @NotNull Material getMaterial() {
-                return Material.PAPER;
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.text("Holostars Generation 3", TextColor.color(0x1D83FF));
-            }
-
-            @Override
-            public List<Component> getLore() {
-                return null;
-            }
-        };
-
-        return List.of(
-                en1, en2, gamers, gen0, gen1, gen2, gen3, gen4, gen5, gen6, id1, id2, misc, stars1, stars2, stars3);
+        return out;
     }
+
+//    private static List<IdolCollection> buildIdolCollections(HoloItemsRevamp plugin) {
+//        var en1 = new IdolCollection(
+//                buildGura(plugin), buildIRyS(plugin), buildCalliope(plugin), buildIna(plugin), buildKiara(plugin),
+//                buildAmelia(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("EN Generation 1", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var en2 = new IdolCollection(
+//                buildFauna(plugin), buildBaelz(plugin), buildMumei(plugin), buildKronii(plugin), buildSana(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("EN Generation 2", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var gamers = new IdolCollection(
+//                buildKorone(plugin), buildOkayu(plugin), buildMio(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Hololive Gamers", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var gen0 = new IdolCollection(
+//                buildAZKi(plugin), buildSuisei(plugin), buildRoboco(plugin), buildMiko(plugin), buildSora(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Hololive Generation 0", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var gen1 = new IdolCollection(
+//                buildHaato(plugin), buildAki(plugin), buildMatsuri(plugin), buildFubuki(plugin), buildMel(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Hololive Generation 1", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var gen2 = new IdolCollection(
+//                buildAqua(plugin), buildShion(plugin), buildAyame(plugin), buildSubaru(plugin), buildChoco(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Hololive Generation 2", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var gen3 = new IdolCollection(
+//                buildMarine(plugin), buildFlare(plugin), buildNoel(plugin), buildRushia(plugin), buildPekora(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Hololive Generation 3", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var gen4 = new IdolCollection(
+//                buildKanata(plugin), buildLuna(plugin), buildCoco(plugin), buildTowa(plugin), buildWatame(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Hololive Generation 4", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var gen5 = new IdolCollection(
+//                buildNene(plugin), buildPolka(plugin), buildBotan(plugin), buildLamy(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Hololive Generation 5", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var gen6 = new IdolCollection(
+//                buildKoyori(plugin), buildIroha(plugin), buildLaplus(plugin), buildChloe(plugin), buildLui(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Hololive Generation 6", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var id1 = new IdolCollection(
+//                buildIofi(plugin), buildRisu(plugin), buildMoona(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Hololive ID Generation 1", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var id2 = new IdolCollection(
+//                buildAnya(plugin), buildOllie(plugin), buildReine(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Hololive ID Generation 2", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var misc = new IdolCollection(
+//                buildAchan(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Hololive Misc", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var stars1 = new IdolCollection(
+//                buildAruran(plugin), buildMiyabi(plugin), buildIzuru(plugin), buildRikka(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Holostars Generation 1", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var stars2 = new IdolCollection(
+//                buildAstel(plugin), buildTemma(plugin), buildRoberu(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Holostars Generation 2", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        var stars3 = new IdolCollection(
+//                buildOga(plugin), buildShien(plugin)) {
+//
+//            @Override
+//            public @NotNull Material getMaterial() {
+//                return Material.PAPER;
+//            }
+//
+//            @Override
+//            public Component getDisplayName() {
+//                return Component.text("Holostars Generation 3", TextColor.color(0x1D83FF));
+//            }
+//
+//            @Override
+//            public List<Component> getLore() {
+//                return null;
+//            }
+//        };
+//
+//        return List.of(
+//                en1, en2, gamers, gen0, gen1, gen2, gen3, gen4, gen5, gen6, id1, id2, misc, stars1, stars2, stars3);
+//    }
 
     private static Idol buildGura(HoloItemsRevamp plugin) {
         return new Idol(new TideRiderItem(plugin)) {
