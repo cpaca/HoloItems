@@ -2,7 +2,9 @@ package xyz.holocons.mc.holoitemsrevamp.collection;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import com.strangeone101.holoitemsapi.item.CustomItemManager;
 import com.typesafe.config.ConfigFactory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -14,8 +16,7 @@ import xyz.holocons.mc.holoitemsrevamp.Util;
 
 public class Idol {
 
-    // FIXME
-    private final Set<CustomItem> itemSet = Set.of();
+    private final Set<CustomItem> itemSet;
     private final ItemStack guiItem;
     private final Component displayName;
     private final List<Component> lore;
@@ -34,6 +35,14 @@ public class Idol {
         meta.displayName(getDisplayName());
         meta.lore(getLore());
         guiItem.setItemMeta(meta);
+
+        // build itemSet
+        // TODO: Maybe this shouldn't use Stream API? Because I sort-of want it to say something when an
+        //   unrecognized item is in the list.
+        itemSet = data.getStringList("items")
+                .stream()
+                .map(CustomItemManager::getCustomItem)
+                .collect(Collectors.toSet());
     }
 
     public final Set<CustomItem> getItemSet() {
