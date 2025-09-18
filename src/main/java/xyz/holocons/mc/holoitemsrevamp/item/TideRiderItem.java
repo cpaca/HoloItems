@@ -37,7 +37,7 @@ public class TideRiderItem extends CustomItem implements Enchantable {
         recipe.shape(
                 "ATA",
                 "AG ",
-                " D "
+                " A "
         );
         recipe.setIngredient('A', Material.PRISMARINE_BRICKS);
         recipe.setIngredient('T', Material.TRIDENT);
