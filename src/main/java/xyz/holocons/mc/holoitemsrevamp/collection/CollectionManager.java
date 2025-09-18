@@ -381,6 +381,7 @@ public class CollectionManager {
 //                en1, en2, gamers, gen0, gen1, gen2, gen3, gen4, gen5, gen6, id1, id2, misc, stars1, stars2, stars3);
 //    }
 
+    /*
     private static Idol buildGura(HoloItemsRevamp plugin) {
         return new Idol(new TideRiderItem(plugin)) {
 
@@ -1852,4 +1853,5 @@ public class CollectionManager {
             }
         };
     }
+     */
 }
