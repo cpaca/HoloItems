@@ -1,6 +1,7 @@
 package xyz.holocons.mc.holoitemsrevamp;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.time.temporal.TemporalUnit;
 import java.util.Base64;
@@ -25,6 +26,8 @@ public final class Util {
 
     private static long epochTick = 0;
     private static long previousCurrentTick = Long.MAX_VALUE;
+
+    public static final String RESOURCES_ROOT = "/resources";
 
     private Util() {
     }

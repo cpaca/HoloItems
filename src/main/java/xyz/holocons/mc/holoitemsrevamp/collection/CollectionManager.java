@@ -1,12 +1,15 @@
 package xyz.holocons.mc.holoitemsrevamp.collection;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.CrafterInventory;
 import org.jetbrains.annotations.NotNull;
 
 import com.strangeone101.holoitemsapi.item.CustomItem;
@@ -15,6 +18,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
+import xyz.holocons.mc.holoitemsrevamp.Util;
 import xyz.holocons.mc.holoitemsrevamp.item.*;
 
 public class CollectionManager {
@@ -52,11 +56,24 @@ public class CollectionManager {
     }
 
     private static List<IdolCollection> buildIdolCollections(HoloItemsRevamp plugin) {
-        ArrayList<IdolCollection> out = new ArrayList<>();
-
-
-
-        return out;
+        System.out.println("Building idol collections.");
+        final var COLLECTIONS_ROOT = Util.RESOURCES_ROOT + "/collections";
+        final var loader = CollectionManager.class.getClassLoader();
+        final List<String> collections = new ArrayList<>();
+        System.out.println(COLLECTIONS_ROOT);
+        try(final var collectionsStream = loader.getResourceAsStream(COLLECTIONS_ROOT)) {
+            if(collectionsStream == null) {
+                throw new RuntimeException("Resource-to-stream failed.");
+            }
+            Scanner scanner = new Scanner(collectionsStream);
+            while(scanner.hasNext()) {
+                System.out.println(scanner.nextLine());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Built idol collections.");
+        return List.of();
     }
 
 //    private static List<IdolCollection> buildIdolCollections(HoloItemsRevamp plugin) {
