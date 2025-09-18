@@ -16,7 +16,7 @@ import xyz.holocons.mc.holoitemsrevamp.Util;
 
 public class IdolCollection {
 
-    private final List<Idol> idols = new ArrayList<>();
+    private final List<Idol> idols;
     private final ItemStack guiItem;
     private final Material material;
     private final Component displayName;
@@ -31,7 +31,10 @@ public class IdolCollection {
         displayName = Util.configToComponent(data.getConfig("display_name"));
         lore = data.getConfigList("lore").stream().map(Util::configToComponent).toList();
 
-        // TODO: Handle the list of idols.
+        this.idols = data.getStringList("idols")
+                .stream()
+                .map(name -> new Idol(loader, basePath + "/" + name + ".conf"))
+                .toList();
 
         this.guiItem = buildGuiItem();
     }

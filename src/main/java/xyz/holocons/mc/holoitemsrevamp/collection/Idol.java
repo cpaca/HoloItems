@@ -3,6 +3,7 @@ package xyz.holocons.mc.holoitemsrevamp.collection;
 import java.util.List;
 import java.util.Set;
 
+import com.typesafe.config.ConfigFactory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,14 +12,28 @@ import com.strangeone101.holoitemsapi.item.CustomItem;
 import net.kyori.adventure.text.Component;
 import xyz.holocons.mc.holoitemsrevamp.Util;
 
-public abstract class Idol {
+public class Idol {
 
-    private final Set<CustomItem> itemSet;
+    // FIXME
+    private final Set<CustomItem> itemSet = Set.of();
     private final ItemStack guiItem;
+    private final Component displayName;
+    private final List<Component> lore;
 
-    public Idol(CustomItem... items) {
-        this.itemSet = Set.of(items);
-        this.guiItem = buildGuiItem();
+    public Idol(ClassLoader loader, String path) {
+        final var data = ConfigFactory
+                .parseResources(loader, path)
+                .withFallback(CollectionManager.defaultIdolConfig);
+
+        displayName = Util.configToComponent(data.getConfig("display_name"));
+        lore = data.getConfigList("lore").stream().map(Util::configToComponent).toList();
+
+        // Build guiItem:
+        guiItem = Util.getPlayerHead(data.getConfig("skin"));
+        var meta = guiItem.getItemMeta();
+        meta.displayName(getDisplayName());
+        meta.lore(getLore());
+        guiItem.setItemMeta(meta);
     }
 
     public final Set<CustomItem> getItemSet() {
@@ -30,33 +45,20 @@ public abstract class Idol {
     }
 
     /**
-     * Returns the skin that represents the idol in the GUI
-     * 
-     * @return a base64-encoded String
-     */
-    @NotNull
-    public abstract String getSkinUrl();
-
-    /**
      * Returns the display name of the itemstack that represents the idol in the GUI
      * 
      * @return an Adventure Component
      */
-    public abstract Component getDisplayName();
+    public Component getDisplayName() {
+        return displayName;
+    }
 
     /**
      * Returns the lore of the itemstack that represents the idol in the GUI
      * 
      * @return a list of Adventure Components
      */
-    public abstract List<Component> getLore();
-
-    private ItemStack buildGuiItem() {
-        var item = Util.getPlayerHeadFromSkinUrl(getSkinUrl());
-        var meta = item.getItemMeta();
-        meta.displayName(getDisplayName());
-        meta.lore(getLore());
-        item.setItemMeta(meta);
-        return item;
+    public List<Component> getLore() {
+        return lore;
     }
 }

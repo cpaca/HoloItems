@@ -13,6 +13,7 @@ import com.typesafe.config.ConfigValueFactory;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -131,5 +132,20 @@ public final class Util {
                 .color(TextColor.fromHexString(config.getString("color")))
                 .decoration(TextDecoration.BOLD, config.getBoolean("bold"))
                 .decoration(TextDecoration.ITALIC, config.getBoolean("italics"));
+    }
+
+    /**
+     * Tries a bunch of possible formattings to resolve a skin into a player head.
+     * @return A player heaed
+     */
+    public static ItemStack getPlayerHead(Config config) {
+        if(config.hasPath("url")) {
+            var url = config.getString("url");
+            return getPlayerHeadFromSkinUrl(url);
+        }
+        // TODO base64 to playerhead maybe?
+        //   PlayerName to playerhead?
+        //   Load resource into playerhead?
+        throw new NotImplementedException("Do not know how to get playerHead from config:" + config.toString());
     }
 }

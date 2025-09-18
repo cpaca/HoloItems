@@ -85,7 +85,7 @@ public class CollectionManager {
 
     private static Config getDefaultIdolConfig() {
         final var loader = CollectionManager.class.getClassLoader();
-        return ConfigFactory.parseResources(loader, COLLECTIONS_ROOT + "/default_idol.conf");
+        return ConfigFactory.parseResources(loader, COLLECTIONS_ROOT + "/default_idol_info.conf");
     }
 
 //    private static List<IdolCollection> buildIdolCollections(HoloItemsRevamp plugin) {
