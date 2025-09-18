@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.command.subcommand.AcquireCommand;
 import xyz.holocons.mc.holoitemsrevamp.command.subcommand.CollectionsCommand;
+import xyz.holocons.mc.holoitemsrevamp.command.subcommand.GachaCommand;
 import xyz.holocons.mc.holoitemsrevamp.command.subcommand.StatsCommand;
 
 import java.util.*;
@@ -31,6 +32,7 @@ public class MainCommand implements BasicCommand {
         addSubCommand(new AcquireCommand(plugin));
         addSubCommand(new CollectionsCommand(plugin));
         addSubCommand(new StatsCommand());
+        addSubCommand(new GachaCommand(plugin));
         
         // Create text component message for help page
         final var helpComponentBuilder = Component.text()
