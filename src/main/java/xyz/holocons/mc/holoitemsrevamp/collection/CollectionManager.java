@@ -60,13 +60,6 @@ public class CollectionManager {
         return idolCollections;
     }
 
-    /**
-     * @return all custom items that the plugin contains
-     */
-    public Map<String, CustomItem> getAllItems() {
-        return customItems;
-    }
-
     private List<IdolCollection> buildIdolCollections(ClassLoader loader) {
         plugin.getLogger().info("Building idol collections.");
         final var collectionsConfig = ConfigFactory.parseResources(loader, COLLECTIONS_ROOT + "/collections.conf");

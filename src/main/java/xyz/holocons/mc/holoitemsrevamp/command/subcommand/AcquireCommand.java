@@ -1,5 +1,6 @@
 package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 
+import com.strangeone101.holoitemsapi.item.CustomItemManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -45,7 +46,7 @@ public class AcquireCommand implements SubCommand {
     @Override
     public List<String> getAutoComplete(String[] args) {
         return switch (args.length) {
-            case 1 -> List.copyOf(plugin.getCollectionManager().getAllItems().keySet());
+            case 1 -> List.copyOf(CustomItemManager.getCustomItems().keySet());
             case 3 -> null;
             default -> List.of();
         };
@@ -57,7 +58,7 @@ public class AcquireCommand implements SubCommand {
             return false;
         }
 
-        var customItem = plugin.getCollectionManager().getAllItems().get(args[0]);
+        var customItem = CustomItemManager.getCustomItem(args[0]);
         if (customItem == null) {
             sender.sendMessage(Component.text(args[0] + " is not a valid item!", NamedTextColor.YELLOW)
                 .decoration(TextDecoration.ITALIC, true));
