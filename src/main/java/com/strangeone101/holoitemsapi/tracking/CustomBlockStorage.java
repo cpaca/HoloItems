@@ -114,6 +114,10 @@ public class CustomBlockStorage {
         return trackedBlocks.get(new BlockLocation(block));
     }
 
+    public BlockAbility getAbility(final BlockLocation blockLoc) {
+        return trackedBlocks.get(blockLoc);
+    }
+
     public BlockLocation getNearestBlock(final Block block, final boolean sphere, final int radius,
             final BiPredicate<? super BlockLocation, ? super BlockAbility> predicate) {
         final var origin = new BlockLocation(block);

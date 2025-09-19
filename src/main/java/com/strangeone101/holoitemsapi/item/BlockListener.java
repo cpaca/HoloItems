@@ -1,19 +1,10 @@
 package com.strangeone101.holoitemsapi.item;
 
+import com.strangeone101.holoitemsapi.tracking.BlockLocation;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockBurnEvent;
-import org.bukkit.event.block.BlockDispenseEvent;
-import org.bukkit.event.block.BlockDropItemEvent;
-import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockFadeEvent;
-import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.block.BlockPistonExtendEvent;
-import org.bukkit.event.block.BlockPistonRetractEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -71,6 +62,8 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockIgnite(BlockIgniteEvent event) {
+        System.out.println("block ignited");
+        System.out.println(event.getBlock().getType());
         final var block = event.getBlock();
         if (!trackingManager.contains(block)) {
             return;
@@ -81,6 +74,9 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockExplode(BlockExplodeEvent event) {
+        System.out.println("onBlockExplode fired");
+        System.out.println(event.getExplodedBlockState().getType());
+        System.out.println(event.blockList().size());
         event.blockList().removeIf(trackingManager::contains);
     }
 
@@ -135,7 +131,21 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityExplode(EntityExplodeEvent event) {
-        event.blockList().removeIf(trackingManager::contains);
+        System.out.println("onEntityExplode fired");
+        System.out.println(event.getEntity().name());
+        System.out.println(event.blockList().size());
+        var source = event.getEntity().getOrigin();
+        if(source != null) {
+            var sourceBlockLoc = new BlockLocation(
+                    source.getWorld().getUID(), source.blockX(), source.blockY(), source.blockZ()
+            );
+            trackingManager.getAbility(sourceBlockLoc).onExplodeSource(event);
+        }
+        //noinspection IsCancelled
+        if(!event.isCancelled()) {
+            // may have been cancelled by onExplodeSource
+            event.blockList().removeIf(block -> trackingManager.getAbility(block).onExplodeBlock(event, block.getState()));
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -173,4 +183,10 @@ public class BlockListener implements Listener {
                     ability.onPlayerChunkLoad(event, location.blockState());
                 });
     }
+
+//    @EventHandler
+//    public void onTNTPrime(TNTPrimeEvent event) {
+//        System.out.println("TNT Primed");
+//        System.out.println(event.getCause().name());
+//    }
 }

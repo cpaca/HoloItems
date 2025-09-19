@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -61,5 +62,22 @@ public interface BlockAbility extends Keyed {
     }
 
     default void onPlayerChunkLoad(PlayerChunkLoadEvent event, BlockState blockState) {
+    }
+
+    /**
+     * Event is called when this block is the source of an EntityExplodeEvent.
+     * (Note: TNT explosions are an EntityExplodeEvent, not a BlockExplodeEvent.)
+     * A BlockState is not provided for this one, as by this point the block is now air (has exploded)
+     */
+    default void onExplodeSource(EntityExplodeEvent event) {
+
+    }
+
+    /**
+     * Event is called when an explosion is attempting to destroy this block.
+     * Return false to stop this block from being exploded.
+     */
+    default boolean onExplodeBlock(EntityExplodeEvent event, BlockState blockState) {
+        return false;
     }
 }
