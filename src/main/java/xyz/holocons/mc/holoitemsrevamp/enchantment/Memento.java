@@ -23,20 +23,6 @@ public class Memento extends CustomEnchantment {
     }
 
     @Override
-    public @NotNull Component displayName(int level) {
-        return Component.text()
-            .color(NamedTextColor.DARK_PURPLE)
-            .decoration(TextDecoration.ITALIC, false)
-            .append(Component.text("Memento"))
-            .build();
-    }
-
-    @Override
-    public int getCostMultiplier() {
-        return Integer.MAX_VALUE;
-    }
-
-    @Override
     public void onPlayerDeath(PlayerDeathEvent event, ItemStack itemStack) {
         final var location = event.getPlayer().getLocation();
 

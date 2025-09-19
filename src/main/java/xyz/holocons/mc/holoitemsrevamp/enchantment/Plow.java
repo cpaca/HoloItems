@@ -27,21 +27,6 @@ public class Plow extends CustomEnchantment {
     }
 
     @Override
-    public @NotNull Component displayName(int i) {
-        return Component.text()
-                .color(NamedTextColor.GRAY)
-                .decoration(TextDecoration.ITALIC, false)
-                .append(Component.text("Plow"))
-                .build();
-    }
-
-    @Override
-    public int getCostMultiplier() {
-        // Copied from Magnet
-        return 12;
-    }
-
-    @Override
     public void onBlockBreak(BlockBreakEvent event, ItemStack itemStack) {
         final var player = event.getPlayer();
         if (event.getBlock().getType() == Material.SNOW) {

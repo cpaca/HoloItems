@@ -23,12 +23,6 @@ public class Backdash extends CustomEnchantment {
     }
 
     @Override
-    public @NotNull Component displayName(int level) {
-        return Component.text("Backdash", NamedTextColor.GRAY)
-                .decoration(TextDecoration.ITALIC, false);
-    }
-
-    @Override
     public void onPlayerToggleSneak(PlayerToggleSneakEvent event, ItemStack itemStack) {
         if (!event.isSneaking()
                 || !Integrations.WORLDGUARD.canUseEnchantment(event.getPlayer().getLocation(), Backdash.class)) {
@@ -36,10 +30,5 @@ public class Backdash extends CustomEnchantment {
         }
         final var player = event.getPlayer();
         player.setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(-1));
-    }
-
-    @Override
-    public int getCostMultiplier() {
-        return Integer.MAX_VALUE;
     }
 }

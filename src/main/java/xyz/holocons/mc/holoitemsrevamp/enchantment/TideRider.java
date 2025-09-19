@@ -33,17 +33,6 @@ public class TideRider extends CustomEnchantment {
     }
 
     @Override
-    public @NotNull Component displayName(int level) {
-        return Component.text("Tide Rider", NamedTextColor.GRAY)
-                .decoration(TextDecoration.ITALIC, false);
-    }
-
-    @Override
-    public int getCostMultiplier() {
-        return Integer.MAX_VALUE;
-    }
-
-    @Override
     public void onPlayerInteract(PlayerInteractEvent event, ItemStack itemStack) {
         final var player = event.getPlayer();
         final var world = player.getWorld();

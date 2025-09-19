@@ -27,20 +27,6 @@ public class Magnet extends CustomEnchantment {
     }
 
     @Override
-    public @NotNull Component displayName(int level) {
-        return Component.text()
-                .color(NamedTextColor.GRAY)
-                .decoration(TextDecoration.ITALIC, false)
-                .append(Component.text("Magnet"))
-                .build();
-    }
-
-    @Override
-    public int getCostMultiplier() {
-        return 12;
-    }
-
-    @Override
     public void onBlockBreak(BlockBreakEvent event, ItemStack itemStack) {
         final var location = event.getBlock().getLocation().toCenterLocation();
         final var player = event.getPlayer();
