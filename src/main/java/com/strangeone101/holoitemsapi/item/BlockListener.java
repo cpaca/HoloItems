@@ -145,6 +145,7 @@ public class BlockListener implements Listener {
         if(!event.isCancelled()) {
             // may have been cancelled by onExplodeSource
             event.blockList().removeIf(block -> trackingManager.getAbility(block).onExplodeBlock(event, block.getState()));
+            event.blockList().forEach(trackingManager::unset);
         }
     }
 
