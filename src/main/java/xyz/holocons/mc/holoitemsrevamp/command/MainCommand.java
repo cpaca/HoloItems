@@ -78,7 +78,6 @@ public class MainCommand implements BasicCommand {
 
     @Override
     public @NotNull Collection<String> suggest(CommandSourceStack sourceStack, String[] args) {
-        // TODO
         if (args.length <= 1) {
             return subCommands.keySet();
         } else {
