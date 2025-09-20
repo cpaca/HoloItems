@@ -706,7 +706,7 @@ public class CollectionManager {
     }
 
     private static Idol buildSuisei(HoloItemsRevamp plugin) {
-        return new Idol() {
+        return new Idol(new CometItem(plugin)) {
 
             @Override
             public @NotNull String getSkinUrl() {

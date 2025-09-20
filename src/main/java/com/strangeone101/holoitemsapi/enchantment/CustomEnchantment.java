@@ -44,7 +44,8 @@ public abstract class CustomEnchantment implements EnchantmentAbility {
                 new Memento(plugin),
                 new TideRider(plugin),
                 new Backdash(plugin),
-                new Plow(plugin)
+                new Plow(plugin),
+                new Comet(plugin)
         );
 
         for(var ench : enchantments) {
