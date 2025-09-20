@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -17,6 +18,7 @@ import com.destroystokyo.paper.profile.ProfileProperty;
 import io.papermc.paper.util.Tick;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.util.Ticks;
+import org.bukkit.potion.PotionEffectType;
 
 public final class Util {
 
@@ -110,5 +112,11 @@ public final class Util {
 
     public static long toTicks(Duration duration) {
         return Tick.tick().fromDuration(duration);
+    }
+
+    public static int checkPotionEffect(LivingEntity entity, PotionEffectType type){
+        if(entity.hasPotionEffect(type))
+            return entity.getPotionEffect(type).getAmplifier()+1;
+        return 0;
     }
 }
