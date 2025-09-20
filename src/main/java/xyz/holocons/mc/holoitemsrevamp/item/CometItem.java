@@ -15,6 +15,7 @@ import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import java.util.List;
 
 public class CometItem extends CustomItem implements Enchantable {
+    // TODO: Needs to accept Piercing.
 
     private final static String name = "comet";
     private final static Material material = Material.GOLDEN_AXE;
