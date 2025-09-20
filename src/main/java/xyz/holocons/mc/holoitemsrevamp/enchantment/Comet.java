@@ -155,7 +155,9 @@ public class Comet extends CustomEnchantment {
                             for (LivingEntity target : targets) {
                                 if (target.isValid() && (!(target instanceof Player) || !((Player) target).isBlocking())) {
                                     // TODO: reimplement or find a builtin for it
+                                    //   This doesn't process smite or bane-of-arthro.
 //                                    Utility.damage(itemForDamage, damage, crit, player, target, false, true, false);
+                                    target.damage(damage, player);
                                 }
                             }
                         }
