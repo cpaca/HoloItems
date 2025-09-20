@@ -1,10 +1,7 @@
 package xyz.holocons.mc.holoitemsrevamp.enchantment;
 
 import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
-import org.bukkit.FluidCollisionMode;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.ItemDisplay;
@@ -17,6 +14,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Transformation;
@@ -131,7 +129,7 @@ public class Comet extends CustomEnchantment {
         final double maxIteration = distance / (double) speed;
 
         // TODO: Task class no longer exists. This will need a pretty big reimplement.
-        new Task(plugin, 1, 1){
+        final var runnable = new BukkitRunnable() {
             double increment = 0;
             boolean crit = player.getLocation().getY()<height;
             Quaternionf rotationPerTick = new Quaternionf().rotateZ((float) Math.toRadians(-60));
@@ -185,5 +183,6 @@ public class Comet extends CustomEnchantment {
                 }
             }
         };
+        runnable.runTaskTimer(plugin, 1, 1);
     }
 }
