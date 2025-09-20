@@ -3,6 +3,7 @@ package xyz.holocons.mc.holoitemsrevamp.enchantment;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,5 +35,12 @@ public class Plow extends CustomEnchantment {
         } else {
             event.setCancelled(plowMarker.test(player));
         }
+    }
+
+    @Override
+    public void onApplyEnchantment(PrepareAnvilEvent event, ItemStack itemStack, int prevLevel, int newLevel) {
+        // TODO: Implement. This is not possible right now, however, in 1.21.3+,
+        //   setData(DataComponentType.Valued<T>, DataComponentBuilder) is added.
+        //   Then, we can use the Data Component: Tool to implement this using ONLY Minecraft Components.
     }
 }

@@ -12,6 +12,7 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class AnvilListener implements Listener {
 
@@ -25,8 +26,8 @@ public class AnvilListener implements Listener {
     public void onPrepareAnvil(PrepareAnvilEvent event) {
         // Handle Anvil scenarios involving the BOOK_LIKE key.
         var inventory = event.getInventory();
-        var firstItem = inventory.getFirstItem();
-        var secondItem = inventory.getSecondItem();
+        final var firstItem = inventory.getFirstItem();
+        final var secondItem = inventory.getSecondItem();
         if(firstItem == null || secondItem == null) {
             // BOOK_LIKE doesn't care about these scenarios (only renaming possible)
             return;
@@ -82,6 +83,19 @@ public class AnvilListener implements Listener {
             if(result != null) {
                 if(!firstItem.getEnchantments().equals(result.getEnchantments())) {
                     Keys.BOOK_LIKE.set(result.getItemMeta().getPersistentDataContainer(), false);
+                }
+            }
+        }
+
+        // Finally: Process all onApplyEnchantment
+        var result = event.getResult();
+        if(result != null) {
+            for(Enchantment ench : result.getEnchantments().keySet()) {
+                var customEnch = CustomEnchantment.getByKey(ench.getKey());
+                if(customEnch != null) {
+                    int prevLevel = firstItem.getEnchantmentLevel(ench);
+                    int currLevel = result.getEnchantmentLevel(ench);
+                    customEnch.onApplyEnchantment(event, result, prevLevel, currLevel);
                 }
             }
         }
