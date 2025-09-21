@@ -122,8 +122,19 @@ public class CraftListener implements Listener {
         if(registeredRecipe instanceof ShapedRecipe shapedRecipe) {
             // needed so that if a 2x2 recipe is in the bottom-right
             // it gets "moved" to the top-left
-            int minRow = customItemIndices.stream().mapToInt(i -> i/3).min().orElse(0);
-            int minCol = customItemIndices.stream().mapToInt(i -> i%3).min().orElse(0);
+            int minRow = 2;
+            int minCol = 2;
+
+            for (int i = 0; i < contents.length; i++) {
+                var stack = contents[i];
+                if(stack.isEmpty()) {
+                    int row = i/3;
+                    int col = i%3;
+                    minRow = Math.min(row, minRow);
+                    minCol = Math.min(col, minCol);
+                }
+            }
+
             for(Integer customItemIndex : customItemIndices) {
                 int row = (customItemIndex/3) - minRow;
                 int col = (customItemIndex%3) - minCol;
