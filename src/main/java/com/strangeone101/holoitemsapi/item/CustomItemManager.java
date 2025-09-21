@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import com.strangeone101.holoitemsapi.recipe.RecipeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,12 +32,12 @@ public class CustomItemManager {
         CUSTOM_ITEMS.put(item.getInternalName(), item);
     }
 
-    public static void lock() {
+    public static void lock(RecipeManager manager) {
         if (!locked) {
             locked = true;
             CUSTOM_ITEMS.values().stream()
                     .map(CustomItem::getRecipe)
-                    .forEach(Bukkit::addRecipe);
+                    .forEach(manager::registerRecipe);
         }
     }
 

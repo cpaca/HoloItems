@@ -39,7 +39,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
     public void onEnable() {
         Integrations.onEnable();
 
-        CustomItemManager.lock();
+        CustomItemManager.lock(getRecipeManager());
         trackingManager.loadTrackedBlocks();
 
         getServer().getPluginManager().registerEvents(new EnchantmentListener(), this);
