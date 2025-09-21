@@ -128,7 +128,6 @@ public class Comet extends CustomEnchantment {
         final double speed = 3;
         final double maxIteration = distance / (double) speed;
 
-        // TODO: Task class no longer exists. This will need a pretty big reimplement.
         final var runnable = new BukkitRunnable() {
             double increment = 0;
             boolean crit = player.getLocation().getY()<height;
