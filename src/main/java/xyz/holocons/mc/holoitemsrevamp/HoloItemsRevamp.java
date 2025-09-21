@@ -6,6 +6,8 @@ import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
 import com.strangeone101.holoitemsapi.enchantment.EnchantmentListener;
 import com.strangeone101.holoitemsapi.item.BlockListener;
 import com.strangeone101.holoitemsapi.item.CustomItemManager;
+import com.strangeone101.holoitemsapi.recipe.CraftListener;
+import com.strangeone101.holoitemsapi.recipe.RecipeManager;
 import com.strangeone101.holoitemsapi.tracking.CustomBlockStorage;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,6 +20,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
 
     private CollectionManager collectionManager;
     private CustomBlockStorage trackingManager;
+    private RecipeManager recipeManager;
 
     @Override
     public void onLoad() {
@@ -27,6 +30,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
 
         this.collectionManager = new CollectionManager(this);
         this.trackingManager = new CustomBlockStorage(this);
+        this.recipeManager = new RecipeManager(this);
 
         Integrations.onLoad();
     }
@@ -40,7 +44,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new EnchantmentListener(), this);
         getServer().getPluginManager().registerEvents(new AnvilListener(this), this);
-//        getServer().getPluginManager().registerEvents(new CraftListener(this), this);
+        getServer().getPluginManager().registerEvents(new CraftListener(this), this);
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
 
 //        getCommand("holoitems").setExecutor(new MainCommand(this));
@@ -65,5 +69,9 @@ public final class HoloItemsRevamp extends JavaPlugin {
 
     public CustomBlockStorage getTrackingManager() {
         return trackingManager;
+    }
+
+    public RecipeManager getRecipeManager() {
+        return recipeManager;
     }
 }
