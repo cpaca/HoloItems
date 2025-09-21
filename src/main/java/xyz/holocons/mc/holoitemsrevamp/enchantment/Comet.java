@@ -2,6 +2,8 @@ package xyz.holocons.mc.holoitemsrevamp.enchantment;
 
 import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
 import org.bukkit.*;
+import org.bukkit.damage.DamageSource;
+import org.bukkit.damage.DamageType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.ItemDisplay;
@@ -57,7 +59,8 @@ public class Comet extends CustomEnchantment {
 //            return;
 //        Utility.cooldown(item, 20);
 
-        double damage = 4 + 3 * (Util.checkPotionEffect(player, PotionEffectType.STRENGTH));
+//        double damage = 4 + 3 * (Util.checkPotionEffect(player, PotionEffectType.STRENGTH));
+        double damage = 4 + Util.getPotionDamageBonuses(player);
 
         Location location = player.getEyeLocation();
         World world = player.getWorld();
@@ -128,6 +131,13 @@ public class Comet extends CustomEnchantment {
         final double speed = 3;
         final double maxIteration = distance / (double) speed;
 
+        //noinspection UnstableApiUsage
+        final var damageSource = DamageSource
+                .builder(DamageType.PLAYER_ATTACK)
+                .withCausingEntity(player)
+                .withDirectEntity(axeDisplay)
+                .build();
+
         final var runnable = new BukkitRunnable() {
             double increment = 0;
             boolean crit = player.getLocation().getY()<height;
@@ -153,10 +163,7 @@ public class Comet extends CustomEnchantment {
 //                            }
                             for (LivingEntity target : targets) {
                                 if (target.isValid() && (!(target instanceof Player) || !((Player) target).isBlocking())) {
-                                    // TODO: reimplement or find a builtin for it
-                                    //   This doesn't process smite or bane-of-arthro.
-//                                    Utility.damage(itemForDamage, damage, crit, player, target, false, true, false);
-                                    target.damage(damage, player);
+                                    Util.damageEntity(target, damageSource, damage * (crit ? 1.5 : 1), itemStack);
                                 }
                             }
                         }

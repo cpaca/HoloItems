@@ -7,8 +7,12 @@ import java.util.Base64;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.destroystokyo.paper.event.block.AnvilDamagedEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.damage.DamageSource;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -115,8 +119,61 @@ public final class Util {
     }
 
     public static int checkPotionEffect(LivingEntity entity, PotionEffectType type){
-        if(entity.hasPotionEffect(type))
-            return entity.getPotionEffect(type).getAmplifier()+1;
-        return 0;
+        final var effect = entity.getPotionEffect(type);
+        if(effect == null) {
+            return 0;
+        }
+        else {
+            return effect.getAmplifier() + 1;
+        }
+    }
+
+    /**
+     * Calculates the damage bonus this entity should have from strength (positive) and weakness (negative).
+     */
+    public static double getPotionDamageBonuses(LivingEntity entity) {
+        double out = 0;
+
+        out += 3 * Util.checkPotionEffect(entity, PotionEffectType.STRENGTH);
+        out -= 4 * Util.checkPotionEffect(entity, PotionEffectType.WEAKNESS);
+
+        return out;
+    }
+
+    /**
+     * Deals damage to a target. Note that this calculates damage bonuses from SourceStack's enchantments,
+     * such as sharpness and smite, but not potion effects from DamageSource.
+     * @param target The target to hit
+     * @param source The DamageSource corresponding to the damage
+     * @param damage The base amount of damage to deal, before enchantments
+     * @param sourceStack The (possibly enchanted) item to consult for additional damage
+     */
+    public static void damageEntity(LivingEntity target, @SuppressWarnings("UnstableApiUsage") DamageSource source, double damage, ItemStack sourceStack) {
+        // The SuppressWarnings can be removed in a future version.
+        // It's marked experimental in 1.21.1, but that mark gets removed in 1.21.9
+        if(sourceStack != null) {
+            // Hardcoded, as Enchantment.getDamageIncrease is deprecated, and I don't want to figure out nms right now.
+            // (Note: nms EnchantmentHelper.modifyDamage() would probably work.)
+            final var sourceMeta = sourceStack.getItemMeta();
+
+            var sharpness = sourceMeta.getEnchantLevel(Enchantment.SHARPNESS);
+            var smite = sourceMeta.getEnchantLevel(Enchantment.SMITE);
+            var bane = sourceMeta.getEnchantLevel(Enchantment.BANE_OF_ARTHROPODS);
+            // TODO: Check for Space Bread Splash. This TODO can be removed if we switch to nms EnchantmentHelper.
+            if(sharpness > 0) {
+                // Note that the first level of this is twice as strong.
+                damage += (sharpness + 1) * 0.5;
+            }
+            if(Tag.ENTITY_TYPES_SENSITIVE_TO_SMITE.isTagged(target.getType()) && smite > 0) {
+                damage += smite * 2.5;
+            }
+            if(Tag.ENTITY_TYPES_SENSITIVE_TO_BANE_OF_ARTHROPODS.isTagged(target.getType()) && bane > 0) {
+                damage += bane * 2.5;
+            }
+        }
+
+        // Experimental mark is gone in 1.21.9
+        //noinspection UnstableApiUsage
+        target.damage(damage, source);
     }
 }
