@@ -22,6 +22,9 @@ public class RecipeManager {
      * Registers a recipe in this RecipeManager. Doing this also registers the recipe using Bukkit::addRecipe
      */
     public void registerRecipe(Recipe recipe) {
+        if(recipe == null) {
+            return;
+        }
         if(recipe instanceof Keyed keyed) {
             var key = keyed.getKey();
             recipeMap.put(key, recipe);
@@ -29,7 +32,8 @@ public class RecipeManager {
         }
         else {
             // This is possible for a MerchantRecipe.
-            throw new IllegalArgumentException("Can't register a recipe that doesn't have a NamespacedKey.");
+            throw new IllegalArgumentException(
+                    "Can't register a recipe that doesn't have a NamespacedKey. Recipe:" + recipe);
         }
     }
 
