@@ -52,15 +52,15 @@ public class EnchantManager {
 
     private Map<NamespacedKey, EnchantmentAbility> buildCustomEnchantments() {
         return Map.ofEntries(
-                Map.entry(createEnchKey("magnet"), new Magnet(plugin)),
-                Map.entry(createEnchKey("memento"), new Memento(plugin)),
-                Map.entry(createEnchKey("tide_rider"), new TideRider(plugin)),
-                Map.entry(createEnchKey("backdash"), new Backdash(plugin)),
-                Map.entry(createEnchKey("plow"), new Plow(plugin))
+                createEntry("magnet", new Magnet(plugin)),
+                createEntry("memento", new Memento(plugin)),
+                createEntry("tide_rider", new TideRider(plugin)),
+                createEntry("backdash", new Backdash(plugin)),
+                createEntry("plow", new Plow(plugin))
         );
     }
 
-    private NamespacedKey createEnchKey(String name) {
-        return new NamespacedKey(plugin, name);
+    private Map.Entry<NamespacedKey, EnchantmentAbility> createEntry(String name, EnchantmentAbility ability) {
+        return Map.entry(new NamespacedKey(plugin, name), ability);
     }
 }
