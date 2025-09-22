@@ -35,6 +35,9 @@ public final class HoloItemsRevamp extends JavaPlugin {
         Integrations.onLoad();
     }
 
+    // This is for the (numerous) Lifecycle functions, which are all marked Experimental in 1.21.1, but
+    // are no longer marked as such in later versions.
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     public void onEnable() {
         Integrations.onEnable();
