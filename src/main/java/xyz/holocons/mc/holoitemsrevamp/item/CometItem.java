@@ -26,6 +26,7 @@ public class CometItem extends CustomItem implements Enchantable {
 
     public CometItem(HoloItemsRevamp plugin) {
         super(plugin, name, material, displayName, lore);
+        this.setMaxDamage(32);
         this.register();
     }
 

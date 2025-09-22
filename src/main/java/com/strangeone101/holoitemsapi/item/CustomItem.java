@@ -14,11 +14,11 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -56,6 +56,7 @@ public class CustomItem implements Keyed {
     private int hex;
     private ItemFlag[] flags;
     private boolean bookLike;
+    private int maxDamage;
 
     private Map<String, Function<PersistentDataContainer, Component>> variables = new HashMap<>();
 
@@ -119,6 +120,18 @@ public class CustomItem implements Keyed {
         }
 
         if (flags != null && flags.length > 0) meta.addItemFlags(flags);
+
+        if(maxDamage > 0) {
+            if (meta instanceof Damageable damageable) {
+                damageable.setMaxDamage(maxDamage);
+            }
+            else {
+                // TODO: In later versions of paper, we get ItemStack.setData(), so we can modify maxDamage value
+                //   even if the ItemMeta is not damageable. However, paper 1.21.1 does not have this feature,
+                //   so this is not implementable right now.
+                throw new RuntimeException("CustomItem maxDamage value is not yet supported for non-damageable items.");
+            }
+        }
 
         stack.setItemMeta(meta);
 
@@ -456,5 +469,9 @@ public class CustomItem implements Keyed {
 
     public void setBookLike(boolean bookLike) {
         this.bookLike = bookLike;
+    }
+
+    protected void setMaxDamage(int maxDamage) {
+        this.maxDamage = maxDamage;
     }
 }

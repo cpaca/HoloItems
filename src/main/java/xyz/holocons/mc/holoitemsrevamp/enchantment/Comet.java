@@ -14,6 +14,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -26,11 +27,14 @@ import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.Util;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Comet extends CustomEnchantment {
 
     private final HoloItemsRevamp plugin;
+    private final Random rand = ThreadLocalRandom.current();
 
     public Comet(HoloItemsRevamp plugin) {
         super(plugin, "comet");
@@ -123,9 +127,9 @@ public class Comet extends CustomEnchantment {
         double height = player.getLocation().getY();
 
         // Consume durability
-        // TODO: Remove durability properly
-//        if (player.getGameMode()!= GameMode.CREATIVE)
-//            Utility.addDurability(item, -1, player);
+        if(player.getGameMode() != GameMode.CREATIVE) {
+            itemStack.damage(1, player);
+        }
 
         // Set vector speed as 3 blocks/tick
         final double speed = 3;
@@ -149,6 +153,14 @@ public class Comet extends CustomEnchantment {
                         if(!targets.isEmpty()) {
                             // Restore half durability
                             // TODO: Reimplement durability properly
+                            // original restores 0.5 durability, hence random nextBoolean
+                            if(player.getGameMode() != GameMode.CREATIVE && rand.nextBoolean()) {
+                                itemStack.editMeta(Damageable.class, meta -> {
+                                    if(meta.hasDamage()) {
+                                        meta.setDamage(meta.getDamage() - 1);
+                                    }
+                                });
+                            }
 //                            if (player.getGameMode()!=GameMode.CREATIVE)
 //                                Utility.addDurability(item, 0.5, player);
 
