@@ -1,5 +1,6 @@
 package com.strangeone101.holoitemsapi.recipe;
 
+import com.strangeone101.holoitemsapi.enchantment.EnchantManager;
 import com.strangeone101.holoitemsapi.item.CustomItemManager;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
@@ -21,22 +22,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// For the most part, the UnstableApiUsage is coming up because of Paper's Tag<>. However, in
-// 1.21.8, that goes away. Therefore, after we update, this should be removed.
-@SuppressWarnings("UnstableApiUsage")
 public class CraftListener implements Listener {
 
     private final HoloItemsRevamp plugin;
     private final RecipeManager recipeManager;
-    private final Tag<@org.jetbrains.annotations.NotNull Enchantment> HoloEnchantmentsTag;
+    private final EnchantManager enchantManager;
 
     public CraftListener(HoloItemsRevamp plugin) {
         this.plugin = plugin;
         this.recipeManager = this.plugin.getRecipeManager();
-        var enchantmentRegistry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
-        var enchantmentTagName = new NamespacedKey(plugin, "holoenchantments");
-        var enchantmentTagKey = TagKey.create(RegistryKey.ENCHANTMENT, enchantmentTagName);
-        this.HoloEnchantmentsTag = enchantmentRegistry.getTag(enchantmentTagKey);
+        this.enchantManager = this.plugin.getEnchantManager();
     }
 
     @EventHandler
@@ -96,10 +91,7 @@ public class CraftListener implements Listener {
             // ... Depending on SandPortal's implementation, this might be relevant?
             // Mostly for stopping people from making sandstone blocks with them.
             boolean hasCustomEnchantments = stack
-                    .getEnchantments().keySet().stream()
-                    .map(Enchantment::getKey)
-                    .map(key -> TypedKey.create(RegistryKey.ENCHANTMENT, key))
-                    .anyMatch(HoloEnchantmentsTag::contains);
+                    .getEnchantments().keySet().stream().anyMatch(enchantManager::isTaggedHoloEnchantment);
             if(hasCustomEnchantments) {
                 // There might be a use for this that isn't just "Recipe is automatically invalid"
                 // but for now I'm leaving it like this.

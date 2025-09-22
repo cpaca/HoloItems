@@ -3,6 +3,7 @@ package xyz.holocons.mc.holoitemsrevamp;
 import com.strangeone101.holoitemsapi.Keys;
 import com.strangeone101.holoitemsapi.enchantment.AnvilListener;
 import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
+import com.strangeone101.holoitemsapi.enchantment.EnchantManager;
 import com.strangeone101.holoitemsapi.enchantment.EnchantmentListener;
 import com.strangeone101.holoitemsapi.item.BlockListener;
 import com.strangeone101.holoitemsapi.item.CustomItemManager;
@@ -21,6 +22,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
     private CollectionManager collectionManager;
     private CustomBlockStorage trackingManager;
     private RecipeManager recipeManager;
+    private EnchantManager enchantManager;
 
     @Override
     public void onLoad() {
@@ -28,6 +30,7 @@ public final class HoloItemsRevamp extends JavaPlugin {
 
         CustomEnchantment.loadCustomEnchantments(this);
 
+        this.enchantManager = new EnchantManager(this);
         this.collectionManager = new CollectionManager(this);
         this.trackingManager = new CustomBlockStorage(this);
         this.recipeManager = new RecipeManager(this);
@@ -73,5 +76,9 @@ public final class HoloItemsRevamp extends JavaPlugin {
 
     public RecipeManager getRecipeManager() {
         return recipeManager;
+    }
+
+    public EnchantManager getEnchantManager() {
+        return enchantManager;
     }
 }
