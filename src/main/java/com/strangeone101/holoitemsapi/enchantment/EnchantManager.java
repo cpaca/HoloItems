@@ -31,7 +31,7 @@ public class EnchantManager {
         var enchantmentTagKey = TagKey.create(RegistryKey.ENCHANTMENT, enchantmentTagName);
         this.HoloEnchantmentsTag = enchantmentRegistry.getTag(enchantmentTagKey);
 
-        this.enchantmentsByKey = this.loadCustomEnchantments();
+        this.enchantmentsByKey = this.buildCustomEnchantments();
         this.enchantmentsByKey.forEach(Integrations.WORLDGUARD::registerEnchantment);
     }
 
@@ -50,7 +50,7 @@ public class EnchantManager {
         return enchantmentsByKey.get(key);
     }
 
-    private Map<NamespacedKey, EnchantmentAbility> loadCustomEnchantments() {
+    private Map<NamespacedKey, EnchantmentAbility> buildCustomEnchantments() {
         return Map.ofEntries(
                 Map.entry(createEnchKey("magnet"), new Magnet(plugin)),
                 Map.entry(createEnchKey("memento"), new Memento(plugin)),
