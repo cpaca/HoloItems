@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.enchantment.*;
+import xyz.holocons.mc.holoitemsrevamp.integration.Integrations;
 
 import java.util.Map;
 
@@ -31,6 +32,7 @@ public class EnchantManager {
         this.HoloEnchantmentsTag = enchantmentRegistry.getTag(enchantmentTagKey);
 
         this.enchantmentsByKey = this.loadCustomEnchantments();
+        this.enchantmentsByKey.forEach(Integrations.WORLDGUARD::registerEnchantment);
     }
 
     public boolean isTaggedHoloEnchantment(Enchantment enchantment) {
