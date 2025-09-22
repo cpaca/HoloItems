@@ -20,11 +20,6 @@ public class Memento implements EnchantmentAbility {
     }
 
     @Override
-    public @NotNull NamespacedKey getKey() {
-        return new NamespacedKey(plugin, "memento");
-    }
-
-    @Override
     public void onPlayerDeath(PlayerDeathEvent event, ItemStack itemStack) {
         final var location = event.getPlayer().getLocation();
 

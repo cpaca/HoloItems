@@ -19,11 +19,6 @@ public class Backdash implements EnchantmentAbility {
     }
 
     @Override
-    public @NotNull NamespacedKey getKey() {
-        return new NamespacedKey(plugin, "backdash");
-    }
-
-    @Override
     public void onPlayerToggleSneak(PlayerToggleSneakEvent event, ItemStack itemStack) {
         if (!event.isSneaking()
                 || !Integrations.WORLDGUARD.canUseEnchantment(event.getPlayer().getLocation(), Backdash.class)) {

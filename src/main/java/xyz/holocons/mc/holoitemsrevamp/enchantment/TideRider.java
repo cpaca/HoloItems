@@ -28,11 +28,6 @@ public class TideRider implements EnchantmentAbility {
     }
 
     @Override
-    public @NotNull NamespacedKey getKey() {
-        return new NamespacedKey(plugin, "tide_rider");
-    }
-
-    @Override
     public void onPlayerInteract(PlayerInteractEvent event, ItemStack itemStack) {
         final var player = event.getPlayer();
         final var world = player.getWorld();

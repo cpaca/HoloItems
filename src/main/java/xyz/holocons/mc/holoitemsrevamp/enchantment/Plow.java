@@ -24,11 +24,6 @@ public class Plow implements EnchantmentAbility {
     }
 
     @Override
-    public @NotNull NamespacedKey getKey() {
-        return new NamespacedKey(plugin, "plow");
-    }
-
-    @Override
     public void onBlockBreak(BlockBreakEvent event, ItemStack itemStack) {
         final var player = event.getPlayer();
         if (event.getBlock().getType() == Material.SNOW) {

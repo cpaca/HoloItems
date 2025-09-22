@@ -12,8 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.enchantment.*;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.Map;
 
 // For the most part, the UnstableApiUsage is coming up because of Paper's Tag<>. However, in
 // 1.21.8, that goes away. Therefore, after we update, this should be removed.
@@ -22,7 +21,7 @@ public class EnchantManager {
 
     private final HoloItemsRevamp plugin;
     private final Tag<@NotNull Enchantment> HoloEnchantmentsTag;
-    private final HashMap<NamespacedKey, EnchantmentAbility> enchantmentsByKey = new HashMap<>();
+    private final Map<NamespacedKey, EnchantmentAbility> enchantmentsByKey;
 
     public EnchantManager(HoloItemsRevamp plugin) {
         this.plugin = plugin;
@@ -31,7 +30,7 @@ public class EnchantManager {
         var enchantmentTagKey = TagKey.create(RegistryKey.ENCHANTMENT, enchantmentTagName);
         this.HoloEnchantmentsTag = enchantmentRegistry.getTag(enchantmentTagKey);
 
-        this.loadCustomEnchantments();
+        this.enchantmentsByKey = this.loadCustomEnchantments();
     }
 
     public boolean isTaggedHoloEnchantment(Enchantment enchantment) {
@@ -49,22 +48,17 @@ public class EnchantManager {
         return enchantmentsByKey.get(key);
     }
 
-    private void loadCustomEnchantments() {
-        Set<EnchantmentAbility> enchantments = Set.of(
-                new Magnet(plugin),
-                new Memento(plugin),
-                new TideRider(plugin),
-                new Backdash(plugin),
-                new Plow(plugin)
+    private Map<NamespacedKey, EnchantmentAbility> loadCustomEnchantments() {
+        return Map.ofEntries(
+                Map.entry(createEnchKey("magnet"), new Magnet(plugin)),
+                Map.entry(createEnchKey("memento"), new Memento(plugin)),
+                Map.entry(createEnchKey("tide_rider"), new TideRider(plugin)),
+                Map.entry(createEnchKey("backdash"), new Backdash(plugin)),
+                Map.entry(createEnchKey("plow"), new Plow(plugin))
         );
+    }
 
-        for(var ench : enchantments) {
-            if(enchantmentsByKey.containsKey(ench.getKey())){
-                throw new RuntimeException("Duplicate CustomEnchantment defined for namespacedKey " + ench.getKey());
-            }
-            else {
-                enchantmentsByKey.put(ench.getKey(), ench);
-            }
-        }
+    private NamespacedKey createEnchKey(String name) {
+        return new NamespacedKey(plugin, name);
     }
 }

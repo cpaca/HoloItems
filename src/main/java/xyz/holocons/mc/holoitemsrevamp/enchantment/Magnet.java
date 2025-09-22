@@ -21,11 +21,6 @@ public class Magnet implements EnchantmentAbility {
     }
 
     @Override
-    public @NotNull NamespacedKey getKey() {
-        return new NamespacedKey(plugin, "magnet");
-    }
-
-    @Override
     public void onBlockBreak(BlockBreakEvent event, ItemStack itemStack) {
         final var location = event.getBlock().getLocation().toCenterLocation();
         final var player = event.getPlayer();

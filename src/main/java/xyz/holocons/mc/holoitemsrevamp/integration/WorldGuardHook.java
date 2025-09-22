@@ -11,10 +11,11 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+import org.bukkit.NamespacedKey;
 
 public interface WorldGuardHook extends Hook {
 
-    default void registerEnchantment(EnchantmentAbility enchantment) {
+    default void registerEnchantment(NamespacedKey enchKey, EnchantmentAbility enchantment) {
     }
 
     default boolean canUseEnchantment(Location location, Class<? extends EnchantmentAbility> enchantmentCls) {
@@ -46,11 +47,11 @@ public interface WorldGuardHook extends Hook {
         }
 
         @Override
-        public void registerEnchantment(EnchantmentAbility enchantment) {
+        public void registerEnchantment(NamespacedKey enchKey, EnchantmentAbility enchantment) {
             if (loaded) {
                 throw new IllegalStateException("New enchantments cannot be registered at this time");
             }
-            final var name = "holoitems-" + enchantment.getKey().getKey().replace('_', '-');
+            final var name = "holoitems-" + enchKey.getKey().replace('_', '-');
             ENCHANTMENT_FLAGS.put(enchantment.getClass(), new StateFlag(name, true));
         }
 
