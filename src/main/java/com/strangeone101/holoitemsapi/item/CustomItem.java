@@ -163,7 +163,7 @@ public class CustomItem implements Keyed {
      * If non-null, the recipe is added to the server.
      * @return A recipe to add.
      */
-    public @Nullable Recipe getRecipe() {
+    protected @Nullable Recipe getRecipe() {
         return null;
     }
 

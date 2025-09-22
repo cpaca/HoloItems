@@ -30,7 +30,7 @@ public class PlowBook extends CustomItem implements Enchantable {
     }
 
     @Override
-    public Recipe getRecipe() {
+    protected Recipe getRecipe() {
         ShapedRecipe recipe = new ShapedRecipe(getKey(), buildStack(null));
         recipe.shape(
                 "ABA",

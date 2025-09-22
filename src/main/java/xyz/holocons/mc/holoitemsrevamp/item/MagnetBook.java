@@ -31,7 +31,7 @@ public class MagnetBook extends CustomItem implements Enchantable {
     }
 
     @Override
-    public Recipe getRecipe() {
+    protected Recipe getRecipe() {
         final var recipe = new ShapedRecipe(getKey(), buildStack(null));
         recipe.shape(
                 "AAB",

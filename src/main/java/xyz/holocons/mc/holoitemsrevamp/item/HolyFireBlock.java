@@ -50,7 +50,7 @@ public class HolyFireBlock extends CustomItem implements BlockAbility {
     }
 
     @Override
-    public Recipe getRecipe() {
+    protected Recipe getRecipe() {
         final var recipeKey = getKey();
         final var outStack = buildStack(null);
         final var recipe = new ShapedRecipe(recipeKey, outStack);
