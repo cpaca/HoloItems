@@ -49,7 +49,10 @@ public class AnvilListener implements Listener {
                 try {
                     result.addEnchantment(ench.getKey(), ench.getValue());
                 } catch (IllegalArgumentException ignored) {
-
+                    // either the enchantment is null (not possible)
+                    // or the enchantment is not applicable, so they weren't applied
+                    // in either case, an enchantment wasn't added
+                    continue;
                 }
                 addedEnch = true;
             }
