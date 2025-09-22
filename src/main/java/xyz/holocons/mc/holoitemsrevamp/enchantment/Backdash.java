@@ -1,25 +1,26 @@
 package xyz.holocons.mc.holoitemsrevamp.enchantment;
 
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
 import com.strangeone101.holoitemsapi.enchantment.EnchantmentAbility;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.integration.Integrations;
 
-public class Backdash extends CustomEnchantment {
+public class Backdash implements EnchantmentAbility {
+
+    private final HoloItemsRevamp plugin;
 
     public Backdash(HoloItemsRevamp plugin) {
-        super(plugin, "backdash");
+        this.plugin = plugin;
+    }
+
+    @Override
+    public @NotNull NamespacedKey getKey() {
+        return new NamespacedKey(plugin, "backdash");
     }
 
     @Override

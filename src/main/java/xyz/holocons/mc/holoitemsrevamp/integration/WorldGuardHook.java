@@ -3,6 +3,7 @@ package xyz.holocons.mc.holoitemsrevamp.integration;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.strangeone101.holoitemsapi.enchantment.EnchantmentAbility;
 import org.bukkit.Location;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -10,14 +11,13 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
-import com.strangeone101.holoitemsapi.enchantment.CustomEnchantment;
 
 public interface WorldGuardHook extends Hook {
 
-    default void registerEnchantment(CustomEnchantment enchantment) {
+    default void registerEnchantment(EnchantmentAbility enchantment) {
     }
 
-    default boolean canUseEnchantment(Location location, Class<? extends CustomEnchantment> enchantmentCls) {
+    default boolean canUseEnchantment(Location location, Class<? extends EnchantmentAbility> enchantmentCls) {
         return true;
     }
 
@@ -26,7 +26,7 @@ public interface WorldGuardHook extends Hook {
 
     public class Integration implements WorldGuardHook {
 
-        public static final Map<Class<? extends CustomEnchantment>, Flag<?>> ENCHANTMENT_FLAGS = new HashMap<>();
+        public static final Map<Class<? extends EnchantmentAbility>, Flag<?>> ENCHANTMENT_FLAGS = new HashMap<>();
 
         private boolean loaded = false;
         private RegionContainer regionContainer = null;
@@ -46,7 +46,7 @@ public interface WorldGuardHook extends Hook {
         }
 
         @Override
-        public void registerEnchantment(CustomEnchantment enchantment) {
+        public void registerEnchantment(EnchantmentAbility enchantment) {
             if (loaded) {
                 throw new IllegalStateException("New enchantments cannot be registered at this time");
             }
@@ -55,7 +55,7 @@ public interface WorldGuardHook extends Hook {
         }
 
         @Override
-        public boolean canUseEnchantment(Location location, Class<? extends CustomEnchantment> enchantmentCls) {
+        public boolean canUseEnchantment(Location location, Class<? extends EnchantmentAbility> enchantmentCls) {
             final var flag = ENCHANTMENT_FLAGS.get(enchantmentCls);
             final var value = regionContainer.createQuery().queryValue(BukkitAdapter.adapt(location), null, flag);
             return value != StateFlag.State.DENY;

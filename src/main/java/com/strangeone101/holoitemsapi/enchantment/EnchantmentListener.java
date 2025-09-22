@@ -14,14 +14,23 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
+import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 
 public class EnchantmentListener implements Listener {
 
-    private static void forEachEnchantment(final ItemStack itemStack,
+    private HoloItemsRevamp plugin;
+    private EnchantManager manager;
+
+    public EnchantmentListener(HoloItemsRevamp plugin) {
+        this.plugin = plugin;
+        this.manager = this.plugin.getEnchantManager();
+    }
+
+    private void forEachEnchantment(final ItemStack itemStack,
             final Consumer<? super EnchantmentAbility> action) {
         itemStack.getEnchantments().keySet().forEach(enchantment -> {
             NamespacedKey enchKey = enchantment.getKey();
-            var ench = CustomEnchantment.getByKey(enchKey);
+            var ench = manager.getByKey(enchKey);
             if(ench != null) {
                 action.accept(ench);
             }
