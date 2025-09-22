@@ -1,10 +1,14 @@
 package com.strangeone101.holoitemsapi.recipe;
 
 import com.strangeone101.holoitemsapi.item.CustomItemManager;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
+import io.papermc.paper.registry.TypedKey;
+import io.papermc.paper.registry.tag.TagKey;
+import io.papermc.paper.registry.tag.Tag;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Crafter;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.CrafterCraftEvent;
@@ -17,14 +21,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+// For the most part, the UnstableApiUsage is coming up because of Paper's Tag<>. However, in
+// 1.21.8, that goes away. Therefore, after we update, this should be removed.
+@SuppressWarnings("UnstableApiUsage")
 public class CraftListener implements Listener {
 
     private final HoloItemsRevamp plugin;
     private final RecipeManager recipeManager;
+    private final Tag<@org.jetbrains.annotations.NotNull Enchantment> HoloEnchantmentsTag;
 
     public CraftListener(HoloItemsRevamp plugin) {
         this.plugin = plugin;
         this.recipeManager = this.plugin.getRecipeManager();
+        var enchantmentRegistry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
+        var enchantmentTagName = new NamespacedKey(plugin, "holoenchantments");
+        var enchantmentTagKey = TagKey.create(RegistryKey.ENCHANTMENT, enchantmentTagName);
+        this.HoloEnchantmentsTag = enchantmentRegistry.getTag(enchantmentTagKey);
     }
 
     @EventHandler
@@ -86,8 +98,8 @@ public class CraftListener implements Listener {
             boolean hasCustomEnchantments = stack
                     .getEnchantments().keySet().stream()
                     .map(Enchantment::getKey)
-                    .map(NamespacedKey::getNamespace)
-                    .anyMatch(s -> s.equals("holoitems"));
+                    .map(key -> TypedKey.create(RegistryKey.ENCHANTMENT, key))
+                    .anyMatch(HoloEnchantmentsTag::contains);
             if(hasCustomEnchantments) {
                 // There might be a use for this that isn't just "Recipe is automatically invalid"
                 // but for now I'm leaving it like this.
