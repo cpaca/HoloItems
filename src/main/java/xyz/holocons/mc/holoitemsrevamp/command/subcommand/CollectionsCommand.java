@@ -154,7 +154,7 @@ public class CollectionsCommand implements SubCommand {
         for (var idolCollection : plugin.getCollectionManager().getAllCollections()) {
             var outlinePane = new OutlinePane(0, ySlot, 7, 1);
             outlinePane.addItem(new GuiItem(idolCollection.getGuiItem()));
-            idolCollection.getIdolSet().forEach(idol -> {
+            idolCollection.getIdols().forEach(idol -> {
                 var guiHeadItem = new GuiItem(idol.getGuiItem());
                 guiHeadItem.setAction(event -> {
                     event.setCancelled(true);

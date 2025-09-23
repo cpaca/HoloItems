@@ -35,7 +35,7 @@ public class IdolCollection {
         this.guiItem = buildGuiItem();
     }
 
-    public final List<Idol> getIdolSet() {
+    public final List<Idol> getIdols() {
         return idols;
     }
 
