@@ -1,17 +1,13 @@
 package xyz.holocons.mc.holoitemsrevamp.collection;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.typesafe.config.ConfigFactory;
-import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import net.kyori.adventure.text.Component;
-import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.Util;
 
 public class IdolCollection {

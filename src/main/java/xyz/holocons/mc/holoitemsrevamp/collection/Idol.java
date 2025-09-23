@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import com.strangeone101.holoitemsapi.item.CustomItemManager;
 import com.typesafe.config.ConfigFactory;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import com.strangeone101.holoitemsapi.item.CustomItem;
 

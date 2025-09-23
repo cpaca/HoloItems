@@ -1,28 +1,11 @@
 package xyz.holocons.mc.holoitemsrevamp.collection;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import com.typesafe.config.ConfigValueFactory;
-import net.kyori.adventure.text.TextComponent;
-import org.bukkit.Material;
-import org.bukkit.inventory.CrafterInventory;
-import org.jetbrains.annotations.NotNull;
 
-import com.strangeone101.holoitemsapi.item.CustomItem;
-
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
-import xyz.holocons.mc.holoitemsrevamp.Util;
-import xyz.holocons.mc.holoitemsrevamp.item.*;
 
 public class CollectionManager {
 
