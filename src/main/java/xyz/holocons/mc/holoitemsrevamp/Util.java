@@ -143,9 +143,10 @@ public final class Util {
             var url = config.getString("url");
             return getPlayerHeadFromSkinUrl(url);
         }
-        // TODO base64 to playerhead maybe?
-        //   PlayerName to playerhead?
-        //   Load resource into playerhead?
+        // Other possibilities (Low priority; implement if/when wanted/needed.)
+        // - base64 to playerhead
+        // - playername (username) to playerhead (note: bad idea, as playernames/usernames frequently change)
+        // - uuid to playerhead (note: will require an http get request to mojang api)
         throw new NotImplementedException("Do not know how to get playerHead from config:" + config.toString());
     }
 }
