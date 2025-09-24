@@ -18,7 +18,8 @@ public class IdolCollection {
     private final Component displayName;
     private final List<Component> lore;
 
-    public IdolCollection(ClassLoader loader, String basePath) {
+    public IdolCollection(String basePath) {
+        final var loader = IdolCollection.class.getClassLoader();
         final var data = ConfigFactory
                 .parseResources(loader, basePath + "/_info.conf")
                 .withFallback(CollectionManager.defaultCollectionConfig);
@@ -29,7 +30,7 @@ public class IdolCollection {
 
         this.idols = data.getStringList("idols")
                 .stream()
-                .map(name -> new Idol(loader, basePath, name))
+                .map(name -> new Idol(basePath, name))
                 .toList();
 
         this.guiItem = buildGuiItem();

@@ -24,7 +24,8 @@ public class Idol {
     // This is also the name of the file in resources.
     private final String name;
 
-    public Idol(ClassLoader loader, String collectionPath, String name) {
+    public Idol(String collectionPath, String name) {
+        final var loader = Idol.class.getClassLoader();
         final var data = ConfigFactory
                 .parseResources(loader, collectionPath + "/" + name + ".conf")
                 .withFallback(CollectionManager.defaultIdolConfig);

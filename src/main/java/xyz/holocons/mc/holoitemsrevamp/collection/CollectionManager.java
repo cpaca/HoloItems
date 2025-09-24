@@ -20,8 +20,7 @@ public class CollectionManager {
     public CollectionManager(HoloItemsRevamp plugin) {
         this.plugin = plugin;
 
-        final var loader = CollectionManager.class.getClassLoader();
-        this.idolCollections = buildIdolCollections(loader);
+        this.idolCollections = buildIdolCollections();
     }
 
     /**
@@ -31,13 +30,14 @@ public class CollectionManager {
         return idolCollections;
     }
 
-    private List<IdolCollection> buildIdolCollections(ClassLoader loader) {
+    private List<IdolCollection> buildIdolCollections() {
+        final var loader = CollectionManager.class.getClassLoader();
         plugin.getLogger().info("Building idol collections.");
         final var collectionsConfig = ConfigFactory.parseResources(loader, COLLECTIONS_ROOT + "/collections.conf");
         final var collectionNames = collectionsConfig.getStringList("collections");
 
         final var collections = collectionNames.stream()
-                .map(name -> new IdolCollection(loader, COLLECTIONS_ROOT + "/" + name));
+                .map(name -> new IdolCollection(COLLECTIONS_ROOT + "/" + name));
 
         return collections.toList();
     }
