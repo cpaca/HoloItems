@@ -12,16 +12,22 @@ import xyz.holocons.mc.holoitemsrevamp.Util;
 
 public class IdolCollection {
 
+    private final CollectionManager manager;
+    private final String collectionName;
     private final List<Idol> idols;
     private final ItemStack guiItem;
     private final Material material;
     private final Component displayName;
     private final List<Component> lore;
 
-    public IdolCollection(String basePath) {
+    public IdolCollection(CollectionManager manager, String collectionName) {
         final var loader = IdolCollection.class.getClassLoader();
+        this.manager = manager;
+        this.collectionName = collectionName;
+
+        var collectionPath = this.getCollectionPath();
         final var data = ConfigFactory
-                .parseResources(loader, basePath + "/_info.conf")
+                .parseResources(loader, collectionPath + "/_info.conf")
                 .withFallback(CollectionManager.defaultCollectionConfig);
 
         material = Material.getMaterial(data.getString("material"));
@@ -30,18 +36,25 @@ public class IdolCollection {
 
         this.idols = data.getStringList("idols")
                 .stream()
-                .map(name -> new Idol(basePath, name))
+                .map(name -> new Idol(this, name))
                 .toList();
 
         this.guiItem = buildGuiItem();
     }
 
+    // TODO: Is it necessary for these to be final?
+    //   I think that's just a holdover from a previous version.
     public final List<Idol> getIdols() {
         return idols;
     }
 
     public final ItemStack getGuiItem() {
         return guiItem;
+    }
+
+    // TODO: Should this be package-private instead of public?
+    public String getCollectionPath() {
+        return manager.getCollectionsRoot() + "/" + collectionName;
     }
 
     /**

@@ -30,6 +30,13 @@ public class CollectionManager {
         return idolCollections;
     }
 
+    /**
+     * @return The root path of all IdolCollections.
+     */
+    public String getCollectionsRoot() {
+        return COLLECTIONS_ROOT;
+    }
+
     private List<IdolCollection> buildIdolCollections() {
         final var loader = CollectionManager.class.getClassLoader();
         plugin.getLogger().info("Building idol collections.");
@@ -37,7 +44,7 @@ public class CollectionManager {
         final var collectionNames = collectionsConfig.getStringList("collections");
 
         final var collections = collectionNames.stream()
-                .map(name -> new IdolCollection(COLLECTIONS_ROOT + "/" + name));
+                .map(name -> new IdolCollection(this, name));
 
         return collections.toList();
     }

@@ -15,6 +15,7 @@ import xyz.holocons.mc.holoitemsrevamp.Util;
 
 public class Idol {
 
+    private final IdolCollection collection;
     private final Set<CustomItem> itemSet;
     private final ItemStack guiItem;
     private final Component displayName;
@@ -24,13 +25,15 @@ public class Idol {
     // This is also the name of the file in resources.
     private final String name;
 
-    public Idol(String collectionPath, String name) {
+    public Idol(IdolCollection collection, String name) {
+        this.collection = collection;
+        this.name = name;
         final var loader = Idol.class.getClassLoader();
+
         final var data = ConfigFactory
-                .parseResources(loader, collectionPath + "/" + name + ".conf")
+                .parseResources(loader, this.getIdolPath())
                 .withFallback(CollectionManager.defaultIdolConfig);
 
-        this.name = name;
         displayName = Util.configToComponent(data.getConfig("display_name"));
         lore = data.getConfigList("lore").stream().map(Util::configToComponent).toList();
 
@@ -50,12 +53,22 @@ public class Idol {
                 .collect(Collectors.toSet());
     }
 
+    // TODO: Is it necessary for these to be final?
+    //   I think that's just a holdover from a previous version.
     public final Set<CustomItem> getItemSet() {
         return itemSet;
     }
 
     public final ItemStack getGuiItem() {
         return guiItem;
+    }
+
+    // TODO: Should this be package-private (or just private) instead of public?
+    /**
+     * @return The path to this idol's resources. Note: Includes a .conf file extension.
+     */
+    public String getIdolPath() {
+        return collection.getCollectionPath() + "/" + name + ".conf";
     }
 
     /**
