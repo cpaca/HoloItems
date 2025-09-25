@@ -46,7 +46,10 @@ public class Idol {
 
         // build itemSet
         // TODO: Maybe this shouldn't use Stream API? Because I sort-of want it to say something when an
-        //   unrecognized item is in the list.
+        //   unrecognized item is in the list. Note after attempting this: If you want to do that,
+        //   collectionManager.getPlugin() is required, as well as collection.getManager() or collection.getPlugin().
+        //   I didn't do it because I wasn't sure if I wanted to have those implemented (also whether those functions
+        //   should be public or package-private).
         itemSet = data.getStringList("items")
                 .stream()
                 .map(CustomItemManager::getCustomItem)
