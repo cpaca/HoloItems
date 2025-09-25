@@ -94,7 +94,7 @@ paper {
     prefix = "HoloItems"
 
     serverDependencies {
-        register("ProtocolLib")
+//        register("ProtocolLib")
 
         register("WorldGuard") {
             required = false
