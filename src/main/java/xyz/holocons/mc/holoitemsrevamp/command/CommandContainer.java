@@ -1,5 +1,6 @@
 package xyz.holocons.mc.holoitemsrevamp.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
@@ -12,6 +13,9 @@ import io.papermc.paper.command.brigadier.Commands;
  */
 public abstract class CommandContainer {
     // Should this be named CommandBuilderContainer? Since it contains a command-builder.
+
+    // Provided for convenience.
+    protected int SINGLE_SUCCESS = Command.SINGLE_SUCCESS;
 
     public CommandContainer() {
     }

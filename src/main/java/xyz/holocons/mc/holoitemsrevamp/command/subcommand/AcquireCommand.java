@@ -1,20 +1,29 @@
 package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
+import xyz.holocons.mc.holoitemsrevamp.command.CommandContainer;
 import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class AcquireCommand implements SubCommand {
+public class AcquireCommand extends CommandContainer {
 
     private final HoloItemsRevamp plugin;
 
@@ -27,30 +36,97 @@ public class AcquireCommand implements SubCommand {
         return "acquire";
     }
 
-    @Override
-    public String getDesc() {
-        return "Give a HoloItem";
-    }
+//    @Override
+//    public String getDesc() {
+//        return "Give a HoloItem";
+//    }
 
-    @Override
-    public String getFormat() {
-        return "<item> [amount] [player]";
-    }
+//    @Override
+//    public String getFormat() {
+//        return "<item> [amount] [player]";
+//    }
 
     @Override
     public String getPermission() {
         return "holoitems.acquire";
     }
 
+//    @Override
+//    public List<String> getAutoComplete(String[] args) {
+//        return switch (args.length) {
+//            case 1 -> List.copyOf(plugin.getCollectionManager().getAllItems().keySet());
+//            case 3 -> null;
+//            default -> List.of();
+//        };
+//    }
+
+
     @Override
-    public List<String> getAutoComplete(String[] args) {
-        return switch (args.length) {
-            case 1 -> List.copyOf(plugin.getCollectionManager().getAllItems().keySet());
-            case 3 -> null;
-            default -> List.of();
-        };
+    public LiteralArgumentBuilder<CommandSourceStack> getBuilder() {
+        var builder = super.getBuilder();
+
+        // Key maps from customItem internal name to the actual item.
+        // Fortunately, the internal name is the key used to pick an item.
+        final var customItems = plugin.getCollectionManager().getAllItems();
+
+        builder.then(Commands.argument("item_name", StringArgumentType.word())
+                .executes(ctx -> {
+                    // item name is given, nothing else is
+                    var item_name = StringArgumentType.getString(ctx, "item_name");
+
+                    var executeResult = execute(ctx.getSource().getSender(), item_name);
+
+                    // TODO: Figure out what to do when command fails.
+                    return executeResult ? SINGLE_SUCCESS : 0;
+                })
+                .suggests((ctx, suggestionBuilder) -> {
+                    // TODO: Perhaps lore could be used to add a tooltip to the suggestions?
+                    customItems.keySet().forEach(suggestionBuilder::suggest);
+                    return suggestionBuilder.buildFuture();
+                })
+                .then(Commands.argument("amount", IntegerArgumentType.integer(1, 99))
+                        .executes(ctx -> {
+                            // item name and amount are given
+                            var item_name = StringArgumentType.getString(ctx, "item_name");
+                            var amount = IntegerArgumentType.getInteger(ctx, "amount");
+
+                            var executeResult = execute(ctx.getSource().getSender(), item_name, amount);
+
+                            return executeResult ? SINGLE_SUCCESS : 0;
+                        })
+                        .then(Commands.argument("player", ArgumentTypes.player())
+                                .executes(ctx -> {
+                                    // item name, amount, and target player are given
+                                    var item_name = StringArgumentType.getString(ctx, "item_name");
+                                    var amount = IntegerArgumentType.getInteger(ctx, "amount");
+                                    // following Paper's documentation:
+                                    // https://docs.papermc.io/paper/dev/command-api/arguments/entity-player/
+                                    var targetResolver = ctx.getArgument("target", PlayerSelectorArgumentResolver.class);;
+                                    Player target = targetResolver.resolve(ctx.getSource()).getFirst();
+
+                                    var executeResult = execute(ctx.getSource().getSender(), item_name, amount, target);
+
+                                    return executeResult ? SINGLE_SUCCESS : 0;
+                                }))
+                )
+        );
+        return builder;
     }
 
+    public boolean execute(CommandSender sender, String itemName) {
+        throw new NotImplementedException();
+    }
+
+    public boolean execute(CommandSender sender, String itemName, int amount) {
+        throw new NotImplementedException();
+    }
+
+    public boolean execute(CommandSender sender, String itemName, int amount, Player giveTo) {
+        throw new NotImplementedException();
+    }
+
+    // Old execute archived below while I copy to new system.
+    /*
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (args.length == 0 || !sender.hasPermission(getPermission())) {
@@ -118,4 +194,5 @@ public class AcquireCommand implements SubCommand {
 
         return true;
     }
+     */
 }
