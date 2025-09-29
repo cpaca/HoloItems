@@ -10,7 +10,7 @@ import io.papermc.paper.command.brigadier.Commands;
  * getBuilder, call super.getBuilder() for the skeleton features, apply your necessary modifications to that, and
  * return it.
  */
-public class CommandContainer {
+public abstract class CommandContainer {
     // Should this be named CommandBuilderContainer? Since it contains a command-builder.
 
     public CommandContainer() {
@@ -20,9 +20,7 @@ public class CommandContainer {
      * Returns the name of this command. This is also what's used to "select" this subcommand.
      * @return
      */
-    public String getName() {
-
-    }
+    public abstract String getName();
 
     /**
      * Sets the permission required to use this command. By default, this returns null, so no permission is required.
