@@ -34,9 +34,11 @@ public abstract class CommandContainer {
     //   Also: Main's help-message also uses getDesc()
 
     public LiteralArgumentBuilder<CommandSourceStack> getBuilder() {
-        final var out = Commands.literal(name);
-        if(this.permission != null) {
-            out.requires(source -> source.getSender().hasPermission(this.permission));
+        final var out = Commands.literal(getName());
+
+        final var permission = getPermission();
+        if(permission != null) {
+            out.requires(source -> source.getSender().hasPermission(permission));
         }
         return out;
     }
