@@ -12,19 +12,29 @@ import io.papermc.paper.command.brigadier.Commands;
  */
 public class CommandContainer {
     // Should this be named CommandBuilderContainer? Since it contains a command-builder.
-    private final String name;
-    private String permission = null;
 
     public CommandContainer(String name) {
         this.name = name;
     }
 
     /**
-     * Sets the permission required to use this command. If unset, then no permission is required.
+     * Returns the name of this command. This is also what's used to "select" this subcommand.
+     * @return
      */
-    protected void setPermission(String permission) {
-        this.permission = permission;
+    public String getName() {
+
     }
+
+    /**
+     * Sets the permission required to use this command. By default, this returns null, so no permission is required.
+     * @return The required permission
+     */
+    public String getPermission() {
+        return null;
+    }
+
+    // TODO: If hover text is possible, getDesc() might be usable?
+    //   Also: Main's help-message also uses getDesc()
 
     public LiteralArgumentBuilder<CommandSourceStack> getBuilder() {
         final var out = Commands.literal(name);
