@@ -3,6 +3,7 @@ package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.strangeone101.holoitemsapi.item.CustomItemManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
@@ -23,6 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+// A lot of brigadier API is marked unstable in 1.21.1, but not marked unstable in 1.21.8.
+// Remove this warning when we update.
+@SuppressWarnings("UnstableApiUsage")
 public class AcquireCommand extends CommandContainer {
 
     private final HoloItemsRevamp plugin;
@@ -114,15 +118,49 @@ public class AcquireCommand extends CommandContainer {
     }
 
     public boolean execute(CommandSender sender, String itemName) {
-        throw new NotImplementedException();
+        return execute(sender, itemName, 1);
     }
 
     public boolean execute(CommandSender sender, String itemName, int amount) {
-        throw new NotImplementedException();
+        if(sender instanceof Player player) {
+            return execute(sender, itemName, amount, player);
+        }
+        else {
+            sender.sendMessage(Component.text("You could not be resolved to a player. (Are you console?)")
+                    .color(NamedTextColor.YELLOW)
+                    .decoration(TextDecoration.ITALIC, true));
+            return false;
+        }
     }
 
-    public boolean execute(CommandSender sender, String itemName, int amount, Player giveTo) {
-        throw new NotImplementedException();
+    public boolean execute(CommandSender sender, String itemName, int amount, Player player) {
+        var customItem = CustomItemManager.getCustomItem(itemName);
+        if (customItem == null) {
+            sender.sendMessage(Component.text(itemName + " is not a valid item!")
+                    .color(NamedTextColor.YELLOW)
+                    .decoration(TextDecoration.ITALIC, true));
+            return false;
+        }
+
+        var itemStack = customItem.buildStack(player);
+        itemStack.setAmount(customItem.getStackSizeOrDefault());
+
+        int totalItemStacks = ((amount - 1)/customItem.getStackSizeOrDefault()) + 1;
+        int lastItemStackSize = amount - ((totalItemStacks - 1) * customItem.getStackSizeOrDefault());
+        // Failsafe incase my math was bad (it was one time lol)
+        lastItemStackSize = Math.clamp(0, lastItemStackSize, customItem.getStackSizeOrDefault());
+        ItemStack lastItemStack = itemStack.clone();
+        lastItemStack.setAmount(lastItemStackSize);
+
+        var itemStacks = new ItemStack[totalItemStacks];
+        Arrays.fill(itemStacks, itemStack);
+        itemStacks[totalItemStacks - 1] = lastItemStack;
+
+        Map<Integer, ItemStack> leftoverItems = player.getInventory().addItem(itemStacks);
+        // If items could not fit in player's inventory, drop them in the world
+        leftoverItems.values().forEach(item -> player.getWorld().dropItemNaturally(player.getLocation(), item));
+
+        return true;
     }
 
     // Old execute archived below while I copy to new system.
