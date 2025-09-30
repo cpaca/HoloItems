@@ -222,10 +222,11 @@ public class StatsCommand extends CommandContainer {
         // Determine fourth and fifth arg.
         // If it's a typed_stat, then 4th arg is specifier, 5th is goal
         // If it's untyped_stat, then 4th arg is goal (5th is unused)
-        String specifierStr = null;
-        String goalStr = null;
+        String specifierStr;
+        String goalStr;
 
         if(statisticType == Statistic.Type.UNTYPED) {
+            specifierStr = null;
             goalStr = fourthArg;
         }
         else {
