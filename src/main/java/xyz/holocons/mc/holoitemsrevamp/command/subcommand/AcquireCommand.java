@@ -11,17 +11,13 @@ import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSele
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.apache.commons.lang3.NotImplementedException;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
 import xyz.holocons.mc.holoitemsrevamp.command.CommandContainer;
-import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 // A lot of brigadier API is marked unstable in 1.21.1, but not marked unstable in 1.21.8.
