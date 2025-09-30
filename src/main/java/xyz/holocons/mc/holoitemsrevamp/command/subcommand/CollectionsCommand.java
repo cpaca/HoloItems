@@ -6,6 +6,12 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -16,11 +22,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.holocons.mc.holoitemsrevamp.HoloItemsRevamp;
+import xyz.holocons.mc.holoitemsrevamp.command.CommandContainer;
 import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
 
 import java.util.List;
 
-public class CollectionsCommand implements SubCommand {
+// A lot of brigadier API is marked unstable in 1.21.1, but not marked unstable in 1.21.8.
+// Remove this warning when we update.
+@SuppressWarnings("UnstableApiUsage")
+public class CollectionsCommand extends CommandContainer {
 
     private final HoloItemsRevamp plugin;
 
@@ -33,47 +43,84 @@ public class CollectionsCommand implements SubCommand {
         return "collections";
     }
 
-    @Override
-    public String getDesc() {
-        return "Open a GUI to explore all available items";
-    }
+//    @Override
+//    public String getDesc() {
+//        return "Open a GUI to explore all available items";
+//    }
 
-    @Override
-    public String getFormat() {
-        return "[player]";
-    }
+//    @Override
+//    public String getFormat() {
+//        return "[player]";
+//    }
 
     @Override
     public String getPermission() {
         return "holoitems.collections";
     }
 
-    @Override
-    public List<String> getAutoComplete(String[] args) {
-        return switch (args.length) {
-            case 1 -> null;
-            default -> List.of();
-        };
-    }
+//    @Override
+//    public List<String> getAutoComplete(String[] args) {
+//        return switch (args.length) {
+//            case 1 -> null;
+//            default -> List.of();
+//        };
+//    }
+
 
     @Override
-    public boolean execute(CommandSender sender, String[] args) {
+    public LiteralArgumentBuilder<CommandSourceStack> getBuilder() {
+        final var builder = super.getBuilder();
+
+        builder
+                .executes(ctx -> {
+                    // No arguments
+                    var executeResult = execute(ctx.getSource().getSender());
+
+                    return executeResult ? SINGLE_SUCCESS : 0;
+                })
+                .then(Commands.argument("player_name", StringArgumentType.word())
+                        .requires(source -> source.getSender().hasPermission(getPermission() + ".others"))
+                        .executes(ctx -> {
+                            // We aren't following paper's documentation this time, for two reasons:
+                            // - We want to resolve offline players, too.
+                            // - PlayerProfilesResolver hits Mojang API, which feels seriously overkill for this.
+                            var playerName = StringArgumentType.getString(ctx, "player_name");
+
+                            var executeResult = execute(ctx.getSource().getSender(), playerName);
+
+                            return executeResult ? SINGLE_SUCCESS : 0;
+                        }));
+
+        return builder;
+    }
+
+    public boolean execute(CommandSender sender) {
+        // Could technically check if sender is player here
+        // but this way, we don't repeat the code for "check if sender is console or not".
+        return execute(sender, null);
+    }
+
+    public boolean execute(CommandSender sender, String targetName) {
         OfflinePlayer targetPlayer;
         if(!(sender instanceof Player player)) {
             // Can't show gui to non-players
             sender.sendMessage(Component.text("Do not use this command as console.", NamedTextColor.YELLOW));
+            // I'm not sure why this is true instead of false. Seems like it should be false
+            // in new system, but also should be false in old system?
+            // I'm leaving it as true until I understand why.
             return true;
         }
 
-        if (!player.hasPermission(getPermission()) || (args.length < 1 && !player.hasPermission(getPermission() + ".others"))) {
-            player.sendMessage(Component.text("You do not have permission to use this command!", NamedTextColor.RED));
-            return true;
-        }
+        // No longer necessary: Skeleton handles 0-arg if statement, argument.requires() handles 1-arg if statement.
+//        if (!player.hasPermission(getPermission()) || (args.length < 1 && !player.hasPermission(getPermission() + ".others"))) {
+//            player.sendMessage(Component.text("You do not have permission to use this command!", NamedTextColor.RED));
+//            return true;
+//        }
 
-        if (args.length < 1) {
+        if(targetName == null) {
             targetPlayer = (OfflinePlayer) player;
         } else {
-            targetPlayer = Bukkit.getOfflinePlayerIfCached(args[0]);
+            targetPlayer = Bukkit.getOfflinePlayerIfCached(targetName);
             // Bukkit#getOfflinePlayerIfCached returns null if the player hasn't played on the server before
             if (targetPlayer == null) {
                 player.sendMessage(Component.text("Player not found!", NamedTextColor.YELLOW));
