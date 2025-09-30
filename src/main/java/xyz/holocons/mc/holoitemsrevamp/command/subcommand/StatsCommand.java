@@ -2,6 +2,9 @@ package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
@@ -12,7 +15,11 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
+import org.enginehub.piston.converter.SuggestionProvider;
 import xyz.holocons.mc.holoitemsrevamp.command.CommandContainer;
+
+import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 
 public class StatsCommand extends CommandContainer {
 
@@ -94,6 +101,7 @@ public class StatsCommand extends CommandContainer {
                 })
                 .then(Commands.argument("player_name", StringArgumentType.word())
                         .then(Commands.argument("stat_name", StringArgumentType.word())
+                                .suggests(this::suggestStatistics)
                                 .executes(ctx -> {
                                     var action = StringArgumentType.getString(ctx, "action");
                                     var playerName = StringArgumentType.getString(ctx, "player_name");
@@ -136,6 +144,16 @@ public class StatsCommand extends CommandContainer {
         );
 
         return builder;
+    }
+
+    private CompletableFuture<Suggestions> suggestStatistics(CommandContext<CommandSourceStack> ctx, SuggestionsBuilder builder) {
+        // TODO: Only suggest things that start with what the user's already typed.
+        //   The old system didn't do this, but it's a good idea.
+        Arrays.stream(Statistic.values())
+                .map(Statistic::toString)
+                .forEach(builder::suggest);
+
+        return builder.buildFuture();
     }
 
     public boolean execute(CommandSender sender, String action, String playerName, String statName) {
