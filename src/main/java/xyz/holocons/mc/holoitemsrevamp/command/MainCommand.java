@@ -32,7 +32,7 @@ public class MainCommand implements BasicCommand {
     public MainCommand(HoloItemsRevamp plugin) {
 //        addSubCommand(new AcquireCommand(plugin));
 //        addSubCommand(new CollectionsCommand(plugin));
-        addSubCommand(new StatsCommand());
+//        addSubCommand(new StatsCommand());
         
         // Create text component message for help page
         final var helpComponentBuilder = Component.text()

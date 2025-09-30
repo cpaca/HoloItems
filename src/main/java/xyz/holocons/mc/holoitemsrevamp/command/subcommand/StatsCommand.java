@@ -1,76 +1,167 @@
 package xyz.holocons.mc.holoitemsrevamp.command.subcommand;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
+import xyz.holocons.mc.holoitemsrevamp.command.CommandContainer;
 import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class StatsCommand implements SubCommand {
+public class StatsCommand extends CommandContainer {
 
     @Override
     public String getName() {
         return "stats";
     }
 
-    @Override
-    public String getDesc() {
-        return "Modify player statistics";
-    }
+//    @Override
+//    public String getDesc() {
+//        return "Modify player statistics";
+//    }
 
-    @Override
-    public String getFormat() {
-        return "<get/set> <player> <statistic> [specifier] [goal]";
-    }
+//    @Override
+//    public String getFormat() {
+//        return "<get/set> <player> <statistic> [specifier] [goal]";
+//    }
 
     @Override
     public String getPermission() {
         return "holoitems.stats";
     }
 
+//    @Override
+//    public List<String> getAutoComplete(String[] args) {
+//        // get player untyped_statistic
+//        // set player untyped_statistic goal
+//        // get player typed_statistic qualifier
+//        // set player typed_statistic qualifier goal
+//        return switch (args.length) {
+//            case 1 -> List.of("get","set");
+//            case 2 -> null;
+//            case 3 -> Arrays.stream(Statistic.values()).map(Statistic::toString).toList();
+//            case 4 -> {
+//                Statistic statistic;
+//                try {
+//                    statistic = Statistic.valueOf(args[2]);
+//                } catch (IllegalArgumentException e) {
+//                    statistic = null;
+//                }
+//                if (statistic == null) {
+//                    yield List.of();
+//                }
+//
+//                yield switch (statistic.getType()) {
+//                    case BLOCK, ITEM -> Arrays.stream(Material.values()).map(Material::toString).toList();
+//                    case ENTITY -> Arrays.stream(EntityType.values()).map(EntityType::toString).toList();
+//                    case UNTYPED -> List.of();
+//                };
+//            }
+//            default -> List.of();
+//        };
+//    }
+
+
     @Override
-    public List<String> getAutoComplete(String[] args) {
+    public LiteralArgumentBuilder<CommandSourceStack> getBuilder() {
+        final var builder = super.getBuilder();
+
+        // Note about the naming of the 4th and fifth arguments:
+        // Please refer to this guide from getAutoComplete() in the old implementation:
         // get player untyped_statistic
         // set player untyped_statistic goal
         // get player typed_statistic qualifier
         // set player typed_statistic qualifier goal
-        return switch (args.length) {
-            case 1 -> List.of("get","set");
-            case 2 -> null;
-            case 3 -> Arrays.stream(Statistic.values()).map(Statistic::toString).toList();
-            case 4 -> {
-                Statistic statistic;
-                try {
-                    statistic = Statistic.valueOf(args[2]);
-                } catch (IllegalArgumentException e) {
-                    statistic = null;
-                }
-                if (statistic == null) {
-                    yield List.of();
-                }
+        //
+        // The 4th argument could be one of two things: It could either be the goal, for set untyped_stat,
+        // or it could be the qualifier for a typed_stat.
+        // There is no way to tell which is which in the getBuilder().
+        //
+        // The 5th argument technically could be named usefully, but naming it "new_stat_goal_value"
+        // or something of the sort seems incorrect when it's only true of set typed_stat, not of set untyped_stat.
 
-                yield switch (statistic.getType()) {
-                    case BLOCK, ITEM -> Arrays.stream(Material.values()).map(Material::toString).toList();
-                    case ENTITY -> Arrays.stream(EntityType.values()).map(EntityType::toString).toList();
-                    case UNTYPED -> List.of();
-                };
-            }
-            default -> List.of();
-        };
+        builder.then(Commands.argument("action", StringArgumentType.word())
+                .suggests((ctx, suggestionsBuilder) -> {
+                    suggestionsBuilder.suggest("get");
+                    suggestionsBuilder.suggest("set");
+                    return suggestionsBuilder.buildFuture();
+                })
+                .then(Commands.argument("player_name", StringArgumentType.word())
+                        .then(Commands.argument("stat_name", StringArgumentType.word())
+                                .executes(ctx -> {
+                                    var action = StringArgumentType.getString(ctx, "action");
+                                    var playerName = StringArgumentType.getString(ctx, "player_name");
+                                    var statName = StringArgumentType.getString(ctx, "stat_name");
+
+                                    var executeResult = execute(ctx.getSource().getSender(),
+                                            action, playerName, statName);
+
+                                    return executeResult ? SINGLE_SUCCESS : 0;
+                                })
+                                .then(Commands.argument("fourth_arg", StringArgumentType.word())
+                                        .executes(ctx -> {
+                                            var action = StringArgumentType.getString(ctx, "action");
+                                            var playerName = StringArgumentType.getString(ctx, "player_name");
+                                            var statName = StringArgumentType.getString(ctx, "stat_name");
+                                            var fourthArg = StringArgumentType.getString(ctx, "fourth_arg");
+
+                                            var executeResult = execute(ctx.getSource().getSender(),
+                                                    action, playerName, statName, fourthArg);
+
+                                            return executeResult ? SINGLE_SUCCESS : 0;
+                                        })
+                                        .then(Commands.argument("fifth_arg", StringArgumentType.word())
+                                                .executes(ctx -> {
+                                                    var action = StringArgumentType.getString(ctx, "action");
+                                                    var playerName = StringArgumentType.getString(ctx, "player_name");
+                                                    var statName = StringArgumentType.getString(ctx, "stat_name");
+                                                    var fourthArg = StringArgumentType.getString(ctx, "fourth_arg");
+                                                    var fifthArg = StringArgumentType.getString(ctx, "fifth_arg");
+
+                                                    var executeResult = execute(ctx.getSource().getSender(),
+                                                            action, playerName, statName, fourthArg, fifthArg);
+
+                                                    return executeResult ? SINGLE_SUCCESS : 0;
+                                                })
+                                        )
+                                )
+                        )
+                )
+        );
+
+        return builder;
     }
 
-    @Override
-    public boolean execute(CommandSender sender, String[] args) {
-        if (args.length < 3 || !sender.hasPermission(getPermission())) {
-            return false;
-        }
+    public boolean execute(CommandSender sender, String action, String playerName, String statName) {
+        return execute(sender, action, playerName, statName, null);
+    }
+
+    public boolean execute(CommandSender sender, String action, String playerName,
+                           String statName, String fourthArg) {
+        return execute(sender, action, playerName, statName, fourthArg, null);
+    }
+
+    public boolean execute(CommandSender sender, String action, String playerName,
+                           String statName, String fourthArg, String fifthArg) {
+        // args is managed by builder
+        // permission is managed by skeleton
+        // no longer needed in brigadier
+//        if (args.length < 3 || !sender.hasPermission(getPermission())) {
+//            return false;
+//        }
+        // TODO: This feels like it could use a refactor, taking advantage of information now available to brigadier.
+        throw new NotImplementedException();
 
         OfflinePlayer targetPlayer;
         Statistic statistic;
@@ -78,20 +169,20 @@ public class StatsCommand implements SubCommand {
         Enum<?> specifier = null;
 
         try {
-            targetPlayer = Bukkit.getOfflinePlayerIfCached(args[1]);
+            targetPlayer = Bukkit.getOfflinePlayerIfCached(playerName);
             // Bukkit#getOfflinePlayerIfCached returns null if the player hasn't played on the server before
             if (targetPlayer == null) {
                 throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException e) {
-            sender.sendMessage(Component.text("Player " + args[1] + " is not valid!", NamedTextColor.YELLOW));
+            sender.sendMessage(Component.text("Player " + playerName + " is not valid!", NamedTextColor.YELLOW));
             return false;
         }
 
         try {
-            statistic = Statistic.valueOf(args[2]);
+            statistic = Statistic.valueOf(statName);
         } catch (IllegalArgumentException e) {
-            sender.sendMessage(Component.text("Statistic " + args[2] + " does not exist!", NamedTextColor.YELLOW));
+            sender.sendMessage(Component.text("Statistic " + statName + " does not exist!", NamedTextColor.YELLOW));
             return false;
         }
 
@@ -221,4 +312,5 @@ public class StatsCommand implements SubCommand {
             return false;
         }
     }
+     */
 }
