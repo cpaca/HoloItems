@@ -24,6 +24,9 @@ import xyz.holocons.mc.holoitemsrevamp.command.subcommand.StatsCommand;
 
 import java.util.*;
 
+// A lot of brigadier API is marked unstable in 1.21.1, but not marked unstable in 1.21.8.
+// Remove this warning when we update.
+@SuppressWarnings("UnstableApiUsage")
 public class MainCommand extends CommandContainer {
     
     // Maps from the name of a subcommand to that subcommand
