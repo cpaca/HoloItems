@@ -21,10 +21,10 @@ public class StatsCommand extends CommandContainer {
         return "stats";
     }
 
-//    @Override
-//    public String getDesc() {
-//        return "Modify player statistics";
-//    }
+    @Override
+    public String getDesc() {
+        return "Modify player statistics";
+    }
 
 //    @Override
 //    public String getFormat() {

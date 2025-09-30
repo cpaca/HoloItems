@@ -40,10 +40,10 @@ public class AcquireCommand extends CommandContainer {
         return "acquire";
     }
 
-//    @Override
-//    public String getDesc() {
-//        return "Give a HoloItem";
-//    }
+    @Override
+    public String getDesc() {
+        return "Give a HoloItem";
+    }
 
 //    @Override
 //    public String getFormat() {

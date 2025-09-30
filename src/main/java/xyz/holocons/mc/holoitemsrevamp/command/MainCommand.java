@@ -48,7 +48,7 @@ public class MainCommand extends CommandContainer {
                     .append(Component.text(subCommand.getName(), NamedTextColor.AQUA))
                     .append(Component.newline())
                     .clickEvent(ClickEvent.suggestCommand("/holoitems " + subCommand.getName() + " "))
-//                    .hoverEvent(HoverEvent.showText(Component.text(subCommand.getDesc())))
+                    .hoverEvent(HoverEvent.showText(Component.text(subCommand.getDesc())))
             );
         }
         helpComponentBuilder.append(Component.text("===================", NamedTextColor.DARK_AQUA));

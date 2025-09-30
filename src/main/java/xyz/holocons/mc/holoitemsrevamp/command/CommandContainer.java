@@ -34,8 +34,14 @@ public abstract class CommandContainer {
         return null;
     }
 
-    // TODO: If hover text is possible, getDesc() might be usable?
-    //   Also: Main's help-message also uses getDesc()
+    /**
+     * Gets the description of the subcommand.
+     * This is used by the MainCommand to generate the help page (it's the mouseover text)
+     * @return The description of the subcommand
+     */
+    public String getDesc() {
+        return "";
+    }
 
     public LiteralArgumentBuilder<CommandSourceStack> getBuilder() {
         final var out = Commands.literal(getName());

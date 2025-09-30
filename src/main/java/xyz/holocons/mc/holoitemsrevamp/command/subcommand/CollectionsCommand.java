@@ -43,10 +43,10 @@ public class CollectionsCommand extends CommandContainer {
         return "collections";
     }
 
-//    @Override
-//    public String getDesc() {
-//        return "Open a GUI to explore all available items";
-//    }
+    @Override
+    public String getDesc() {
+        return "Open a GUI to explore all available items";
+    }
 
 //    @Override
 //    public String getFormat() {
