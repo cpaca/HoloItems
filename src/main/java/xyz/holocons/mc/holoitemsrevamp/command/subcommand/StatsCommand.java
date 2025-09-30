@@ -6,7 +6,6 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -14,10 +13,6 @@ import org.bukkit.Statistic;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import xyz.holocons.mc.holoitemsrevamp.command.CommandContainer;
-import xyz.holocons.mc.holoitemsrevamp.command.SubCommand;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class StatsCommand extends CommandContainer {
 
@@ -161,13 +156,28 @@ public class StatsCommand extends CommandContainer {
 //            return false;
 //        }
         // TODO: This feels like it could use a refactor, taking advantage of information now available to brigadier.
-        throw new NotImplementedException();
 
+        // TODO: Why are these defined all the way up here?
         OfflinePlayer targetPlayer;
         Statistic statistic;
         Integer goal = null;
         Enum<?> specifier = null;
 
+        // Process first arg (action)
+        StatTask task;
+        if(action.equals("get")) {
+            task = StatTask.GET_STAT;
+        }
+        else if(action.equals("set")) {
+            task = StatTask.SET_STAT;
+        }
+        else {
+            // not a valid action
+            // original implementation just returned false for this situation, so I will as well.
+            return false;
+        }
+
+        // Process second arg (player name)
         try {
             targetPlayer = Bukkit.getOfflinePlayerIfCached(playerName);
             // Bukkit#getOfflinePlayerIfCached returns null if the player hasn't played on the server before
@@ -179,6 +189,7 @@ public class StatsCommand extends CommandContainer {
             return false;
         }
 
+        // Process third arg (stat name)
         try {
             statistic = Statistic.valueOf(statName);
         } catch (IllegalArgumentException e) {
@@ -188,39 +199,52 @@ public class StatsCommand extends CommandContainer {
 
         final var statisticType = statistic.getType();
 
-        if (args.length > 3) {
-            // If the statistic is not untyped, assign the specifier
-            switch (statisticType) {
-                case BLOCK, ITEM -> {
-                    try {
-                        specifier = Material.valueOf(args[3]);
-                    } catch (IllegalArgumentException e) {
-                        sender.sendMessage(Component.text("Material " + args[3] + " is not valid!",
-                            NamedTextColor.YELLOW));
-                        return false;
-                    }
-                }
-                case ENTITY -> {
-                    try {
-                        specifier = EntityType.valueOf(args[3]);
-                    } catch (IllegalArgumentException e) {
-                        sender.sendMessage(Component.text("Entity " + args[3] + " is not valid!",
-                            NamedTextColor.YELLOW));
-                        return false;
-                    }
-                }
-                case UNTYPED -> {}
-            }
+        // Determine fourth and fifth arg.
+        // If it's a typed_stat, then 4th arg is specifier, 5th is goal
+        // If it's untyped_stat, then 4th arg is goal (5th is unused)
+        String specifierStr = null;
+        String goalStr = null;
+
+        if(statisticType == Statistic.Type.UNTYPED) {
+            goalStr = fourthArg;
+        }
+        else {
+            specifierStr = fourthArg;
+            goalStr = fifthArg;
         }
 
-        if (specifier == null && statisticType != Statistic.Type.UNTYPED) {
+        // This if-statement was moved to before the switch statement in brigadier form.
+        if(specifierStr == null && statisticType != Statistic.Type.UNTYPED) {
             // Statistic type requires a specifier, but only 3 args were given
             sender.sendMessage(Component.text("Statistic " + statistic + " needs a specifier!",
-                NamedTextColor.YELLOW));
+                    NamedTextColor.YELLOW));
             return false;
         }
 
-        if (args[0].equalsIgnoreCase("get")) {
+        switch (statisticType) {
+            case BLOCK, ITEM -> {
+                try {
+                    specifier = Material.valueOf(specifierStr);
+                } catch (IllegalArgumentException e) {
+                    sender.sendMessage(Component.text("Material " + specifierStr + " is not valid!",
+                        NamedTextColor.YELLOW));
+                    return false;
+                }
+            }
+            case ENTITY -> {
+                try {
+                    specifier = EntityType.valueOf(specifierStr);
+                } catch (IllegalArgumentException e) {
+                    sender.sendMessage(Component.text("Entity " + specifierStr + " is not valid!",
+                        NamedTextColor.YELLOW));
+                    return false;
+                }
+            }
+            case UNTYPED -> {
+            }
+        }
+
+        if (task == StatTask.GET_STAT) {
             // First arg is get
             var statComponent = Component.text();
             statComponent.append(
@@ -256,24 +280,42 @@ public class StatsCommand extends CommandContainer {
 
             sender.sendMessage(statComponent.build());
             return true;
-        } else if (args[0].equalsIgnoreCase("set")) {
-            // First arg is set
-            // Goal arg position shifts based on whether there is a specifier arg
-            final var goalArgIndex = statisticType == Statistic.Type.UNTYPED ? 3 : 4;
-            if (args[0].equalsIgnoreCase("set")) {
-                // Since first arg is set, assign the goal
-                if (args.length > goalArgIndex) {
-                    try {
-                        goal = Integer.parseInt(args[goalArgIndex]);
-                    } catch (NumberFormatException e) {
-                        sender.sendMessage(Component.text("Goal " + args[goalArgIndex] + " is not valid!"));
-                        return false;
-                    }
-                } else {
+        } else if (task == StatTask.SET_STAT) {
+            // IDE is informing me it's always true. I'm ignoring it (for now), I'll fix it in a later refactor.
+            // TODO: Remove it.
+            // (I'm keeping it in because I'm confused about the logic - why is args[0].equalsIgnoreCase("set")
+            // called twice in here?
+
+            // Logic change: goalStr was handled earlier.
+            // Therefore, just check if it's null instead of doing this "goalArgIndex" stuff.
+            if(goalStr == null) {
                     sender.sendMessage(Component.text("No goal is specified!", NamedTextColor.YELLOW));
                     return false;
-                }
             }
+
+            try {
+                goal = Integer.parseInt(goalStr);
+            } catch (NumberFormatException e) {
+                sender.sendMessage(Component.text("Goal " + goalStr + " is not valid!"));
+                return false;
+            }
+//            // First arg is set
+//            // Goal arg position shifts based on whether there is a specifier arg
+//            final var goalArgIndex = statisticType == Statistic.Type.UNTYPED ? 3 : 4;
+//            if (task == StatTask.SET_STAT) {
+//                // Since first arg is set, assign the goal
+//                if (args.length > goalArgIndex) {
+//                    try {
+//                        goal = Integer.parseInt(args[goalArgIndex]);
+//                    } catch (NumberFormatException e) {
+//                        sender.sendMessage(Component.text("Goal " + args[goalArgIndex] + " is not valid!"));
+//                        return false;
+//                    }
+//                } else {
+//                    sender.sendMessage(Component.text("No goal is specified!", NamedTextColor.YELLOW));
+//                    return false;
+//                }
+//            }
 
             final var statComponent = Component.text();
             statComponent.append(
@@ -312,5 +354,8 @@ public class StatsCommand extends CommandContainer {
             return false;
         }
     }
-     */
+
+    private enum StatTask {
+        GET_STAT, SET_STAT;
+    }
 }
