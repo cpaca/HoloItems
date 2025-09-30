@@ -1,5 +1,6 @@
 package xyz.holocons.mc.holoitemsrevamp.command;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.papermc.paper.command.brigadier.BasicCommand;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -23,16 +24,16 @@ import xyz.holocons.mc.holoitemsrevamp.command.subcommand.StatsCommand;
 
 import java.util.*;
 
-public class MainCommand implements BasicCommand {
+public class MainCommand extends CommandContainer {
     
     // Maps from the name of a subcommand to that subcommand
-    private final Map<String, SubCommand> subCommands = new HashMap<>();
+    private final Map<String, CommandContainer> subCommands = new HashMap<>();
     private final TextComponent helpComponent;
 
     public MainCommand(HoloItemsRevamp plugin) {
-//        addSubCommand(new AcquireCommand(plugin));
-//        addSubCommand(new CollectionsCommand(plugin));
-//        addSubCommand(new StatsCommand());
+        addSubCommand(new AcquireCommand(plugin));
+        addSubCommand(new CollectionsCommand(plugin));
+        addSubCommand(new StatsCommand());
         
         // Create text component message for help page
         final var helpComponentBuilder = Component.text()
@@ -47,7 +48,7 @@ public class MainCommand implements BasicCommand {
                     .append(Component.text(subCommand.getName(), NamedTextColor.AQUA))
                     .append(Component.newline())
                     .clickEvent(ClickEvent.suggestCommand("/holoitems " + subCommand.getName() + " "))
-                    .hoverEvent(HoverEvent.showText(Component.text(subCommand.getDesc())))
+//                    .hoverEvent(HoverEvent.showText(Component.text(subCommand.getDesc())))
             );
         }
         helpComponentBuilder.append(Component.text("===================", NamedTextColor.DARK_AQUA));
@@ -55,50 +56,84 @@ public class MainCommand implements BasicCommand {
     }
 
     @Override
-    public void execute(CommandSourceStack sourceStack, String[] args) {
-        System.out.println(Arrays.toString(args));
+    public String getName() {
+        return "holoitems";
+    }
+
+    @Override
+    public LiteralArgumentBuilder<CommandSourceStack> getBuilder() {
+        final var builder = super.getBuilder();
+
+        subCommands.values().stream()
+                .map(CommandContainer::getBuilder)
+                .forEach(builder::then);
+
+        builder.executes(ctx -> {
+            var executeResult = execute(ctx.getSource());
+            return executeResult ? SINGLE_SUCCESS : 0;
+        });
+
+        return builder;
+    }
+
+    // boolean because all the other ones are boolean too
+    // even if it always returns true.
+    public boolean execute(CommandSourceStack sourceStack) {
+        // Old systeme had to handle sending this to subcommands.
+        // However, with new system, brigadier handles all of that.
+        // Therefore if this execute() runs, it's just "/holoitems" with no subcommands.
+        // In old system, that means "Show the help info."
+        // Therefore, the only thing this needs to do is show the help info.
         var sender = sourceStack.getSender();
-        if(args.length == 0) {
-            sender.sendMessage(helpComponent);
-            return;
-        }
-        var subCommand = subCommands.get(args[0]);
-        if (subCommand != null) {
-            // found subcommand, attempt to execute:
-            if (!subCommand.execute(sender, Arrays.copyOfRange(args, 1, args.length))) {
-                sender.sendMessage(Component.text("/holoitems " + subCommand.getName() + " " + subCommand.getFormat())
-                    .decoration(TextDecoration.BOLD, true)
-                    .decoration(TextDecoration.UNDERLINED, true)
-                    .color(NamedTextColor.RED));
-            }
-        }
-        else {
-            // no found subcommand:
-            sender.sendMessage(Component.text("Command not found!", NamedTextColor.RED).decoration(TextDecoration.BOLD, true));
-        }
-    }
-
-    @Override
-    public @NotNull Collection<String> suggest(CommandSourceStack sourceStack, String[] args) {
-        if (args.length <= 1) {
-            return subCommands.keySet();
-        } else {
-            var subCommand = subCommands.get(args[0]);
-            if(subCommand == null) {
-                return List.of();
-            }
-            else {
-                return subCommand.getAutoComplete(Arrays.copyOfRange(args, 1, args.length));
-            }
-        }
-    }
-
-    @Override
-    public boolean canUse(CommandSender sender) {
+        sender.sendMessage(helpComponent);
         return true;
     }
+
+    //    @Override
+//    public void execute(CommandSourceStack sourceStack, String[] args) {
+//        System.out.println(Arrays.toString(args));
+//        var sender = sourceStack.getSender();
+//        if(args.length == 0) {
+//            sender.sendMessage(helpComponent);
+//            return;
+//        }
+//        var subCommand = subCommands.get(args[0]);
+//        if (subCommand != null) {
+//            // found subcommand, attempt to execute:
+//            if (!subCommand.execute(sender, Arrays.copyOfRange(args, 1, args.length))) {
+//                sender.sendMessage(Component.text("/holoitems " + subCommand.getName() + " " + subCommand.getFormat())
+//                    .decoration(TextDecoration.BOLD, true)
+//                    .decoration(TextDecoration.UNDERLINED, true)
+//                    .color(NamedTextColor.RED));
+//            }
+//        }
+//        else {
+//            // no found subcommand:
+//            sender.sendMessage(Component.text("Command not found!", NamedTextColor.RED).decoration(TextDecoration.BOLD, true));
+//        }
+//    }
+
+//    @Override
+//    public @NotNull Collection<String> suggest(CommandSourceStack sourceStack, String[] args) {
+//        if (args.length <= 1) {
+//            return subCommands.keySet();
+//        } else {
+//            var subCommand = subCommands.get(args[0]);
+//            if(subCommand == null) {
+//                return List.of();
+//            }
+//            else {
+//                return subCommand.getAutoComplete(Arrays.copyOfRange(args, 1, args.length));
+//            }
+//        }
+//    }
+
+//    @Override
+//    public boolean canUse(CommandSender sender) {
+//        return true;
+//    }
     
-    private void addSubCommand(SubCommand subCommand) {
+    private void addSubCommand(CommandContainer subCommand) {
         this.subCommands.put(subCommand.getName(), subCommand);
     }
 }
