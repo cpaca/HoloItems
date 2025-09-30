@@ -52,10 +52,10 @@ public final class HoloItemsRevamp extends JavaPlugin {
 
 //        getCommand("holoitems").setExecutor(new MainCommand(this));
         var lifecycleManager = this.getLifecycleManager();
-//        var mainCommand = new MainCommand(this);
+        var mainCommand = new MainCommand(this);
         lifecycleManager.registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
             var registrar = commands.registrar();
-//            registrar.register("holoitems", mainCommand);
+            registrar.register(mainCommand.getBuilder().build());
         });
 
         getLogger().info("HoloItems-Revamped [ON]");
