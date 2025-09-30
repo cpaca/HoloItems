@@ -84,7 +84,7 @@ public class AcquireCommand extends CommandContainer {
                     customItems.keySet().forEach(suggestionBuilder::suggest);
                     return suggestionBuilder.buildFuture();
                 })
-                .then(Commands.argument("amount", IntegerArgumentType.integer(1, 99))
+                .then(Commands.argument("amount", IntegerArgumentType.integer(1, 128))
                         .executes(ctx -> {
                             // item name and amount are given
                             var item_name = StringArgumentType.getString(ctx, "item_name");
