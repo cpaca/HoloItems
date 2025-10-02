@@ -97,10 +97,4 @@ paper {
             required = false
         }
     }
-
-//    commands {
-//        register("holoitems") {
-//            usage = "/holoitems"
-//        }
-//    }
 }
