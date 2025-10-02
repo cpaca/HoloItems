@@ -95,6 +95,27 @@ public class StatsCommand extends CommandContainer {
         // The 5th argument technically could be named usefully, but naming it "new_stat_goal_value"
         // or something of the sort seems incorrect when it's only true of set typed_stat, not of set untyped_stat.
 
+        /*
+        TODO: The stat_name argument could use improvement. Besides StringArgumentType.string() and
+          StringArgumentType.greedyString(), there are no argument types which allow more than one word to be used
+          as an argument. (Those two also have special requirements: .string() requires quotation marks around the
+          argument for multiple words, and greedyString can only be the final argument.) Therefore, I have a proposal:
+          The stat_name argument and stat_specifier argument should be merged into one argument and one word.
+          Some examples would be:
+          - SWIM_ONE_CM (untyped stat)
+          - BOAT_ONE_CM (untyped stat)
+          - MINE_BLOCK:STONE (Block-typed stat with specifier of Material.STONE)
+          - CRAFT_ITEM:DIAMOND_PICKAXE (Item-typed stat with specifier of Material.DIAMOND_PICKAXE)
+          - KILL_ENTITY:ZOMBIE (Entity-typed stat with specifier of EntityType.ZOMBIE)
+          Then, we could create a CustomArgumentType for this. Documentation/examples linked below.
+          https://docs.papermc.io/paper/dev/command-api/basics/custom-arguments/
+          Note that the CustomArgumentType would likely need to return a custom class (possibly record?) that contains
+          both the Statistic AND the statistic's specifier, and implements getStatistic(Player player)
+
+        Note: This is not implemented because I do not know whether you approve of this idea, want it tweaked, or
+        have a different idea entirely.
+         */
+
         builder.then(Commands.argument("action", StringArgumentType.word())
                 .suggests((ctx, suggestionsBuilder) -> {
                     suggestionsBuilder.suggest("get");
